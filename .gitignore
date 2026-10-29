@@ -1,0 +1,56 @@
+
+# ==============================
+# Frontend: React + Vite
+# ==============================
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# ==============================
+# Backend: Python + FastAPI
+# ==============================
+.venv/
+venv/
+env/
+backend/.venv/
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ==============================
+# Environment variables / Secrets
+# ==============================
+.env
+.env.*
+!.env.example
+
+# ==============================
+# Local databases
+# ==============================
+*.db
+*.sqlite
+*.sqlite3
+
+# ==============================
+# User-uploaded files
+# ==============================
+backend/uploads/
+
+# ==============================
+# Logs
+# ==============================
+*.log
+npm-debug.log*
+
+# ==============================
+# IDE and operating system
+# ==============================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
