@@ -3,6 +3,28 @@
 ## Với module này tạm thời ta sẽ lấy Gemini API từ Google AI Studio (free)
 ## Tổng quát thì để tạo ràng buộc, mình sẽ có 2 phần là đưa một file hướng dẫn cho AI để nó đọc và trả lời đúng + input validation ngay từ đầu.
 
+## Cách lấy Gemini API:
+- Truy cập trang web Google AI Studio: [https://aistudio.google.com/api-keys](https://aistudio.google.com/api-keys)
+- Ấn Create API key để lấy API key cho project.
+- Chọn model:
+```python
+import os
+from google import genai
+
+# Cấu hình API key (khuyến nghị lưu vào biến môi trường)
+# Hoặc bạn có thể gán trực tiếp: client = genai.Client(api_key="API_KEY_CỦA_BẠN")
+client = genai.Client()
+
+response = client.models.generate_content(
+    model='gemini-3.8-flash',  # Chọn model Flash 3.8 tại đây
+    contents='Xin chào, hãy giới thiệu ngắn gọn về bạn.',
+)
+
+print(response.text)
+```
+- Model free mạnh nhất mình có thể xài là 3.8 flash.
+
+
 # 1. Pseudocode cho module Chatbot
 
 Chia pseudocode thành 3 phần để dễ hiểu và dễ chuyển sang code Python sau này:
