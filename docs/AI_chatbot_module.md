@@ -279,7 +279,30 @@ Ba trường hợp này nên có cách xử lý riêng để giao diện React c
 
 ---
 
-## 5. Kiến trúc cuối cùng được đề xuất
+## 5. Validation như thế nào
+```mermaid
+flowchart TD
+    A([User sends message]) --> B[Input validation]
+    B --> C{Input valid?}
+    C -- No --> D[Return HTTP 422]
+    C -- Yes --> E[Check request scope]
+    E --> F{Allowed request?}
+    F -- No --> G[Return guidance message]
+    F -- Yes --> H[Call Gemini API]
+    H --> I{API successful?}
+    I -- No --> J[Handle API error]
+    I -- Yes --> K[Validate AI response]
+    K --> L{Response acceptable?}
+    L -- No --> M[Return fallback response]
+    L -- Yes --> N[Return AI response]
+    D --> O([End])
+    G --> O
+    J --> O
+    M --> O
+    N --> O
+```
+
+## 6. Kiến trúc cuối cùng được đề xuất
 
 ```text
 React Chat Interface
