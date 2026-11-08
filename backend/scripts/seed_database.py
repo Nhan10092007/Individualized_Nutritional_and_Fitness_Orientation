@@ -7,35 +7,34 @@ Script khởi tạo database SQLite và nạp bộ dữ liệu chuẩn hóa:
 2. Bài tập (Calo BURN):
    - 2011 Compendium of Physical Activities (Ainsworth et al. / ACSM)
    - Kaggle Exercise Dataset
+
+Cách chạy (từ thư mục backend/):
+    python -m scripts.seed_database
+
+Bảng được tạo từ SQLAlchemy models (Base.metadata.create_all), KHÔNG dùng file .sql.
 """
 
-import sqlite3
-import os
-from pathlib import Path
+from datetime import date
 
-# Đường dẫn DB
-BASE_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = BASE_DIR / "fitness_nutrition.db"
-SCHEMA_PATH = Path(__file__).resolve().parent / "schema.sql"
+from sqlalchemy.orm import Session
 
+from app.database import DATABASE_URL, SessionLocal, init_db
+from app.models import Exercise, Food, FoodLog, User, WorkoutLog
+from app.services.progress_service import get_daily_energy_balance
+from app.utils.security import hash_password
+from scripts.common import upsert_by_code
 
-def init_database():
-    print(f"[*] Khởi tạo SQLite Database tại: {DB_PATH}")
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    
-    # Đọc và thực thi schema.sql
-    with open(SCHEMA_PATH, "r", encoding="utf-8") as f:
-        schema_sql = f.read()
-    
-    cursor.executescript(schema_sql)
-    conn.commit()
-    print("[+] Đã tạo các bảng và indexes thành công.")
-    return conn
+FOOD_FIELDS = (
+    "code", "name_vi", "name_en", "category", "source", "serving_unit",
+    "serving_weight_g", "calories_100g", "protein_100g", "fat_100g",
+    "carbs_100g", "fiber_100g", "estimated_price_vnd", "diet_type", "notes",
+)
+EXERCISE_FIELDS = (
+    "code", "category", "name_vi", "name_en", "met_value", "intensity_level", "description", "source",
+)
 
 
-def seed_foods(conn):
-    cursor = conn.cursor()
+def seed_foods(db: Session):
     print("[*] Bắt đầu nạp dữ liệu Thực phẩm (USDA + VTN_FCT 2007)...")
     
     # Danh sách dữ liệu thực phẩm chuẩn
@@ -243,20 +242,16 @@ def seed_foods(conn):
         )
     ]
     
-    cursor.executemany("""
-        INSERT OR REPLACE INTO foods (
-            code, name_vi, name_en, category, source, serving_unit, 
-            serving_weight_g, calories_100g, protein_100g, fat_100g, 
-            carbs_100g, fiber_100g, estimated_price_vnd, diet_type, notes
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, foods_data)
-    
-    conn.commit()
+    # Tương đương INSERT OR REPLACE theo cột code
+    for row in foods_data:
+        fields = dict(zip(FOOD_FIELDS, row))
+        upsert_by_code(db, Food, fields.pop("code"), **fields)
+
+    db.commit()
     print(f"[+] Đã nạp thành công {len(foods_data)} thực phẩm chuẩn hóa.")
 
 
-def seed_exercises(conn):
-    cursor = conn.cursor()
+def seed_exercises(db: Session):
     print("[*] Bắt đầu nạp dữ liệu Bài tập (Ainsworth 2011 Compendium of Physical Activities & Kaggle)...")
     
     # Dữ liệu bài tập chuẩn hóa:
@@ -463,103 +458,116 @@ def seed_exercises(conn):
         )
     ]
     
-    cursor.executemany("""
-        INSERT OR REPLACE INTO exercises (
-            code, category, name_vi, name_en, met_value, intensity_level, description, source
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    """, exercises_data)
-    
-    conn.commit()
+    # Tương đương INSERT OR REPLACE theo cột code
+    for row in exercises_data:
+        fields = dict(zip(EXERCISE_FIELDS, row))
+        upsert_by_code(db, Exercise, fields.pop("code"), **fields)
+
+    db.commit()
     print(f"[+] Đã nạp thành công {len(exercises_data)} bài tập thể chất chuẩn hóa.")
 
 
-def seed_sample_user_and_logs(conn):
-    cursor = conn.cursor()
+def seed_sample_user_and_logs(db: Session):
     print("[*] Nạp người dùng mẫu và logs thực hành...")
-    
-    # 1. Thêm user mẫu (Nguyễn Văn An, 24 tuổi, 70kg, mục tiêu fat_loss)
-    cursor.execute("""
-        INSERT OR IGNORE INTO users (id, username, full_name, gender, age, height_cm, weight_kg, fitness_goal, daily_budget_vnd)
-        VALUES (1, 'vanan24', 'Nguyễn Văn An', 'male', 24, 172.0, 70.0, 'fat_loss', 80000.0)
-    """)
-    
+
+    # 1. Thêm user mẫu (Nguyễn Văn An, 24 tuổi, 70kg, mục tiêu fat_loss) - tương đương INSERT OR IGNORE
+    #    Đăng nhập thử bằng: username = vanan24 / password = 123456
+    user = db.query(User).filter_by(username="vanan24").one_or_none()
+    if user is None:
+        user = User(
+            username="vanan24",
+            hashed_password=hash_password("123456"),
+            full_name="Nguyễn Văn An",
+            gender="male",
+            age=24,
+            height_cm=172.0,
+            weight_kg=70.0,
+            fitness_goal="fat_loss",
+            daily_budget_vnd=80000.0,
+        )
+        db.add(user)
+        db.flush()
+
+    today = date.today()
+    foods = {f.code: f for f in db.query(Food).filter(Food.code.in_(["VN_MEAL_01", "VN_01002", "USDA_173686"]))}
+    exercises = {e.code: e for e in db.query(Exercise).filter(Exercise.code.in_(["02050", "12020"]))}
+
+    # Tránh nạp trùng log nếu chạy script nhiều lần trong cùng một ngày
+    already_seeded = db.query(FoodLog).filter_by(user_id=user.id, logged_date=today).first() is not None
+    if already_seeded:
+        db.commit()
+        print("[i] Logs mẫu của hôm nay đã tồn tại, bỏ qua.")
+        return
+
     # 2. Thêm food log mẫu cho hôm nay:
     # Bữa sáng: 1 bát phở bò (450g) = ~380 kcal
-    cursor.execute("""
-        INSERT INTO food_logs (user_id, food_id, logged_date, meal_type, serving_count, actual_weight_g, calculated_calories, calculated_protein, calculated_fat, calculated_carbs)
-        SELECT 1, id, DATE('now'), 'breakfast', 1.0, 450.0, 379.8, 18.5, 8.55, 57.15
-        FROM foods WHERE code = 'VN_MEAL_01'
-    """)
-    
-    # Bữa trưa: 1.5 bát cơm trắng (225g) + 150g ức gà áp chảo + 150g rau muống luộc
-    cursor.execute("""
-        INSERT INTO food_logs (user_id, food_id, logged_date, meal_type, serving_count, actual_weight_g, calculated_calories, calculated_protein, calculated_fat, calculated_carbs)
-        SELECT 1, id, DATE('now'), 'lunch', 1.5, 225.0, (130.0 * 2.25), (2.6 * 2.25), (0.3 * 2.25), (28.2 * 2.25)
-        FROM foods WHERE code = 'VN_01002'
-    """)
-    cursor.execute("""
-        INSERT INTO food_logs (user_id, food_id, logged_date, meal_type, serving_count, actual_weight_g, calculated_calories, calculated_protein, calculated_fat, calculated_carbs)
-        SELECT 1, id, DATE('now'), 'lunch', 1.5, 150.0, (165.0 * 1.5), (31.0 * 1.5), (3.6 * 1.5), 0.0
-        FROM foods WHERE code = 'USDA_173686'
-    """)
-    
+    # Bữa trưa: 1.5 bát cơm trắng (225g) + 150g ức gà áp chảo
+    food_logs = [
+        ("VN_MEAL_01", "breakfast", 1.0, 450.0, 379.8, 18.5, 8.55, 57.15),
+        ("VN_01002", "lunch", 1.5, 225.0, 130.0 * 2.25, 2.6 * 2.25, 0.3 * 2.25, 28.2 * 2.25),
+        ("USDA_173686", "lunch", 1.5, 150.0, 165.0 * 1.5, 31.0 * 1.5, 3.6 * 1.5, 0.0),
+    ]
+    for code, meal_type, servings, weight_g, cal, protein, fat, carbs in food_logs:
+        if code not in foods:
+            continue
+        db.add(FoodLog(
+            user_id=user.id, food_id=foods[code].id, logged_date=today, meal_type=meal_type,
+            serving_count=servings, actual_weight_g=weight_g, calculated_calories=cal,
+            calculated_protein=protein, calculated_fat=fat, calculated_carbs=carbs,
+        ))
+
     # 3. Thêm workout log mẫu theo đúng công thức:
     # Bài 1: Calisthenics (Hít đất) - MET = 8.0, Cân nặng = 70kg
     # 4 sets, mỗi set 45 giây, nghỉ 60 giây giữa các hiệp
     # Cal/min = 8.0 * 3.5 * 70 / 200 = 9.8 kcal/min
     # T = [(4 * 45) + ((4 - 1) * 60)] / 60 = (180 + 180) / 60 = 6.0 phút
     # Total Calo Burned = 9.8 * 6.0 = 58.8 kcal
-    cursor.execute("""
-        INSERT INTO workout_logs (
-            user_id, exercise_id, logged_date, user_weight_kg, met_applied, 
-            sets, duration_per_set_sec, rest_between_sets_sec, 
-            total_duration_minutes, calories_burned, notes
-        )
-        SELECT 
-            1, id, DATE('now'), 70.0, 8.0,
-            4, 45.0, 60.0,
-            6.0, 58.8, 'Hít đất 4 hiệp x 15 reps'
-        FROM exercises WHERE code = '02050'
-    """)
-    
+    #
     # Bài 2: Chạy bộ 8 km/h - MET = 8.3, 70kg, chạy liên tục 30 phút (1 set = 1800 giây, rest = 0)
     # Cal/min = 8.3 * 3.5 * 70 / 200 = 10.1675 kcal/min
     # Total Calo Burned = 10.1675 * 30.0 = 305.03 kcal
-    cursor.execute("""
-        INSERT INTO workout_logs (
-            user_id, exercise_id, logged_date, user_weight_kg, met_applied, 
-            sets, duration_per_set_sec, rest_between_sets_sec, 
-            total_duration_minutes, calories_burned, notes
-        )
-        SELECT 
-            1, id, DATE('now'), 70.0, 8.3,
-            1, 1800.0, 0.0,
-            30.0, 305.03, 'Chạy bộ ngoài trời buổi chiều'
-        FROM exercises WHERE code = '12020'
-    """)
-    
-    conn.commit()
+    workout_logs = [
+        ("02050", 8.0, 4, 45.0, 60.0, 6.0, 58.8, "Hít đất 4 hiệp x 15 reps"),
+        ("12020", 8.3, 1, 1800.0, 0.0, 30.0, 305.03, "Chạy bộ ngoài trời buổi chiều"),
+    ]
+    for code, met, sets, dur, rest, total_min, burned, notes in workout_logs:
+        if code not in exercises:
+            continue
+        db.add(WorkoutLog(
+            user_id=user.id, exercise_id=exercises[code].id, logged_date=today,
+            user_weight_kg=70.0, met_applied=met, sets=sets, duration_per_set_sec=dur,
+            rest_between_sets_sec=rest, total_duration_minutes=total_min,
+            calories_burned=burned, notes=notes,
+        ))
+
+    db.commit()
     print("[+] Đã nạp thành công user mẫu và workout/food logs.")
 
 
 def main():
-    conn = init_database()
+    print(f"[*] Khởi tạo SQLite Database tại: {DATABASE_URL}")
+    init_db()  # Tạo bảng từ models (thay cho schema.sql)
+    print("[+] Đã tạo các bảng và indexes thành công.")
+
+    db = SessionLocal()
     try:
-        seed_foods(conn)
-        seed_exercises(conn)
-        seed_sample_user_and_logs(conn)
-        
-        # In kiểm tra View Cân Bằng Năng Lượng
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM v_daily_energy_balance")
-        rows = cursor.fetchall()
-        print("\n--- BÁO CÁO CÂN BẰNG NĂNG LƯỢNG MẪU (VIEW: v_daily_energy_balance) ---")
-        for row in rows:
-            print(f"User ID: {row[0]} | Ngày: {row[1]} | Calo nạp: {row[2]} kcal | Calo đốt: {row[6]} kcal (Tập {row[7]} phút) | Net: {row[8]} kcal")
+        seed_foods(db)
+        seed_exercises(db)
+        seed_sample_user_and_logs(db)
+
+        # In kiểm tra Cân Bằng Năng Lượng (thay cho VIEW v_daily_energy_balance)
+        print("\n--- BÁO CÁO CÂN BẰNG NĂNG LƯỢNG MẪU ---")
+        for row in get_daily_energy_balance(db):
+            print(
+                f"User ID: {row['user_id']} | Ngày: {row['log_date']} | "
+                f"Calo nạp: {row['total_calories_in']} kcal | "
+                f"Calo đốt: {row['total_calories_burned']} kcal (Tập {row['total_workout_minutes']} phút) | "
+                f"Net: {row['net_calories']} kcal"
+            )
         print("---------------------------------------------------------------------\n")
-        print(f"[SUCCESS] Cơ sở dữ liệu SQLite đã sẵn sàng tại: {DB_PATH}")
+        print(f"[SUCCESS] Cơ sở dữ liệu SQLite đã sẵn sàng tại: {DATABASE_URL}")
     finally:
-        conn.close()
+        db.close()
 
 
 if __name__ == "__main__":
