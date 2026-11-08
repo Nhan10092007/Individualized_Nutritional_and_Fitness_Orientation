@@ -9,21 +9,24 @@ SCRIPT TỰ ĐỘNG NẠP DATASET TRỰC TIẾP TỪ CÁC ĐƯỜNG DẪN URL TR
 3. FAO Vietnamese Food Composition (PDF): Tải file PDF chính thức từ FAO về thư mục data/
    URL: https://www.fao.org/fileadmin/templates/food_composition/documents/pdf/VTN_FCT_2007.pdf
 4. Kaggle Exercise Dataset: Hỗ trợ nạp file exercise_dataset.csv hoặc tải từ mirror.
+
+Cách chạy (từ thư mục backend/):  python -m scripts.fetch_and_seed_from_urls
+Dữ liệu được ghi qua SQLAlchemy ORM (SessionLocal), không dùng sqlite3 thuần.
 =============================================================================
 """
 
 import os
-import sys
 import csv
 import json
-import sqlite3
 import urllib.request
 import urllib.parse
-from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = BASE_DIR / "fitness_nutrition.db"
-DATA_DIR = BASE_DIR / "data"
+from app.config import BACKEND_DIR
+from app.database import SessionLocal, init_db
+from app.models import Exercise, Food
+from scripts.common import upsert_by_code
+
+DATA_DIR = BACKEND_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
 # 1. Các URL nguồn chính thống
@@ -31,12 +34,6 @@ GITHUB_COMPENDIUM_RAW_URL = "https://raw.githubusercontent.com/andyreagan/compen
 FAO_VIETNAM_PDF_URL = "https://www.fao.org/fileadmin/templates/food_composition/documents/pdf/VTN_FCT_2007.pdf"
 USDA_API_ENDPOINT = "https://api.nal.usda.gov/fdc/v1/foods/search"
 USDA_API_KEY = "DEMO_KEY"  # Key dùng thử chính thức do USDA cấp công khai
-
-
-def get_db_connection():
-    conn = sqlite3.connect(DB_PATH)
-    conn.execute("PRAGMA foreign_keys = ON;")
-    return conn
 
 
 # =============================================================================
@@ -60,8 +57,8 @@ def fetch_and_seed_compendium_from_github():
         print("      (Nếu chạy offline hoặc không có mạng, script sẽ bỏ qua bước này).")
         return 0
 
-    conn = get_db_connection()
-    cursor = conn.cursor()
+    init_db()
+    db = SessionLocal()
     count = 0
 
     with open(local_csv, mode="r", encoding="utf-8-sig", errors="ignore") as f:
@@ -97,15 +94,17 @@ def fetch_and_seed_compendium_from_github():
             name_en = specific_activity
             name_vi = f"{specific_activity} ({major_heading})"
 
-            cursor.execute("""
-                INSERT OR REPLACE INTO exercises (
-                    code, category, name_vi, name_en, met_value, intensity_level, description, source
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, 'GitHub Ainsworth 2011')
-            """, (code, major_heading, name_vi, name_en, met, intensity, f"Compendium Code {code} - {major_heading}"))
+            # Tương đương INSERT OR REPLACE theo cột code
+            upsert_by_code(
+                db, Exercise, code,
+                category=major_heading, name_vi=name_vi, name_en=name_en, met_value=met,
+                intensity_level=intensity, description=f"Compendium Code {code} - {major_heading}",
+                source="GitHub Ainsworth 2011",
+            )
             count += 1
 
-    conn.commit()
-    conn.close()
+    db.commit()
+    db.close()
     print(f"      [✓] Đã nạp thành công {count} bài tập tự động từ GitHub vào SQLite Database!")
     return count
 
@@ -122,8 +121,8 @@ def fetch_and_seed_usda_from_api(food_queries=None):
         ]
 
     print("\n[2/4] Đang gọi trực tiếp REST API của USDA FoodData Central...")
-    conn = get_db_connection()
-    cursor = conn.cursor()
+    init_db()
+    db = SessionLocal()
     count = 0
 
     for query in food_queries:
@@ -166,20 +165,22 @@ def fetch_and_seed_usda_from_api(food_queries=None):
                     elif "fiber" in name:
                         fiber_100g = val
 
-                cursor.execute("""
-                    INSERT OR REPLACE INTO foods (
-                        code, name_vi, name_en, category, source, serving_unit,
-                        serving_weight_g, calories_100g, protein_100g, fat_100g,
-                        carbs_100g, fiber_100g, estimated_price_vnd, diet_type, notes
-                    ) VALUES (?, ?, ?, ?, 'USDA', '100g', 100.0, ?, ?, ?, ?, ?, 20000.0, 'all', 'Dữ liệu trực tiếp từ USDA REST API')
-                """, (fdc_id, name_vi, name_en, category, cal_100g, protein_100g, fat_100g, carbs_100g, fiber_100g))
+                # Tương đương INSERT OR REPLACE theo cột code
+                upsert_by_code(
+                    db, Food, fdc_id,
+                    name_vi=name_vi, name_en=name_en, category=category, source="USDA",
+                    serving_unit="100g", serving_weight_g=100.0, calories_100g=cal_100g,
+                    protein_100g=protein_100g, fat_100g=fat_100g, carbs_100g=carbs_100g,
+                    fiber_100g=fiber_100g, estimated_price_vnd=20000.0, diet_type="all",
+                    notes="Dữ liệu trực tiếp từ USDA REST API",
+                )
                 count += 1
                 print(f"      [✓] Đã nạp từ USDA: {name_en} ({cal_100g} kcal/100g, P:{protein_100g}g, F:{fat_100g}g, C:{carbs_100g}g)")
         except Exception as e:
             print(f"      [!] Lỗi khi gọi API cho '{query}': {e}")
 
-    conn.commit()
-    conn.close()
+    db.commit()
+    db.close()
     print(f"      [✓] Hoàn tất nạp {count} thực phẩm trực tiếp từ USDA FoodData Central API!")
     return count
 
