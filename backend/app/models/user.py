@@ -25,7 +25,7 @@ class User(Base):
     height_cm = Column(Float)
     weight_kg = Column(Float)
     fitness_goal = Column(String(20))                         # 'fat_loss' | 'muscle_gain' | 'maintain'
-    fitness_level = Column(Integer)                           # 1 (mới tập) -> 5 (nâng cao)
+    fitness_level = Column(String(20))                        # 'beginner' | 'experienced' | 'advanced'
     available_days = Column(JSON, default=list)               # ['Mon', 'Wed', 'Fri']
     session_duration_mins = Column(Integer)                   # 15 -> 120 phút
     medical_conditions = Column(JSON, default=list)           # ['knee_osteoarthritis', 'hypertension']
