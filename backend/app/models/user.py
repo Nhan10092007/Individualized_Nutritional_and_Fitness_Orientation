@@ -15,9 +15,9 @@ class User(Base):
 
     # --- 1. Tài khoản (Auth) ---
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    username = Column(String(50), unique=True, nullable=False, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
     hashed_password = Column(String(255), nullable=False)
-    full_name = Column(String(100))
+    full_name = Column(String(100), nullable = False)
 
     # --- 2. Dữ liệu thu thập từ Onboarding (A1 Raw Input) ---
     gender = Column(String(10))                               # 'male' | 'female'
