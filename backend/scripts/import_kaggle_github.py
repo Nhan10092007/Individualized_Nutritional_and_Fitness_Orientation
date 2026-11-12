@@ -4,21 +4,25 @@ ETL Tool: Tự động nhập khẩu dữ liệu bài tập và thực phẩm t�
 1. Kaggle: 'calories-burned-during-exercise-and-activities' (exercise_dataset.csv)
 2. GitHub: 'compendium-of-physical-activity' (compendium_data.csv)
 3. USDA FoodData Central (food.csv & food_nutrient.csv)
+
+Cách chạy (từ thư mục backend/):  python -m scripts.import_kaggle_github
+Dữ liệu được ghi qua SQLAlchemy ORM (SessionLocal), không dùng sqlite3 thuần.
 """
 
 import csv
-import sqlite3
-import re
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = BASE_DIR / "fitness_nutrition.db"
+from app.database import SessionLocal, init_db
+from app.models import Exercise
+from scripts.common import upsert_by_code
 
 
-def get_db_connection():
-    conn = sqlite3.connect(DB_PATH)
-    conn.execute("PRAGMA foreign_keys = ON;")
-    return conn
+def _intensity(met: float) -> str:
+    if met < 3.0:
+        return "Light"
+    if met < 6.0:
+        return "Moderate"
+    return "Vigorous"
 
 
 def import_github_compendium_csv(csv_path: str):
@@ -31,47 +35,40 @@ def import_github_compendium_csv(csv_path: str):
         print(f"[!] Không tìm thấy file: {csv_path}")
         return
 
-    conn = get_db_connection()
-    cursor = conn.cursor()
+    init_db()
+    db = SessionLocal()
     inserted = 0
-    
-    with open(path, mode="r", encoding="utf-8-sig") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            # Linh hoạt nhận diện tên cột
-            code = row.get("code") or row.get("Activity Code") or row.get("CODE") or ""
-            met_str = row.get("met") or row.get("METs") or row.get("MET") or "0"
-            desc = row.get("description") or row.get("Specific Activity Description") or row.get("activity") or ""
-            category = row.get("category") or row.get("Heading") or "General Activity"
-            
-            try:
-                met = float(met_str.strip())
-            except ValueError:
-                continue
-                
-            if met <= 0 or not desc:
-                continue
 
-            # Phân loại cường độ
-            if met < 3.0:
-                intensity = "Light"
-            elif met < 6.0:
-                intensity = "Moderate"
-            else:
-                intensity = "Vigorous"
+    try:
+        with open(path, mode="r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                # Linh hoạt nhận diện tên cột
+                code = row.get("code") or row.get("Activity Code") or row.get("CODE") or ""
+                met_str = row.get("met") or row.get("METs") or row.get("MET") or "0"
+                desc = row.get("description") or row.get("Specific Activity Description") or row.get("activity") or ""
+                category = row.get("category") or row.get("Heading") or "General Activity"
 
-            name_en = desc.strip()
-            name_vi = f"{name_en} (Compendium {code})"
-            
-            cursor.execute("""
-                INSERT OR IGNORE INTO exercises (
-                    code, category, name_vi, name_en, met_value, intensity_level, description, source
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, 'GitHub Compendium')
-            """, (code.strip(), category.strip(), name_vi, name_en, met, intensity, desc.strip()))
-            inserted += 1
+                try:
+                    met = float(met_str.strip())
+                except ValueError:
+                    continue
 
-    conn.commit()
-    conn.close()
+                if met <= 0 or not desc or not code.strip():
+                    continue
+
+                name_en = desc.strip()
+                # Tương đương INSERT OR IGNORE theo cột code
+                upsert_by_code(
+                    db, Exercise, code.strip(), replace=False,
+                    category=category.strip(), name_vi=f"{name_en} (Compendium {code})", name_en=name_en,
+                    met_value=met, intensity_level=_intensity(met), description=desc.strip(),
+                    source="GitHub Compendium",
+                )
+                inserted += 1
+        db.commit()
+    finally:
+        db.close()
     print(f"[+] Đã import thành công {inserted} dòng từ GitHub Compendium CSV.")
 
 
@@ -91,62 +88,59 @@ def import_kaggle_exercise_csv(csv_path: str):
         print(f"[!] Không tìm thấy file: {csv_path}")
         return
 
-    conn = get_db_connection()
-    cursor = conn.cursor()
+    init_db()
+    db = SessionLocal()
     inserted = 0
 
-    with open(path, mode="r", encoding="utf-8-sig") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            activity_name = row.get("Activity, Exercise or Sport (1 hour)") or row.get("Activity") or ""
-            cal_155 = row.get("155 lb") or row.get("155")
-            
-            if not activity_name or not cal_155:
-                continue
-            
-            try:
-                cal_val = float(str(cal_155).replace(",", "").strip())
-                # Tính MET từ mức cân 155 lb (70.3 kg) trong 60 phút
-                met_approx = round(cal_val / 73.822, 1)
-            except ValueError:
-                continue
+    try:
+        with open(path, mode="r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                activity_name = row.get("Activity, Exercise or Sport (1 hour)") or row.get("Activity") or ""
+                cal_155 = row.get("155 lb") or row.get("155")
 
-            if met_approx <= 0:
-                continue
+                if not activity_name or not cal_155:
+                    continue
 
-            # Phân loại category và intensity
-            category = "Fitness & Sports"
-            lower_name = activity_name.lower()
-            if any(w in lower_name for w in ["run", "jog"]):
-                category = "Running"
-            elif any(w in lower_name for w in ["cycl", "bicycl", "bike"]):
-                category = "Cycling"
-            elif any(w in lower_name for w in ["walk", "hike"]):
-                category = "Walking"
-            elif any(w in lower_name for w in ["swim", "water"]):
-                category = "Water Activities"
+                try:
+                    cal_val = float(str(cal_155).replace(",", "").strip())
+                    # Tính MET từ mức cân 155 lb (70.3 kg) trong 60 phút
+                    met_approx = round(cal_val / 73.822, 1)
+                except ValueError:
+                    continue
 
-            if met_approx < 3.0:
-                intensity = "Light"
-            elif met_approx < 6.0:
-                intensity = "Moderate"
-            else:
-                intensity = "Vigorous"
+                if met_approx <= 0:
+                    continue
 
-            cursor.execute("""
-                INSERT OR IGNORE INTO exercises (
-                    code, category, name_vi, name_en, met_value, intensity_level, description, source
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, 'Kaggle Dataset')
-            """, (f"KAGGLE_{inserted+1:04d}", category, activity_name.strip(), activity_name.strip(), met_approx, intensity, f"Kaggle activity, cal/hour @ 155lb = {cal_val}"))
-            inserted += 1
+                # Phân loại category
+                category = "Fitness & Sports"
+                lower_name = activity_name.lower()
+                if any(w in lower_name for w in ["run", "jog"]):
+                    category = "Running"
+                elif any(w in lower_name for w in ["cycl", "bicycl", "bike"]):
+                    category = "Cycling"
+                elif any(w in lower_name for w in ["walk", "hike"]):
+                    category = "Walking"
+                elif any(w in lower_name for w in ["swim", "water"]):
+                    category = "Water Activities"
 
-    conn.commit()
-    conn.close()
+                # Tương đương INSERT OR IGNORE theo cột code
+                upsert_by_code(
+                    db, Exercise, f"KAGGLE_{inserted + 1:04d}", replace=False,
+                    category=category, name_vi=activity_name.strip(), name_en=activity_name.strip(),
+                    met_value=met_approx, intensity_level=_intensity(met_approx),
+                    description=f"Kaggle activity, cal/hour @ 155lb = {cal_val}",
+                    source="Kaggle Dataset",
+                )
+                inserted += 1
+        db.commit()
+    finally:
+        db.close()
     print(f"[+] Đã import thành công {inserted} bài tập từ Kaggle Exercise CSV.")
 
 
 if __name__ == "__main__":
     print("[*] Sẵn sàng import dữ liệu bổ sung từ Kaggle / GitHub / USDA.")
-    print("Ví dụ sử dụng:")
-    print("  python import_kaggle_github.py")
-    print("Gọi import_kaggle_exercise_csv('exercise_dataset.csv') hoặc import_github_compendium_csv('compendium.csv')")
+    print("Ví dụ sử dụng (từ thư mục backend/):")
+    print("  python -m scripts.import_kaggle_github")
+    print("Gọi import_kaggle_exercise_csv('data/exercise_dataset.csv') hoặc import_github_compendium_csv('compendium.csv')")
