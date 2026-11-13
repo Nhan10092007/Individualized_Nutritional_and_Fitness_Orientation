@@ -3,7 +3,7 @@ seed_database.py
 Script khởi tạo database SQLite và nạp bộ dữ liệu chuẩn hóa:
 1. Thức ăn (Calo IN):
    - Chuẩn USDA FoodData Central (trên 100g)
-   - Bảng Thành Phần Thực Phẩm Việt Nam VTN_FCT 2007 (Viện Dinh Dưỡng Quốc Gia / FAO) với định lượng khẩu phần thông dụng
+   - Bảng Thành Phần Dinh Dưỡng Thực Phẩm Việt Nam 2017 (Viện Dinh Dưỡng Quốc Gia - Bộ Y Tế) với định lượng khẩu phần thông dụng
 2. Bài tập (Calo BURN):
    - 2011 Compendium of Physical Activities (Ainsworth et al. / ACSM)
    - Kaggle Exercise Dataset
@@ -23,6 +23,7 @@ from app.models import Exercise, Food, FoodLog, User, WorkoutLog
 from app.services.progress_service import get_daily_energy_balance
 from app.utils.security import hash_password
 from scripts.common import upsert_by_code
+from scripts.etl.transform import infer_clinical_tags
 
 FOOD_FIELDS = (
     "code", "name_vi", "name_en", "category", "source", "serving_unit",
@@ -35,7 +36,7 @@ EXERCISE_FIELDS = (
 
 
 def seed_foods(db: Session):
-    print("[*] Bắt đầu nạp dữ liệu Thực phẩm (USDA + VTN_FCT 2007)...")
+    print("[*] Bắt đầu nạp dữ liệu Thực phẩm (USDA + Bảng thành phần dinh dưỡng thực phẩm VN 2017)...")
     
     # Danh sách dữ liệu thực phẩm chuẩn
     # (code, name_vi, name_en, category, source, serving_unit, serving_weight_g, cal_100g, p_100g, f_100g, c_100g, fiber_100g, price_vnd, diet_type, notes)
@@ -122,7 +123,7 @@ def seed_foods(db: Session):
             370.0, 83.3, 1.5, 3.3, 0.0, 25000.0, "vegetarian", "Đạm hấp thu siêu nhanh"
         ),
 
-        # --- DỮ LIỆU ĐẶC THÙ VIỆT NAM (VTN_FCT 2007 - Viện Dinh Dưỡng & Khẩu phần thực tế) ---
+        # --- DỮ LIỆU ĐẶC THÙ VIỆT NAM (Bảng thành phần dinh dưỡng thực phẩm VN 2017 - Viện Dinh Dưỡng Bộ Y Tế & Khẩu phần thực tế) ---
         (
             "VN_01001", "Gạo tẻ giã/máy (hạt khô)", "White Rice, raw",
             "Ngũ cốc", "VN_FCT", "100g", 100.0,
@@ -461,6 +462,12 @@ def seed_exercises(db: Session):
     # Tương đương INSERT OR REPLACE theo cột code
     for row in exercises_data:
         fields = dict(zip(EXERCISE_FIELDS, row))
+        banned_for, clinical_reason = infer_clinical_tags(
+            f"{fields['name_en']} {fields['name_vi']}",
+            category=fields["category"],
+        )
+        fields["banned_for"] = banned_for
+        fields["clinical_reason"] = clinical_reason or None
         upsert_by_code(db, Exercise, fields.pop("code"), **fields)
 
     db.commit()
