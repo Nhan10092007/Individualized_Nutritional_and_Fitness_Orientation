@@ -1,3 +1,7 @@
 export default function DashboardPage() {
-  return <div>DashboardPage</div>;
+  return (
+    <div className="simple-page-box">
+      <h1 className="page-title">Tổng quan (Dashboard)</h1>
+    </div>
+  );
 }
