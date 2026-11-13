@@ -12,7 +12,7 @@ from app.models.user import User
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login", auto_error=False)
 
 
-def get_current_user_payload(token: str = Depends(oauth2_scheme)) -> dict:
+def get_current_user_payload(token: str | None = Depends(oauth2_scheme)) -> dict:
     """
     Extracts and decodes the JWT token from the Authorization header.
     Returns the token payload (e.g., {'sub': 'user_id_123', 'exp': ...}).
