@@ -56,6 +56,7 @@ def get_user_profile(current_user: User = Depends(get_current_user)):
             }
         },
         "constraints": {
+            "daily_budget_vnd": current_user.daily_budget_vnd,
             "budget_tier": current_user.budget_tier,
             "banned_exercise_tags": current_user.banned_exercise_tags,
             "medical_conditions": current_user.medical_conditions
