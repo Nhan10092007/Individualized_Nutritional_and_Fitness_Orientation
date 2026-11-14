@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, CheckConstraint
+from sqlalchemy import Column, Integer, String, Float, DateTime, CheckConstraint, JSON
 
 from app.database import Base, utcnow
 
@@ -21,5 +21,9 @@ class Exercise(Base):
     met_value = Column(Float, nullable=False, index=True)
     intensity_level = Column(String, nullable=False, default="Moderate")  # 'Light' | 'Moderate' | 'Vigorous'
     description = Column(String)
+    #add 4 more fields for ex: target, secondary, banned for, clinical reasons
+    target_muscle = Column(String(50), nullable=True, index=True)
+    secondary_muscle = Column(JSON, default=list)
+    clinical_reasons = Column(String, nullable=True)
     source = Column(String, default="Compendium 2011")
     created_at = Column(DateTime(timezone=True), default=utcnow)
