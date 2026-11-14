@@ -51,7 +51,7 @@ export default function LoginPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-brand">FitPlan</div>
+        <div className="auth-brand">FiLan</div>
         <h1 className="auth-title">Đăng nhập</h1>
         <p className="auth-subtitle">
           Đăng nhập để truy cập lộ trình tập luyện và dinh dưỡng của bạn.

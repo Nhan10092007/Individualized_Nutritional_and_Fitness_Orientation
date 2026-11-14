@@ -70,7 +70,7 @@ export default function RegisterPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-brand">FitPlan</div>
+        <div className="auth-brand">FiLan</div>
         <h1 className="auth-title">Đăng ký tài khoản</h1>
         <p className="auth-subtitle">
           Tạo tài khoản mới để thiết lập chỉ số cơ thể và kế hoạch cá nhân hóa.
