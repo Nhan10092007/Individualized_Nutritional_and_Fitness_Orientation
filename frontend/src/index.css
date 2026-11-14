@@ -1573,3 +1573,42 @@ select {
   font-size: 14px;
   color: var(--text-secondary);
 }
+
+/* =========================================================
+   Nutrition Page
+   ========================================================= */
+.nutrition-meal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.nutrition-meal-block {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  background-color: var(--surface);
+}
+
+.nutrition-meal-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.nutrition-meal-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.nutrition-meal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}

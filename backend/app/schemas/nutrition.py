@@ -3,7 +3,7 @@ from typing import List, Optional
 
 # --- 1. API Endpoint (Nhận từ Frontend) ---
 class GeneratePlanRequest(BaseModel):
-    days: int = Field(default=1, ge=1, le=7, description="Số ngày muốn sinh thực đơn (mặc định 1)")
+    days: int = Field(default=7, ge=1, le=7, description="Số ngày muốn sinh thực đơn (mặc định 7)")
 
 # --- 2. Thuật toán ---
 class MealPlanRequest(BaseModel):
