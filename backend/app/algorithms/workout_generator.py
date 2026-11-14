@@ -134,6 +134,27 @@ def get_muscles_for_session(split_type : str, session_index: int) -> List[str]:
         else:
             return ["Quadriceps", "Hamstrings", "Glutes", "Calves", "Abs"]
 
+def _build_exercise_entry(
+    exercise: Dict[str, Any],
+    sets: int,
+    reps: int,
+    rest_between_sets_sec: float,
+    transition_time_sec: float,
+    ex_total_time_sec: float,
+) -> Dict[str, Any]:
+    """Build a scheduled exercise entry with set/rest/transition timing fields."""
+    return {
+        "exercise_id": exercise.get("id"),
+        "name": exercise.get("name"),
+        "target_muscle": exercise.get("target_muscle"),
+        "sets": sets,
+        "reps": reps,
+        "rest_seconds": int(rest_between_sets_sec),
+        "rest_between_exercises_seconds": int(transition_time_sec),
+        "estimated_time_seconds": int(ex_total_time_sec),
+    }
+
+
 def generate_weekly_workout_schedule(
     available_days: List[str],
     session_duration_mins: int,
@@ -203,15 +224,16 @@ def generate_weekly_workout_schedule(
             ex_total_time_sec = (sets * duration_per_set_sec) + ((sets-1) * rest_between_sets_sec) + transition_time_sec
 
             if current_session_time_sec + ex_total_time_sec <= max_time_sec:
-                chosen_exercise.append({
-                    "exercise_id": best_ex.get("id"),
-                    "name": best_ex.get("name"),
-                    "target_muscle": best_ex.get("target_muscle"),
-                    "sets": sets,
-                    "reps": reps,
-                    "rest_seconds": int(rest_between_sets_sec),
-                    "estimated_time_seconds": int(ex_total_time_sec)
-                })
+                chosen_exercise.append(
+                    _build_exercise_entry(
+                        best_ex,
+                        sets,
+                        reps,
+                        rest_between_sets_sec,
+                        transition_time_sec,
+                        ex_total_time_sec,
+                    )
+                )
                 current_session_time_sec += ex_total_time_sec
                 used_in_session.add(best_ex.get("id"))
                 weekly_usage[best_ex.get("id")] += 1
@@ -248,15 +270,16 @@ def generate_weekly_workout_schedule(
 
                 #chỉ thêm vào nếu tgian ko vượt quá tgian trần
                 if current_session_time_sec + ex_total_time_sec <= max_time_sec:
-                    chosen_exercise.append({
-                        "exercise_id": extra_ex.get("id"),
-                        "name": extra_ex.get("name"),
-                        "target_muscle": extra_ex.get("target_muscle"),
-                        "sets": sets,
-                        "reps": reps,
-                        "rest_seconds": int(rest_between_sets_sec),
-                        "estimated_time_seconds": int(ex_total_time_sec)
-                    })
+                    chosen_exercise.append(
+                        _build_exercise_entry(
+                            extra_ex,
+                            sets,
+                            reps,
+                            rest_between_sets_sec,
+                            transition_time_sec,
+                            ex_total_time_sec,
+                        )
+                    )
                     current_session_time_sec += ex_total_time_sec
                     used_in_session.add(extra_ex.get("id"))
                     weekly_usage[extra_ex.get("id")] += 1

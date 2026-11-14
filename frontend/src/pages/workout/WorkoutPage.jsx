@@ -356,6 +356,7 @@ export default function WorkoutPage() {
                       <th>Nhóm cơ</th>
                       <th>Hiệp x Số lần</th>
                       <th>Nghỉ giữa hiệp</th>
+                      <th>Nghỉ giữa các bài</th>
                       <th>Thời gian dự kiến</th>
                     </tr>
                   </thead>
@@ -374,7 +375,12 @@ export default function WorkoutPage() {
                           <strong>{ex.sets}</strong> hiệp ×{" "}
                           <strong>{ex.reps}</strong> lần
                         </td>
-                        <td>{ex.rest_seconds} giây</td>
+                        <td>{ex.rest_seconds ?? 120} giây</td>
+                        <td>
+                          {eIdx < (session.exercises || []).length - 1
+                            ? `${ex.rest_between_exercises_seconds ?? 120} giây`
+                            : "Kết thúc buổi"}
+                        </td>
                         <td>
                           {ex.estimated_time_seconds != null
                             ? `${(ex.estimated_time_seconds / 60).toFixed(1)} phút`
