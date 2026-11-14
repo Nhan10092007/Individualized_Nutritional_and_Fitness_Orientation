@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Date, CheckConstraint, Index
 from sqlalchemy.orm import relationship
 from app.database import Base, utcnow
+from datetime import date
 
 class FoodLog(Base):
     """Nhật ký ăn uống (Calo IN)."""
@@ -34,7 +35,7 @@ class MealPlan(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    generated_date = Column(Date, nullable=False, default=utcnow)
+    generated_date = Column(Date, nullable=False, default=date.today)
     
     total_calories = Column(Float, nullable=False)
     total_protein = Column(Float, nullable=False)
@@ -55,7 +56,9 @@ class MealPlanItem(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     plan_id = Column(Integer, ForeignKey("meal_plans.id", ondelete="CASCADE"), nullable=False)
     food_id = Column(Integer, ForeignKey("foods.id", ondelete="RESTRICT"), nullable=False)
-    
+
+    day_of_week = Column(Integer, nullable=False, default=1) # 1: Thứ 2, ..., 7: Chủ Nhật
+
     meal_type = Column(String, nullable=False) # 'Bữa Sáng', 'Bữa Trưa', 'Bữa Tối'
     grams = Column(Float, nullable=False)
     calories = Column(Float, nullable=False)
