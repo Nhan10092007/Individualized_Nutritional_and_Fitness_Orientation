@@ -44,15 +44,15 @@ def generate_workout_plan(
                 "id": str(ex.id),
                 "name": ex.name_vi or ex.name_en,
                 "target_muscle": ex.target_muscle,
-                "Secondary_muscle": ex.secondary_muscle or [],
+                "secondary_muscles": ex.secondary_muscle or [],
                 "banned_for": ex.banned_for or [],
-                "clinical_reason": ex.clinical_reason or ""
+                "clinical_reason": ex.clinical_reasons or ""
             })
     #3 A3_algorithms
     safe_pool = [ex for ex in exercise_pool if is_exercise_safe(ex, conditions)]
     if not safe_pool:
         raise HTTPException(
-            status_code = status.HTTP_400_BAD_REQUEST, detail = "Không tìm tháy bài tập nào an toàn với tình trạng sức khỏe hiện tại."
+            status_code = status.HTTP_400_BAD_REQUEST, detail = "Không tìm thấy bài tập nào an toàn với tình trạng sức khỏe hiện tại."
         )
     #4 A4_algorithms
     plan_data = generate_weekly_workout_schedule(
@@ -91,7 +91,7 @@ def generate_workout_plan(
             "fitness_goal": goal,
             "medical_conditions": conditions
         },
-        "Workout_plan": plan_data
+        "workout_plan": plan_data
     }
 
 #API_02: GET
@@ -118,6 +118,7 @@ def get_user_workout_plan(
         "created_at": plan.created_at,
         "workout_plan": {
             "split_type": plan.split_type,
+            "total_sessions": len(plan.schedule_json or []),
             "weekly_schedule": plan.schedule_json
         }
     }
