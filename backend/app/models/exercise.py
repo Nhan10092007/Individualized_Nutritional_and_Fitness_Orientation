@@ -24,6 +24,7 @@ class Exercise(Base):
     #add 4 more fields for ex: target, secondary, banned for, clinical reasons
     target_muscle = Column(String(50), nullable=True, index=True)
     secondary_muscle = Column(JSON, default=list)
+    banned_for = Column(JSON, default=list)
     clinical_reasons = Column(String, nullable=True)
     source = Column(String, default="Compendium 2011")
     created_at = Column(DateTime(timezone=True), default=utcnow)
