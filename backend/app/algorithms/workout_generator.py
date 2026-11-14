@@ -122,11 +122,11 @@ def get_muscles_for_session(split_type : str, session_index: int) -> List[str]:
         return ["Chest", "Back", "Quadriceps", "Hamstrings", "Shoulders", "Abs"]
     elif split_type == "Upper/Lower":
         if session_index%2==0:
-            return ["Chest", "Back", "Shoulders", "Bicpes", "Tricpes"]
+            return ["Chest", "Back", "Shoulders", "Biceps", "Triceps"]
         else:
             return ["Quadriceps", "Hamstrings", "Glutes", "Calves", "Abs"]
     else :
-        mod = (session_index-1)%3
+        mod = session_index % 3
         if mod == 0:
             return ["Chest", "Shoulders", "Triceps"]
         elif mod == 1:
@@ -138,6 +138,7 @@ def generate_weekly_workout_schedule(
     available_days: List[str],
     session_duration_mins: int,
     safe_pool: List[Dict[str, Any]],
+    fitness_level: str = "beginner",
     fitness_goal: str = "general_fitness"
 ) -> Dict[str, Any]:
     """
@@ -163,6 +164,22 @@ def generate_weekly_workout_schedule(
         used_in_session: Set[str] = set()
         chosen_exercise = []
 
+        level_str = str(fitness_level).lower()
+        if level_str in ["beginner", "1"]:
+            sets = 2
+        elif level_str in ["experienced", "2"]:
+            sets = 3
+        elif level_str in ["advanced", "3"]:
+            sets = 4
+        else:
+            sets = 2
+        
+        reps = 10 if fitness_goal == "fat_loss" else 8 if fitness_goal == "muscle_gain" else 12
+        duration_per_set_sec = 40.0
+        rest_between_sets_sec = 60.0
+        transition_time_sec = 60.
+        ex_total_time_sec = (sets * duration_per_set_sec) + ((sets-1) * rest_between_sets_sec) + transition_time_sec
+
         for muscle in session_muscles:
             candidates = [
                 ex for ex in safe_pool if ex.get("target_muscle", "").lower() == muscle.lower() and ex.get("id") not in used_in_session
@@ -174,14 +191,6 @@ def generate_weekly_workout_schedule(
             candidates.sort(key = lambda x: weekly_usage.get(x.get("id"), 0))
             best_ex = candidates[0]
 
-            sets = 2
-            reps = 10 if fitness_goal == "fat_loss" else 8 if fitness_goal == "muscle_gain" else 12
-            duration_per_set_sec = 40.0
-            rest_between_sets_sec = 60.0
-            transition_time_sec = 60.0
-
-            ex_total_time_sec = (sets * duration_per_set_sec) + ((sets-1) * rest_between_sets_sec) + transition_time_sec
-
             if current_session_time_sec + ex_total_time_sec <= max_time_sec:
                 chosen_exercise.append({
                     "exercise_id": best_ex.get("id"),
@@ -192,15 +201,53 @@ def generate_weekly_workout_schedule(
                     "rest_seconds": int(rest_between_sets_sec),
                     "estimated_time_seconds": int(ex_total_time_sec)
                 })
-        current_session_time_sec += ex_total_time_sec
-        used_in_session.add(best_ex.get("id"))
-        weekly_usage[best_ex.get("id")]+=1
+                current_session_time_sec += ex_total_time_sec
+                used_in_session.add(best_ex.get("id"))
+                weekly_usage[best_ex.get("id")] += 1
+
+        # Vòng 2: Lấp đầy thời lượng CHỈ TỪ CÁC NHÓM CƠ CỦA CHÍNH BUỔI TẬP ĐÓ (session_muscles)
+        # Nguyên tắc cốt lõi: Buổi nào chỉ tập cơ buổi đó (Push chỉ tập Ngực/Vai/Tay sau, tuyệt đối không bốc Chân hay Lưng)
+        added_any = True
+        while added_any and (current_session_time_sec + ex_total_time_sec <= max_time_sec):
+            added_any = False
+            for muscle in session_muscles:
+                if current_session_time_sec + ex_total_time_sec > max_time_sec:
+                    break
+
+                # Tìm bài tập tiếp theo thuộc CHÍNH nhóm cơ này mà chưa tập trong buổi hôm nay
+                candidates = [
+                    ex for ex in safe_pool
+                    if ex.get("target_muscle", "").lower() == muscle.lower()
+                    and ex.get("id") not in used_in_session
+                ]
+
+                # Nếu nhóm cơ này trong kho đã hết bài mới thì bỏ qua
+                if not candidates:
+                    continue
+
+                candidates.sort(key=lambda x: weekly_usage.get(x.get("id"), 0))
+                extra_ex = candidates[0]
+
+                chosen_exercise.append({
+                    "exercise_id": extra_ex.get("id"),
+                    "name": extra_ex.get("name"),
+                    "target_muscle": extra_ex.get("target_muscle"),
+                    "sets": sets,
+                    "reps": reps,
+                    "rest_seconds": int(rest_between_sets_sec),
+                    "estimated_time_seconds": int(ex_total_time_sec)
+                })
+                current_session_time_sec += ex_total_time_sec
+                used_in_session.add(extra_ex.get("id"))
+                weekly_usage[extra_ex.get("id")] += 1
+                added_any = True
+
         weekly_schedule.append({
             "day": day_name,
             "session_name": f"{split_type} - Session {session_idx+1}",
             "target_muscles": session_muscles,
             "actual_duration_mins": round(current_session_time_sec/60.0, 1),
-            "max_allowed_minx": session_duration_mins,
+            "max_allowed_mins": session_duration_mins,
             "exercise_count": len(chosen_exercise),
             "exercises": chosen_exercise
         })
