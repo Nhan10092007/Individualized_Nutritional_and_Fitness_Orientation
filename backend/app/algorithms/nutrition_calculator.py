@@ -39,7 +39,37 @@ def categorize_foods_by_macro(food_db: List[Dict[str, Any]]) -> Dict[str, List[D
     return {"protein": protein_sources, "carb": carb_sources, "veggie": veggie_sources, "extra": extra_sources}
 
 
-def generate_optimal_meal_plan(request: MealPlanRequest, food_db: List[Dict[str, Any]]) -> MealPlanResponse:
+def _pick_cost_aware_pool(items: List[Dict[str, Any]], daily_budget_vnd: float) -> List[Dict[str, Any]]:
+    """Keep top cost-efficient candidates when budget is modest so variety does not blow budget."""
+    if not items:
+        return []
+    limit = 6 if daily_budget_vnd <= 100000 else len(items)
+    return items[: max(3, min(len(items), limit))]
+
+
+def _sum_metrics(selections: List[Tuple[Dict[str, Any], float]]) -> Tuple[float, float, float]:
+    """Return (calories, fat_g, cost_vnd) for a list of (food_dict, grams)."""
+    total_cal = total_fat = total_cost = 0.0
+    for food_obj, grams in selections:
+        if not food_obj or grams <= 0:
+            continue
+        factor = grams / 100.0
+        total_cal += food_obj["calories"] * factor
+        total_fat += food_obj["fat_g"] * factor
+        total_cost += food_obj["cost_per_100g"] * factor
+    return total_cal, total_fat, total_cost
+
+
+def generate_optimal_meal_plan(
+    request: MealPlanRequest,
+    food_db: List[Dict[str, Any]],
+    days: int = 7,
+) -> MealPlanResponse:
+    """
+    Subtask 2: Thuật toán A5 - Sinh thực đơn nhiều ngày (mặc định 7 ngày) cân bằng
+    Protein, Carbs, Fat, Calo và tuân thủ ngân sách tối đa/ngày.
+    """
+    num_days = max(1, min(int(days), 7))
     grouped = categorize_foods_by_macro(food_db)
     all_proteins = grouped["protein"]
     all_carbs = grouped["carb"]
@@ -116,6 +146,8 @@ def generate_optimal_meal_plan(request: MealPlanRequest, food_db: List[Dict[str,
             meal_cal = meal_cost = 0.0
 
             for food_obj, grams in raw_selections:
+                if grams <= 0:
+                    continue
                 factor = grams / 100.0
                 item_cal = round(food_obj["calories"] * factor, 1)
                 item_pro = round(food_obj["protein_g"] * factor, 1)
@@ -123,10 +155,18 @@ def generate_optimal_meal_plan(request: MealPlanRequest, food_db: List[Dict[str,
                 item_fat = round(food_obj["fat_g"] * factor, 1)
                 item_cost = round(food_obj["cost_per_100g"] * factor, 0)
 
-                selected_items.append(SelectedFoodItem(
-                    food_id=food_obj["id"], name=food_obj["name"], grams=round(grams, 0),
-                    calories=item_cal, protein_g=item_pro, carbs_g=item_carb, fat_g=item_fat, cost_vnd=item_cost
-                ))
+                selected_items.append(
+                    SelectedFoodItem(
+                        food_id=food_obj["id"],
+                        name=food_obj["name"],
+                        grams=grams,
+                        calories=item_cal,
+                        protein_g=item_pro,
+                        carbs_g=item_carb,
+                        fat_g=item_fat,
+                        cost_vnd=item_cost,
+                    )
+                )
 
                 meal_cal += item_cal
                 meal_cost += item_cost
@@ -137,23 +177,31 @@ def generate_optimal_meal_plan(request: MealPlanRequest, food_db: List[Dict[str,
             daily_cal += meal_cal
             daily_cost += meal_cost
 
-            daily_meals_output.append(SingleMealOutput(
-                meal_name=meal_name, total_calories=round(meal_cal, 1), total_cost_vnd=round(meal_cost, 0), items=selected_items
-            ))
+            daily_meals_output.append(
+                SingleMealOutput(
+                    meal_name=meal_name,
+                    total_calories=round(meal_cal, 1),
+                    total_cost_vnd=round(meal_cost, 0),
+                    items=selected_items,
+                )
+            )
 
-        weekly_plans.append(DailyMealPlan(
-            day_of_week=day_index,
-            daily_total_calories=round(daily_cal, 1),
-            daily_total_cost=round(daily_cost, 0),
-            meals=daily_meals_output
-        ))
-        
+        weekly_plans.append(
+            DailyMealPlan(
+                day_of_week=day_index,
+                daily_total_calories=round(daily_cal, 1),
+                daily_total_cost=round(daily_cost, 0),
+                meals=daily_meals_output,
+            )
+        )
+
         grand_cal += daily_cal
         grand_pro += daily_pro
         grand_carb += daily_carb
         grand_fat += daily_fat
         grand_cost += daily_cost
 
+    avg_cost = grand_cost / num_days
     return MealPlanResponse(
         total_calories=round(grand_cal / 7, 1),
         total_protein_g=round(grand_pro / 7, 1),
