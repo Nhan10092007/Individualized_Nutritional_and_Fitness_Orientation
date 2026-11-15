@@ -36,6 +36,12 @@ deactivate
 # Bật server backend:
 uvicorn app.main:app --reload
 
+# Tắt môi trường ảo:
+deactivate
+
+# Bật server backend:
+uvicorn app.main:app --reload
+
 # Cài đặt các thư viện cần thiết (nếu có cập nhật mới)
 pip install -r requirements.txt
 ```

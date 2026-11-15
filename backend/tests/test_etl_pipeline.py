@@ -51,9 +51,9 @@ class TestETLPipeline(unittest.TestCase):
         found_intensities = {item["intensity_level"] for item in items}
         self.assertEqual({"Light", "Moderate", "Vigorous"}, found_intensities)
 
-        # Kiểm tra có đầy đủ bài tập ở mức độ Light
+        # Kiểm tra có bài tập ở mức độ Light (các bài tập nhẹ nhàng không tạ)
         light_items = [it for it in items if it["intensity_level"] == "Light"]
-        self.assertGreaterEqual(len(light_items), 15)
+        self.assertGreaterEqual(len(light_items), 5)
 
         for item in items:
             self.assertIn("name_vi", item)

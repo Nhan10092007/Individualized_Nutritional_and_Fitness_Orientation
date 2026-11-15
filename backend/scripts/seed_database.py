@@ -234,6 +234,10 @@ def seed_exercises(db: Session) -> int:
         with open(PROCESSED_65_PATH, mode="r", encoding="utf-8") as f:
             exercises_65 = json.load(f)
 
+    # Dọn dẹp các bài tập cũ (như bài giãn cơ/khởi động) không nằm trong danh mục 65 bài thực thụ
+    valid_names = {item.get("name_en") for item in exercises_65 if item.get("name_en")}
+    db.query(Exercise).filter(~Exercise.name_en.in_(valid_names)).delete(synchronize_session=False)
+
     created, updated = _bulk_upsert_exercises(db, exercises_65, replace=True)
     db.commit()
 
