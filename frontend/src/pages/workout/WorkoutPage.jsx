@@ -1,18 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import ToastNotice from "../../components/common/ToastNotice";
+import ExerciseDetailModal from "../../components/exercises/ExerciseDetailModal";
+import { MUSCLE_LABELS } from "../../constants/exerciseLabels";
 import { useAuth } from "../../context/useAuth";
 import { getApiErrorMessage } from "../../services/api";
+import { exerciseService } from "../../services/exerciseService";
 import { workoutService } from "../../services/workoutService";
 
-const DAY_LABELS = {
-  Mon: "Thứ 2",
-  Tue: "Thứ 3",
-  Wed: "Thứ 4",
-  Thu: "Thứ 5",
-  Fri: "Thứ 6",
-  Sat: "Thứ 7",
-  Sun: "Chủ nhật",
-};
+const WEEK_DAYS = [
+  { key: "Mon", label: "Thứ 2" },
+  { key: "Tue", label: "Thứ 3" },
+  { key: "Wed", label: "Thứ 4" },
+  { key: "Thu", label: "Thứ 5" },
+  { key: "Fri", label: "Thứ 6" },
+  { key: "Sat", label: "Thứ 7" },
+  { key: "Sun", label: "Chủ nhật" },
+];
+
+const DAY_LABELS = Object.fromEntries(WEEK_DAYS.map((d) => [d.key, d.label]));
 
 const GOAL_LABELS = {
   fat_loss: "Giảm mỡ",
@@ -27,30 +33,37 @@ const LEVEL_LABELS = {
   advanced: "Nâng cao",
 };
 
-const CONDITION_LABELS = {
-  knee_osteoarthritis: "Thoái hóa / Đau khớp gối",
-  hypertension: "Huyết áp cao",
-};
-
-const MUSCLE_LABELS = {
-  Chest: "Ngực",
-  Back: "Lưng / Xô",
-  Shoulders: "Vai",
-  "Rear Delts": "Vai sau",
-  Biceps: "Tay trước",
-  Triceps: "Tay sau",
-  Quadriceps: "Đùi trước",
-  Hamstrings: "Đùi sau",
-  Glutes: "Mông",
-  Calves: "Bắp chân",
-  Abs: "Bụng",
-};
-
 const SPLIT_DESCRIPTIONS = {
   "Full Body": "Toàn thân mỗi buổi, tối ưu phục hồi cho lịch 2-3 ngày/tuần",
   "Upper/Lower": "Luân phiên Thân trên & Thân dưới cho lịch 4 ngày/tuần",
   "Push/Pull/Legs": "Chia nhóm Đẩy - Kéo - Chân cho lịch 5-6 ngày/tuần",
 };
+
+function getInitialSelectedDay(schedule) {
+  if (!Array.isArray(schedule) || schedule.length === 0) return "Mon";
+  const firstOrdered = WEEK_DAYS.find((d) =>
+    schedule.some((s) => s.day === d.key)
+  );
+  return firstOrdered ? firstOrdered.key : schedule[0].day;
+}
+
+function formatSessionName(sessionName, fallbackSplit) {
+  const cleaned = String(sessionName || "")
+    .replace(/\s*[-–]?\s*Session\s*\d*/gi, "")
+    .trim();
+  return cleaned || fallbackSplit || "Buổi tập";
+}
+
+function formatExerciseName(name) {
+  const raw = String(name || "").trim();
+  if (!raw) return "";
+  const match = raw.match(/\(([^)]+)\)\s*$/);
+  if (match && /[a-zA-Z]/.test(match[1])) {
+    return match[1].trim();
+  }
+  if (/^plank\b/i.test(raw)) return "Plank";
+  return raw;
+}
 
 export default function WorkoutPage() {
   const { user } = useAuth();
@@ -58,12 +71,60 @@ export default function WorkoutPage() {
   const [plan, setPlan] = useState(null);
   const [hasPlan, setHasPlan] = useState(false);
   const [createdAt, setCreatedAt] = useState(null);
-  const [selectedDay, setSelectedDay] = useState("ALL");
+  const [selectedDay, setSelectedDay] = useState("Mon");
 
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalExercise, setModalExercise] = useState(null);
+  const [modalLoading, setModalLoading] = useState(false);
+  const [modalError, setModalError] = useState("");
+  const exerciseCacheRef = useRef({});
+  const activeExerciseReqRef = useRef(0);
+
+  async function handleOpenExercise(exerciseId) {
+    if (!exerciseId) return;
+    setModalOpen(true);
+    setModalError("");
+
+    const cached = exerciseCacheRef.current[exerciseId];
+    if (cached) {
+      setModalExercise(cached);
+      setModalLoading(false);
+      return;
+    }
+
+    const reqId = ++activeExerciseReqRef.current;
+    setModalExercise(null);
+    setModalLoading(true);
+    try {
+      const detail = await exerciseService.getExerciseById(exerciseId);
+      exerciseCacheRef.current[exerciseId] = detail;
+      if (activeExerciseReqRef.current === reqId) {
+        setModalExercise(detail);
+      }
+    } catch (err) {
+      if (activeExerciseReqRef.current === reqId) {
+        setModalError(
+          getApiErrorMessage(err, "Không thể tải chi tiết bài tập.")
+        );
+      }
+    } finally {
+      if (activeExerciseReqRef.current === reqId) {
+        setModalLoading(false);
+      }
+    }
+  }
+
+  function handleCloseModal() {
+    activeExerciseReqRef.current += 1;
+    setModalOpen(false);
+    setModalLoading(false);
+    setModalError("");
+  }
 
   useEffect(() => {
     let isMounted = true;
@@ -74,9 +135,13 @@ export default function WorkoutPage() {
       try {
         const data = await workoutService.getWorkoutPlan();
         if (!isMounted) return;
-        setHasPlan(Boolean(data?.has_plan && data?.workout_plan));
-        setPlan(data?.workout_plan || null);
+        const loadedPlan = data?.workout_plan || null;
+        setHasPlan(Boolean(data?.has_plan && loadedPlan));
+        setPlan(loadedPlan);
         setCreatedAt(data?.created_at || null);
+        if (loadedPlan?.weekly_schedule?.length) {
+          setSelectedDay(getInitialSelectedDay(loadedPlan.weekly_schedule));
+        }
       } catch (err) {
         if (isMounted) {
           setError(
@@ -102,11 +167,14 @@ export default function WorkoutPage() {
     setGenerating(true);
     try {
       const data = await workoutService.generateWorkoutPlan();
-      setPlan(data?.workout_plan || null);
-      setHasPlan(Boolean(data?.workout_plan));
+      const generatedPlan = data?.workout_plan || null;
+      setPlan(generatedPlan);
+      setHasPlan(Boolean(generatedPlan));
       setCreatedAt(new Date().toISOString());
-      setSelectedDay("ALL");
-      setSuccessMsg(data?.message || "Đã tạo và lưu lịch tập thành công!");
+      if (generatedPlan?.weekly_schedule?.length) {
+        setSelectedDay(getInitialSelectedDay(generatedPlan.weekly_schedule));
+      }
+      setSuccessMsg("Đã cập nhật thành công");
     } catch (err) {
       setError(
         getApiErrorMessage(err, "Không thể sinh lịch tập. Vui lòng thử lại.")
@@ -125,10 +193,10 @@ export default function WorkoutPage() {
     ? plan.weekly_schedule
     : [];
 
-  const visibleSessions =
-    selectedDay === "ALL"
-      ? weeklySchedule
-      : weeklySchedule.filter((s) => s.day === selectedDay);
+  const sessionByDay = Object.fromEntries(
+    weeklySchedule.map((session) => [session.day, session])
+  );
+  const selectedSession = sessionByDay[selectedDay] || null;
 
   const avgDuration =
     weeklySchedule.length > 0
@@ -190,19 +258,7 @@ export default function WorkoutPage() {
       </section>
 
       {error && <div className="alert alert-error">{error}</div>}
-      {successMsg && <div className="alert alert-success">{successMsg}</div>}
-
-      {/* Medical filter notice */}
-      {medicalConditions.length > 0 && (
-        <div className="alert alert-warning" style={{ marginBottom: 0 }}>
-          <strong>Chế độ lọc an toàn y khoa đang bật:</strong> Hệ thống tự động
-          loại trừ các bài tập chống chỉ định với{" "}
-          {medicalConditions
-            .map((c) => CONDITION_LABELS[c] || c)
-            .join(", ")}
-          .
-        </div>
-      )}
+      <ToastNotice message={successMsg} onClose={() => setSuccessMsg("")} />
 
       {loading ? (
         <div className="card">
@@ -289,45 +345,135 @@ export default function WorkoutPage() {
             </div>
           </section>
 
-          {/* Day Filter Tabs */}
-          <div className="workout-tabs">
-            <button
-              type="button"
-              className={
-                selectedDay === "ALL" ? "workout-tab active" : "workout-tab"
-              }
-              onClick={() => setSelectedDay("ALL")}
-            >
-              Cả tuần ({weeklySchedule.length} buổi)
-            </button>
-            {weeklySchedule.map((session, idx) => (
-              <button
-                key={`${session.day}-${idx}`}
-                type="button"
-                className={
-                  selectedDay === session.day
-                    ? "workout-tab active"
-                    : "workout-tab"
-                }
-                onClick={() => setSelectedDay(session.day)}
-              >
-                {DAY_LABELS[session.day] || session.day} ·{" "}
-                {session.exercise_count ?? session.exercises?.length ?? 0} bài
-              </button>
-            ))}
-          </div>
+          {/* 7-Day Weekly Overview Frame */}
+          <section className="card">
+            <div className="workout-week-header">
+              <h2 className="workout-week-title">Khung lịch tập 7 ngày</h2>
+              <p className="workout-week-hint">
+                Nhấn vào từng ngày bên dưới để xem chi tiết bài tập
+              </p>
+            </div>
 
-          {/* Session Cards */}
-          {visibleSessions.map((session, sIdx) => (
-            <section key={`${session.day}-${sIdx}`} className="card">
+            <div className="workout-week-grid">
+              {WEEK_DAYS.map((dayObj) => {
+                const session = sessionByDay[dayObj.key];
+                const isActive = selectedDay === dayObj.key;
+                const muscleSummary = session
+                  ? (session.target_muscles || [])
+                      .map((m) => MUSCLE_LABELS[m] || m)
+                      .join(" · ")
+                  : "";
+                const exerciseCount = session
+                  ? session.exercise_count ?? session.exercises?.length ?? 0
+                  : 0;
+
+                return (
+                  <div
+                    key={dayObj.key}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setSelectedDay(dayObj.key)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelectedDay(dayObj.key);
+                      }
+                    }}
+                    className={[
+                      "workout-day-card",
+                      session ? "has-session" : "is-rest",
+                      isActive ? "active" : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                  >
+                    <div className="workout-day-head">
+                      <span className="workout-day-name">{dayObj.label}</span>
+                      <span
+                        className={
+                          session
+                            ? "workout-day-pill"
+                            : "workout-day-pill rest"
+                        }
+                      >
+                        {session ? "Tập luyện" : "Nghỉ"}
+                      </span>
+                    </div>
+
+                    {session ? (
+                      <>
+                        <div className="workout-day-summary">
+                          <span className="workout-day-split">
+                            {formatSessionName(
+                              session.session_name,
+                              plan.split_type
+                            )}
+                          </span>
+                          <span className="workout-day-muscles">
+                            {muscleSummary}
+                          </span>
+                        </div>
+                        <ul className="workout-day-exercises">
+                          {(session.exercises || []).map((ex, eIdx) => {
+                            const displayName = formatExerciseName(ex.name);
+                            return (
+                              <li
+                                key={`${ex.exercise_id}-${eIdx}`}
+                                className="workout-day-ex-item"
+                                title={`${displayName} (${ex.sets}×${ex.reps})`}
+                              >
+                                <button
+                                  type="button"
+                                  className="workout-day-ex-name workout-day-ex-btn"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenExercise(ex.exercise_id);
+                                  }}
+                                >
+                                  {displayName}
+                                </button>
+                                <span className="workout-day-ex-sets">
+                                  {ex.sets}×{ex.reps}
+                                </span>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                        <div className="workout-day-meta">
+                          <span>{exerciseCount} bài</span>
+                          <span>{session.actual_duration_mins} phút</span>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="workout-day-summary">
+                        <span className="workout-day-split">
+                          Ngày nghỉ ngơi
+                        </span>
+                        <span className="workout-day-muscles">
+                          Phục hồi cơ bắp &amp; tái tạo năng lượng
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Selected Day Detail */}
+          {selectedSession ? (
+            <section className="card">
               <div className="workout-session-header">
                 <div>
                   <h2 className="workout-session-title">
-                    {DAY_LABELS[session.day] || session.day} —{" "}
-                    {session.session_name}
+                    {DAY_LABELS[selectedSession.day] || selectedSession.day} —{" "}
+                    {formatSessionName(
+                      selectedSession.session_name,
+                      plan.split_type
+                    )}
                   </h2>
                   <div className="tag-list" style={{ marginTop: "8px" }}>
-                    {(session.target_muscles || []).map((muscle) => (
+                    {(selectedSession.target_muscles || []).map((muscle) => (
                       <span key={muscle} className="badge">
                         {MUSCLE_LABELS[muscle] || muscle}
                       </span>
@@ -337,11 +483,13 @@ export default function WorkoutPage() {
 
                 <div className="workout-session-meta">
                   <span className="badge badge-success">
-                    {session.actual_duration_mins} / {session.max_allowed_mins}{" "}
-                    phút
+                    {selectedSession.actual_duration_mins} /{" "}
+                    {selectedSession.max_allowed_mins} phút
                   </span>
                   <span className="badge">
-                    {session.exercise_count ?? session.exercises?.length ?? 0}{" "}
+                    {selectedSession.exercise_count ??
+                      selectedSession.exercises?.length ??
+                      0}{" "}
                     bài tập
                   </span>
                 </div>
@@ -361,10 +509,19 @@ export default function WorkoutPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {(session.exercises || []).map((ex, eIdx) => (
+                    {(selectedSession.exercises || []).map((ex, eIdx) => (
                       <tr key={`${ex.exercise_id}-${eIdx}`}>
                         <td>{eIdx + 1}</td>
-                        <td className="workout-ex-name">{ex.name}</td>
+                        <td className="workout-ex-name">
+                          <button
+                            type="button"
+                            className="workout-ex-link"
+                            title="Xem hướng dẫn chi tiết bài tập"
+                            onClick={() => handleOpenExercise(ex.exercise_id)}
+                          >
+                            {formatExerciseName(ex.name)}
+                          </button>
+                        </td>
                         <td>
                           <span className="badge">
                             {MUSCLE_LABELS[ex.target_muscle] ||
@@ -377,7 +534,7 @@ export default function WorkoutPage() {
                         </td>
                         <td>{ex.rest_seconds ?? 120} giây</td>
                         <td>
-                          {eIdx < (session.exercises || []).length - 1
+                          {eIdx < (selectedSession.exercises || []).length - 1
                             ? `${ex.rest_between_exercises_seconds ?? 120} giây`
                             : "Kết thúc buổi"}
                         </td>
@@ -392,9 +549,29 @@ export default function WorkoutPage() {
                 </table>
               </div>
             </section>
-          ))}
+          ) : (
+            <section className="card workout-empty">
+              <h2 className="workout-empty-title">
+                {DAY_LABELS[selectedDay] || selectedDay} — Ngày nghỉ phục hồi
+              </h2>
+              <p className="workout-empty-desc">
+                Không có buổi tập nào được xếp vào ngày này. Hãy tận dụng thời
+                gian để nghỉ ngơi, ngủ đủ giấc và giữ chế độ dinh dưỡng theo mục
+                tiêu.
+              </p>
+            </section>
+          )}
         </>
       )}
+
+      <ExerciseDetailModal
+        isOpen={modalOpen}
+        exercise={modalExercise}
+        loading={modalLoading}
+        error={modalError}
+        userWeightKg={Number(user?.biometrics?.weight_kg || 65)}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 }

@@ -25,7 +25,7 @@ export default function Navbar() {
           <Activity size={18} strokeWidth={2.4} />
         </span>
         <span>FiLan</span>
-        <span className="navbar-brand-sub">Fitness &amp; Nutrition</span>
+        <span className="navbar-brand-sub">Pizza 4'P Team</span>
       </div>
 
       <div className="navbar-user">

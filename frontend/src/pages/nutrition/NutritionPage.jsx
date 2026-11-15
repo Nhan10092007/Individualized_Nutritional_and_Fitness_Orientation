@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ToastNotice from "../../components/common/ToastNotice";
 import { useAuth } from "../../context/useAuth";
 import { getApiErrorMessage } from "../../services/api";
 import { nutritionService } from "../../services/nutritionService";
@@ -80,7 +81,7 @@ export default function NutritionPage() {
       setPlan(data || null);
       setHasPlan(Boolean(data?.weekly_plan?.length));
       setSelectedDay("ALL");
-      setSuccessMsg("Đã tạo và lưu thực đơn tối ưu 7 ngày thành công!");
+      setSuccessMsg("Đã cập nhật thành công");
     } catch (err) {
       setError(
         getApiErrorMessage(err, "Không thể sinh thực đơn. Vui lòng thử lại.")
@@ -149,7 +150,7 @@ export default function NutritionPage() {
       </section>
 
       {error && <div className="alert alert-error">{error}</div>}
-      {successMsg && <div className="alert alert-success">{successMsg}</div>}
+      <ToastNotice message={successMsg} onClose={() => setSuccessMsg("")} />
 
       {loading ? (
         <div className="card">
