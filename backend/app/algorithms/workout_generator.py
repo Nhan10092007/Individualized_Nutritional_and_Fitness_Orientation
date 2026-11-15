@@ -134,6 +134,33 @@ def get_muscles_for_session(split_type : str, session_index: int) -> List[str]:
         else:
             return ["Quadriceps", "Hamstrings", "Glutes", "Calves", "Abs"]
 
+#bảng tham số động theo mục tiêu tập luyện
+GOAL_TIMING_CONFIG = {
+    "fat_loss": {
+        "reps": 12,
+        "duration_per_set_sec": 40.0,
+        "rest_major_sec": 120.0,
+        "rest_minor_sec": 90.0,
+        "transition_time_sec": 120.0
+    },
+
+    "muscle_gain": {
+        "reps": 8,
+        "duration_per_set_sec": 45.0,
+        "rest_major_sec": 180.0,
+        "rest_minor_sec": 120.0,
+        "transition_time_sec": 120.0
+    },
+
+    "general_fitness": {
+            "reps": 10,
+            "duration_per_set_sec": 40.0,
+            "rest_major_sec": 120.0,
+            "rest_minor_sec": 90.0,
+            "transition_time_sec": 120.0
+        }
+}
+
 def _build_exercise_entry(
     exercise: Dict[str, Any],
     sets: int,
@@ -197,10 +224,15 @@ def generate_weekly_workout_schedule(
             sets = 3
         else:
             sets = 2
-        
-        reps = 10 if fitness_goal == "fat_loss" else 8 if fitness_goal == "muscle_gain" else 12
-        duration_per_set_sec = 45.0
-        transition_time_sec = 120.0
+
+        goal_key = str(fitness_goal).lower() if fitness_goal else "general_fitness"
+        timing = GOAL_TIMING_CONFIG.get(goal_key, GOAL_TIMING_CONFIG["general_fitness"])
+        reps = timing["reps"]
+
+        duration_per_set_sec = timing["duration_per_set_sec"]
+        transition_time_sec = timing["transition_time_sec"]
+        rest_major_sec = timing["rest_major_sec"]
+        rest_minor_sec = timing["rest_minor_sec"]
 
         for muscle in session_muscles:
             if len(chosen_exercise) >= max_exercises_limit:
@@ -216,9 +248,9 @@ def generate_weekly_workout_schedule(
             candidates.sort(key = lambda x: weekly_usage.get(x.get("id"), 0))
             best_ex = candidates[0]
             if best_ex.get("target_muscle", "").lower() in major_muscles:
-                rest_between_sets_sec = 150.0
+                rest_between_sets_sec = rest_major_sec
             else:
-                rest_between_sets_sec = 120.0
+                rest_between_sets_sec = rest_minor_sec
 
             
             ex_total_time_sec = (sets * duration_per_set_sec) + ((sets-1) * rest_between_sets_sec) + transition_time_sec
@@ -262,9 +294,9 @@ def generate_weekly_workout_schedule(
                 extra_ex = candidates[0]
 
                 if extra_ex.get("target_muscle", "").lower() in major_muscles:
-                    rest_between_sets_sec = 150.0
+                    rest_between_sets_sec = rest_major_sec
                 else:
-                    rest_between_sets_sec = 120.0
+                    rest_between_sets_sec = rest_minor_sec
                 
                 ex_total_time_sec = (sets * duration_per_set_sec) + ((sets-1) * rest_between_sets_sec) + transition_time_sec
 
