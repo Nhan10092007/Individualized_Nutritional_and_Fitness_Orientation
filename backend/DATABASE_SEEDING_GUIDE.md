@@ -12,7 +12,7 @@ Dự án đã chuyển hoàn toàn từ cách tạo bảng bằng SQL thuần (`
 * Toàn bộ cấu trúc bảng được định nghĩa dưới dạng Python class trong `backend/app/models/`:
   * `app/models/user.py` → bảng `users` (tài khoản đăng nhập + thông tin onboarding A1 + các chỉ số BMI, IBW, BMR, TDEE, Macro, `banned_exercise_tags`)
   * `app/models/food.py` → bảng `foods` (dữ liệu dinh dưỡng trên 100g, khẩu phần, giá ước tính VNĐ, `diet_type`, nguồn `USDA` / `VN_FCT` / `CUSTOM`)
-  * `app/models/exercise.py` → bảng `exercises` (bài tập kèm `met_value`, `intensity_level`, nhóm cơ `primary_muscles`/`secondary_muscles`, `equipment`, `level`, `instructions`, URL media `image_urls`/`thumbnail_url`/`video_url`, và nhãn chống chỉ định A3 `banned_for`/`clinical_reason`)
+  * `app/models/exercise.py` → bảng `exercises` (50 bài tập chuẩn hóa gồm `id`, `category`, `name_vi`, `name_en`, `met_value`, `intensity_level`, `description`, `equipment`, `instructions`, `common_mistakes`, `image`, `video_url`, `target_muscle`, `secondary_muscle`, `banned_for`, `clinical_reasons`, `source`)
   * `app/models/meal.py` → bảng `food_logs` (nhật ký ăn uống – Calo IN, khóa ngoại tới `users.id` và `foods.id`)
   * `app/models/workout.py` → bảng `workout_logs` (nhật ký tập luyện – Calo BURN, khóa ngoại tới `users.id` và `exercises.id`)
   * `app/models/__init__.py` → gom và đăng ký tất cả model vào `Base.metadata`.
@@ -22,17 +22,14 @@ Dự án đã chuyển hoàn toàn từ cách tạo bảng bằng SQL thuần (`
 
 ---
 
-## 2. Kiến trúc Pipeline ETL 4 bước (`backend/scripts/etl/`)
+## 2. Kiến trúc Pipeline ETL & Dữ liệu Chuẩn hóa
 
-Dữ liệu bài tập từ các nguồn GitHub/Kaggle được xử lý đúng theo 4 bước:
+Dữ liệu được xử lý tự động và nạp vào DB theo đúng yêu cầu:
 
-1. **Bước 1 — Extract (`scripts/etl/extract.py`)**: Đọc các file raw trong `backend/data/raw/` (`exercises.json`, `compendium_github.csv`, `exercise_dataset.csv`, `megaGymDataset.csv`) hoặc tự tải từ GitHub nếu thiếu (`--download-missing`).
-2. **Bước 2 — Asset Handling (`scripts/etl/asset_handler.py`)**: Chuẩn hóa/tải Ảnh, GIF, Video theo biến `ASSET_STORAGE_PROVIDER` trong `.env`:
-   * `github_cdn` *(mặc định local)*: ánh xạ sang `ASSET_BASE_URL` (không cần tài khoản cloud).
-   * `cloudinary`: upload media qua Cloudinary REST API và cache ánh xạ vào `backend/data/processed/asset_manifest.json`.
-   * `s3`: upload media lên AWS S3 bucket (cần cài thêm `boto3`).
-3. **Bước 3 — Transform & Map MET (`scripts/etl/transform.py`)**: Chuẩn hóa schema khớp với model `Exercise`, tự động map chỉ số `met_value` + `intensity_level` theo chuẩn Ainsworth 2011, và suy luận `banned_for` / `clinical_reason` cho thuật toán A3.
-4. **Bước 4 — Load (`scripts/etl/load.py`)**: Gọi `init_db()` sinh bảng từ SQLAlchemy models và nạp hàng loạt qua `SessionLocal()` vào **SQLite** hoặc **PostgreSQL**.
+1. **Thực phẩm (Calo IN)**: Trích xuất trực tiếp từ file PDF chính thức **`backend/data/raw/bang-thanh-phan-dinh-duong-thuc-pham-vn-2017-27-4-17.pdf`** (Viện Dinh Dưỡng Quốc Gia - Bộ Y Tế). Trích xuất 590+ thực phẩm thuần Việt (Gạo, ngũ cốc, khoai củ, rau quả, thịt cá, thủy sản, đồ chế biến...) kèm định lượng Kcal, Protein, Lipid, Glucid, Xơ và phân loại ăn chay (`vegan`, `vegetarian`, `all`).
+2. **Bài tập (Calo BURN)**: Trích xuất **đúng 50 bài tập nền tảng** từ `backend/data/raw/exercises.json` phủ đều 10 nhóm cơ chính (`Chest`, `Back`, `Shoulders`, `Biceps`, `Triceps`, `Quadriceps`, `Hamstrings`, `Glutes`, `Calves`, `Abs`) phục vụ hoàn hảo cho thuật toán sinh lịch tập A4 và bộ lọc chống chỉ định bệnh lý A3 (`banned_for`, `clinical_reasons`).
+3. **Asset Handling**: Gắn link ảnh minh họa bài tập phân giải cao trực tiếp từ CDN GitHub (`https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/...`) không cần cấu hình key cloud.
+4. **Load vào DB**: Gọi `init_db()` sinh bảng từ SQLAlchemy ORM models và nạp dữ liệu an toàn (upsert theo code / tên) vào SQLite hoặc PostgreSQL.
 
 ---
 
@@ -120,29 +117,23 @@ ASSET_BASE_URL=https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/e
 
 > **Quy tắc chạy lệnh:** Luôn đứng ở thư mục gốc `backend/` (khi `.venv` đã được kích hoạt) và chạy bằng `python -m scripts.<ten_script>`.
 
-### Cách 1 (Khuyên dùng — Chạy trọn bộ ETL 4 bước + dữ liệu cốt lõi)
+### Cách 1 (Khuyên dùng — Chạy lệnh nạp cơ sở dữ liệu nhanh & đầy đủ)
 
 ```bash
-python -m scripts.run_etl_pipeline
+python -m scripts.seed_database
 ```
 
 Lệnh này thực hiện tự động toàn bộ quy trình:
 1. Sinh đủ 5 bảng từ SQLAlchemy ORM models (`init_db()`).
-2. Nạp **39 thực phẩm chuẩn hóa** (16 từ USDA + 23 từ Bảng thành phần dinh dưỡng thực phẩm VN 2017 kèm giá tiền và `diet_type`).
-3. **Extract + Asset Handling + Transform & Map MET + Load** toàn bộ các bộ dữ liệu bài tập trong `backend/data/raw/`:
-   * `exercises.json` (876 bài tập có ảnh, nhóm cơ, thiết bị, hướng dẫn)
-   * `compendium_github.csv` (820 hoạt động chuẩn Ainsworth 2011)
-   * `exercise_dataset.csv` (248 hoạt động Kaggle quy đổi MET từ calo/giờ @ 155 lb)
-4. Tạo **1 tài khoản mẫu** (`username`: `vanan24`, `password`: `123456`) kèm `food_logs` và `workout_logs` mẫu cho ngày hôm nay.
+2. Nạp **590+ thực phẩm** từ Bảng thành phần dinh dưỡng thực phẩm VN 2017 (file PDF) cùng các thực phẩm thô USDA và món ăn hàng ngày.
+3. Nạp **đúng 50 bài tập chọn lọc** từ `backend/data/raw/exercises.json` phủ đều 10 nhóm cơ lớn, khớp 100% các cột (`category`, `name_vi`, `name_en`, `met_value`, `intensity_level`, `instructions`, `common_mistakes`, `image`, `target_muscle`, `secondary_muscle`, `banned_for`, `clinical_reasons`).
+4. Tạo **1 tài khoản mẫu** (`username`: `vanan24@gmail.com`, `password`: `123456`) kèm `food_logs` và `workout_logs` mẫu cho ngày hôm nay để xem ngay Dashboard.
 
-**Các tùy chọn mở rộng của `run_etl_pipeline`:**
+### Cách 2 (Chạy pipeline ETL trích xuất lại từ đầu)
 
 ```bash
-# Nạp thêm megaGymDataset.csv (2.918 bài tập)
-python -m scripts.run_etl_pipeline --include-megagym
-
-# Upload ảnh thật lên Cloudinary / S3 (cần điền credentials trong .env)
-python -m scripts.run_etl_pipeline --upload-assets --provider cloudinary
+python -m scripts.run_etl_pipeline
+```
 
 # Tự tải lại từ GitHub nếu thư mục backend/data/raw/ bị thiếu file
 python -m scripts.run_etl_pipeline --download-missing
