@@ -159,6 +159,67 @@
   {
     "id": 6,
     "category": "Strength",
+    "name_vi": "Đẩy ngực trên đòn tạ (Incline Barbell Bench Press)",
+    "name_en": "Barbell Incline Bench Press - Medium Grip",
+    "met_value": 6.0,
+    "intensity_level": "Vigorous",
+    "description": "Bài tập Đẩy ngực trên đòn tạ (Incline Barbell Bench Press) nhắm vào nhóm cơ Chest, sử dụng thiết bị barbell với mức vận động MET 6.0.",
+    "equipment": "barbell",
+    "instructions": [
+      "Lie back on an incline bench. Using a medium-width grip (a grip that creates a 90-degree angle in the middle of the movement between the forearms and the upper arms), lift the bar from the rack and hold it straight over you with your arms locked. This will be your starting position.",
+      "As you breathe in, come down slowly until you feel the bar on you upper chest.",
+      "After a second pause, bring the bar back to the starting position as you breathe out and push the bar using your chest muscles. Lock your arms in the contracted position, squeeze your chest, hold for a second and then start coming down slowly again. Tip: it should take at least twice as long to go down than to come up.",
+      "Repeat the movement for the prescribed amount of repetitions.",
+      "When you are done, place the bar back in the rack."
+    ],
+    "common_mistakes": [
+      "Hạ đòn tạ quá sát cổ thay vì chạm ngực trên",
+      "Nhấc mông khỏi ghế đẩy tạo đà gian lận"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Incline_Bench_Press_-_Medium_Grip/0.jpg",
+    "video_url": null,
+    "target_muscle": "Chest",
+    "secondary_muscle": [
+      "Shoulders",
+      "Triceps"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 7,
+    "category": "Strength",
+    "name_vi": "Ép ngực dây cáp chéo (Cable Crossover)",
+    "name_en": "Cable Crossover",
+    "met_value": 4.5,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Ép ngực dây cáp chéo (Cable Crossover) nhắm vào nhóm cơ Chest, sử dụng thiết bị cable với mức vận động MET 4.5.",
+    "equipment": "cable",
+    "instructions": [
+      "To get yourself into the starting position, place the pulleys on a high position (above your head), select the resistance to be used and hold the pulleys in each hand.",
+      "Step forward in front of an imaginary straight line between both pulleys while pulling your arms together in front of you. Your torso should have a small forward bend from the waist. This will be your starting position.",
+      "With a slight bend on your elbows in order to prevent stress at the biceps tendon, extend your arms to the side (straight out at both sides) in a wide arc until you feel a stretch on your chest. Breathe in as you perform this portion of the movement. Tip: Keep in mind that throughout the movement, the arms and torso should remain stationary; the movement should only occur at the shoulder joint.",
+      "Return your arms back to the starting position as you breathe out. Make sure to use the same arc of motion used to lower the weights.",
+      "Hold for a second at the starting position and repeat the movement for the prescribed amount of repetitions."
+    ],
+    "common_mistakes": [
+      "Gập khuỷu tay quá nhiều biến thành bài đẩy cáp",
+      "Nhún nhảy đung đưa thân người lấy đà"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Crossover/0.jpg",
+    "video_url": null,
+    "target_muscle": "Chest",
+    "secondary_muscle": [
+      "Shoulders"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 8,
+    "category": "Strength",
     "name_vi": "Hít xà đơn (Pull-up)",
     "name_en": "Pullups",
     "met_value": 6.0,
@@ -173,8 +234,9 @@
       "Repeat this motion for the prescribed amount of repetitions."
     ],
     "common_mistakes": [
-      "Đung đưa người lấy đà thay vì kéo bằng cơ xô",
-      "Không kéo cằm vượt quá thanh xà hoặc thả rơi tự do khi xuống"
+      "Đung đưa lăng người (kipping) khi chưa đủ lực kéo tĩnh",
+      "Không kéo cằm vượt quá thanh xà",
+      "Thả rơi người tự do ở cuối động tác gây sốc khớp vai"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pullups/0.jpg",
     "video_url": null,
@@ -188,13 +250,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 7,
+    "id": 9,
     "category": "Strength",
-    "name_vi": "Kéo tạ đòn (Barbell Deadlift)",
+    "name_vi": "Kéo tạ đòn Deadlift (Barbell Deadlift)",
     "name_en": "Barbell Deadlift",
-    "met_value": 6.5,
+    "met_value": 6.0,
     "intensity_level": "Vigorous",
-    "description": "Bài tập Kéo tạ đòn (Barbell Deadlift) nhắm vào nhóm cơ Back, sử dụng thiết bị barbell với mức vận động MET 6.5.",
+    "description": "Bài tập Kéo tạ đòn Deadlift (Barbell Deadlift) nhắm vào nhóm cơ Back, sử dụng thiết bị barbell với mức vận động MET 6.0.",
     "equipment": "barbell",
     "instructions": [
       "Stand in front of a loaded barbell.",
@@ -204,32 +266,34 @@
       "Perform the amount of repetitions prescribed in the program."
     ],
     "common_mistakes": [
-      "Gù cột sống thắt lưng khi nhấc tạ khỏi mặt sàn",
-      "Để thanh đòn quá xa cẳng chân làm tăng cánh tay đòn lên lưng dưới",
-      "Ngửa cổ nhìn lên trần nhà thay vì giữ cổ thẳng tự nhiên"
+      "Cong tròn lưng dưới khi bắt đầu nhấc tạ",
+      "Để thanh đòn rời xa cẳng chân làm tăng cánh tay đòn tác động lên lưng dưới",
+      "Ngả người ra sau quá mức ở đỉnh chuyển động"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Deadlift/0.jpg",
     "video_url": null,
     "target_muscle": "Back",
     "secondary_muscle": [
-      "Glutes",
       "Hamstrings",
+      "Glutes",
       "Quadriceps"
     ],
     "banned_for": [
+      "lower_back_pain",
+      "herniated_disc",
       "hypertension"
     ],
-    "clinical_reasons": "Phản xạ nín thở Valsalva khi nâng tạ nặng từ sàn làm tăng đột ngột huyết áp và áp lực nội sọ",
+    "clinical_reasons": "Tạo tải trọng nén và lực cắt cực lớn lên các đĩa đệm cột sống thắt lưng L4-L5 và S1.",
     "source": "free-exercise-db"
   },
   {
-    "id": 8,
+    "id": 10,
     "category": "Strength",
-    "name_vi": "Gập người chèo tạ đòn (Barbell Row)",
+    "name_vi": "Chèo tạ đòn gập người (Bent Over Barbell Row)",
     "name_en": "Bent Over Barbell Row",
-    "met_value": 5.5,
-    "intensity_level": "Moderate",
-    "description": "Bài tập Gập người chèo tạ đòn (Barbell Row) nhắm vào nhóm cơ Back, sử dụng thiết bị barbell với mức vận động MET 5.5.",
+    "met_value": 6.0,
+    "intensity_level": "Vigorous",
+    "description": "Bài tập Chèo tạ đòn gập người (Bent Over Barbell Row) nhắm vào nhóm cơ Back, sử dụng thiết bị barbell với mức vận động MET 6.0.",
     "equipment": "barbell",
     "instructions": [
       "Holding a barbell with a pronated grip (palms facing down), bend your knees slightly and bring your torso forward, by bending at the waist, while keeping the back straight until it is almost parallel to the floor. Tip: Make sure that you keep the head up. The barbell should hang directly in front of you as your arms hang perpendicular to the floor and your torso. This is your starting position.",
@@ -238,8 +302,9 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Đứng quá thẳng người thay vì gập hông cố định góc 45 độ",
-      "Dùng đà giật người lên thay vì tập trung ép hai xương bả vai"
+      "Gù lưng khi nâng tạ",
+      "Đứng quá thẳng người khiến bài tập chuyển sang ăn vào cơ cầu vai",
+      "Dùng quán tính cơ thể giật tạ lên"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Barbell_Row/0.jpg",
     "video_url": null,
@@ -248,18 +313,21 @@
       "Biceps",
       "Shoulders"
     ],
-    "banned_for": [],
-    "clinical_reasons": null,
+    "banned_for": [
+      "lower_back_pain",
+      "herniated_disc"
+    ],
+    "clinical_reasons": "Tư thế gập người duy trì tải trọng tĩnh lâu dài lên cột sống thắt lưng.",
     "source": "free-exercise-db"
   },
   {
-    "id": 9,
+    "id": 11,
     "category": "Strength",
-    "name_vi": "Kéo xô máy tay rộng (Lat Pulldown)",
+    "name_vi": "Kéo xô máy rộng tay (Wide-Grip Lat Pulldown)",
     "name_en": "Wide-Grip Lat Pulldown",
     "met_value": 5.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Kéo xô máy tay rộng (Lat Pulldown) nhắm vào nhóm cơ Back, sử dụng thiết bị cable với mức vận động MET 5.0.",
+    "description": "Bài tập Kéo xô máy rộng tay (Wide-Grip Lat Pulldown) nhắm vào nhóm cơ Back, sử dụng thiết bị cable với mức vận động MET 5.0.",
     "equipment": "cable",
     "instructions": [
       "Sit down on a pull-down machine with a wide bar attached to the top pulley. Make sure that you adjust the knee pad of the machine to fit your height. These pads will prevent your body from being raised by the resistance attached to the bar.",
@@ -270,8 +338,9 @@
       "Repeat this motion for the prescribed amount of repetitions."
     ],
     "common_mistakes": [
-      "Ngả người ra sau quá nhiều biến thành bài chèo lưng",
-      "Kéo thanh đòn ra sau gáy gây chấn thương các đốt sống cổ"
+      "Ngả người ra sau quá sâu (>45 độ) biến thành bài kéo lưng giữa",
+      "Kéo thanh đòn ra sau gáy gây chấn thương khớp vai",
+      "Dùng cẳng tay giật tạ thay vì dùng cơ xô ép xuống"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Wide-Grip_Lat_Pulldown/0.jpg",
     "video_url": null,
@@ -285,13 +354,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 10,
+    "id": 12,
     "category": "Strength",
     "name_vi": "Kéo cáp ngồi chèo xô (Seated Cable Row)",
     "name_en": "Seated Cable Rows",
-    "met_value": 5.0,
+    "met_value": 4.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Kéo cáp ngồi chèo xô (Seated Cable Row) nhắm vào nhóm cơ Back, sử dụng thiết bị cable với mức vận động MET 5.0.",
+    "description": "Bài tập Kéo cáp ngồi chèo xô (Seated Cable Row) nhắm vào nhóm cơ Back, sử dụng thiết bị cable với mức vận động MET 4.5.",
     "equipment": "cable",
     "instructions": [
       "For this exercise you will need access to a low pulley row machine with a V-bar. Note: The V-bar will enable you to have a neutral grip where the palms of your hands face each other. To get into the starting position, first sit down on the machine and place your feet on the front platform or crossbar provided making sure that your knees are slightly bent and not locked.",
@@ -301,21 +370,89 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Đung đưa thân mình trước sau theo nhịp kéo cáp",
-      "Co vai lên tai thay vì kéo xương bả vai xuống dưới và ra sau"
+      "Đung đưa cột sống ra trước về sau để lấy đà",
+      "Rụt vai lên tai thay vì hạ vai ép chặt bả vai"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Cable_Rows/0.jpg",
     "video_url": null,
     "target_muscle": "Back",
     "secondary_muscle": [
-      "Biceps"
+      "Biceps",
+      "Shoulders"
     ],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 11,
+    "id": 13,
+    "category": "Strength",
+    "name_vi": "Chèo tạ đơn một tay (One-Arm Dumbbell Row)",
+    "name_en": "One-Arm Dumbbell Row",
+    "met_value": 5.0,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Chèo tạ đơn một tay (One-Arm Dumbbell Row) nhắm vào nhóm cơ Back, sử dụng thiết bị dumbbell với mức vận động MET 5.0.",
+    "equipment": "dumbbell",
+    "instructions": [
+      "Choose a flat bench and place a dumbbell on each side of it.",
+      "Place the right leg on top of the end of the bench, bend your torso forward from the waist until your upper body is parallel to the floor, and place your right hand on the other end of the bench for support.",
+      "Use the left hand to pick up the dumbbell on the floor and hold the weight while keeping your lower back straight. The palm of the hand should be facing your torso. This will be your starting position.",
+      "Pull the resistance straight up to the side of your chest, keeping your upper arm close to your side and keeping the torso stationary. Breathe out as you perform this step. Tip: Concentrate on squeezing the back muscles once you reach the full contracted position. Also, make sure that the force is performed with the back muscles and not the arms. Finally, the upper torso should remain stationary and only the arms should move. The forearms should do no other work except for holding the dumbbell; therefore do not try to pull the dumbbell up using the forearms.",
+      "Lower the resistance straight down to the starting position. Breathe in as you perform this step.",
+      "Repeat the movement for the specified amount of repetitions.",
+      "Switch sides and repeat again with the other arm."
+    ],
+    "common_mistakes": [
+      "Xoay vặn thân người quá mức ở đỉnh chuyển động",
+      "Gù cột sống lưng dưới khi chống tay lên ghế"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/One-Arm_Dumbbell_Row/0.jpg",
+    "video_url": null,
+    "target_muscle": "Back",
+    "secondary_muscle": [
+      "Biceps",
+      "Shoulders"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 14,
+    "category": "Strength",
+    "name_vi": "Chèo xô tạ đòn chữ T (T-Bar Row)",
+    "name_en": "T-Bar Row with Handle",
+    "met_value": 6.0,
+    "intensity_level": "Vigorous",
+    "description": "Bài tập Chèo xô tạ đòn chữ T (T-Bar Row) nhắm vào nhóm cơ Back, sử dụng thiết bị barbell với mức vận động MET 6.0.",
+    "equipment": "barbell",
+    "instructions": [
+      "Position a bar into a landmine or in a corner to keep it from moving. Load an appropriate weight onto your end.",
+      "Stand over the bar, and position a Double D row handle around the bar next to the collar. Using your hips and legs, rise to a standing position.",
+      "Assume a wide stance with your hips back and your chest up. Your arms should be extended. This will be your starting position.",
+      "Pull the weight to your upper abdomen by retracting the shoulder blades and flexing the elbows. Do not jerk the weight or cheat during the movement.",
+      "After a brief pause, return to the starting position."
+    ],
+    "common_mistakes": [
+      "Võng lưng hoặc gù lưng tròn làm mất ổn định cột sống",
+      "Dùng đà gối giật người lên để nâng tạ"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/T-Bar_Row_with_Handle/0.jpg",
+    "video_url": null,
+    "target_muscle": "Back",
+    "secondary_muscle": [
+      "Biceps",
+      "Shoulders"
+    ],
+    "banned_for": [
+      "lower_back_pain",
+      "herniated_disc"
+    ],
+    "clinical_reasons": "Tư thế gập người chịu tải lớn tạo áp lực nén cao lên các đốt sống thắt lưng L4-L5.",
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 15,
     "category": "Strength",
     "name_vi": "Đẩy vai qua đầu tạ đòn (Overhead Press)",
     "name_en": "Standing Military Press",
@@ -332,8 +469,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Ưỡn lưng dưới ra sau để mượn lực đẩy của cơ ngực",
-      "Không siết chặt cơ mông và cơ bụng để khóa cứng khung xương chậu"
+      "Ưỡn lưng dưới quá đà để đẩy tạ lên",
+      "Đẩy thanh đòn đi theo đường vòng cung xa cơ thể"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Military_Press/0.jpg",
     "video_url": null,
@@ -342,19 +479,20 @@
       "Triceps"
     ],
     "banned_for": [
+      "shoulder_impingement",
       "hypertension"
     ],
-    "clinical_reasons": "Động tác đẩy tạ qua đầu kết hợp nín thở gồng cơ lồng ngực làm tăng áp lực mạch máu hệ thống",
+    "clinical_reasons": "Góc đẩy đứng qua đầu với tải trọng lớn chèn ép khoang dưới mỏm cùng vai và tăng áp lực tâm thu.",
     "source": "free-exercise-db"
   },
   {
-    "id": 12,
+    "id": 16,
     "category": "Strength",
-    "name_vi": "Dang tạ đơn sang hai bên (Lateral Raise)",
+    "name_vi": "Banh tạ đơn sang hai bên (Lateral Raise)",
     "name_en": "Side Lateral Raise",
     "met_value": 4.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Dang tạ đơn sang hai bên (Lateral Raise) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị dumbbell với mức vận động MET 4.0.",
+    "description": "Bài tập Banh tạ đơn sang hai bên (Lateral Raise) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị dumbbell với mức vận động MET 4.0.",
     "equipment": "dumbbell",
     "instructions": [
       "Pick a couple of dumbbells and stand with a straight torso and the dumbbells by your side at arms length with the palms of the hand facing you. This will be your starting position.",
@@ -363,8 +501,9 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Nâng tạ cao hơn ngang vai gây chèn ép khoang dưới mỏm cùng vai",
-      "Nhún chân vung người để lấy đà nâng tạ"
+      "Nhún người đung đưa để lấy đà nâng tạ",
+      "Nâng tạ cao hơn vai khiến cơ cầu vai (traps) ăn hết lực",
+      "Khóa thẳng khuỷu tay thay vì gập nhẹ"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Lateral_Raise/0.jpg",
     "video_url": null,
@@ -375,13 +514,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 13,
+    "id": 17,
     "category": "Strength",
-    "name_vi": "Nâng tạ đơn phía trước (Front Raise)",
+    "name_vi": "Nâng tạ đơn phía trước (Front Dumbbell Raise)",
     "name_en": "Front Dumbbell Raise",
     "met_value": 4.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Nâng tạ đơn phía trước (Front Raise) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị dumbbell với mức vận động MET 4.0.",
+    "description": "Bài tập Nâng tạ đơn phía trước (Front Dumbbell Raise) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị dumbbell với mức vận động MET 4.0.",
     "equipment": "dumbbell",
     "instructions": [
       "Pick a couple of dumbbells and stand with a straight torso and the dumbbells on front of your thighs at arms length with the palms of the hand facing your thighs. This will be your starting position.",
@@ -390,8 +529,8 @@
       "Continue alternating in this fashion until all of the recommended amount of repetitions have been performed for each arm."
     ],
     "common_mistakes": [
-      "Đung đưa thân người ra sau khi nâng tạ",
-      "Nắm tạ quá chặt phân tán kích thích khỏi cơ vai trước"
+      "Ngả người ra sau khi nâng tạ",
+      "Để tạ rơi tự do khi hạ xuống"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Front_Dumbbell_Raise/0.jpg",
     "video_url": null,
@@ -404,13 +543,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 14,
+    "id": 18,
     "category": "Strength",
-    "name_vi": "Ngồi đẩy vai tạ đơn (Seated Dumbbell Press)",
+    "name_vi": "Đẩy vai ngồi ghế tựa tạ đơn (Seated DB Shoulder Press)",
     "name_en": "Seated Dumbbell Press",
     "met_value": 5.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Ngồi đẩy vai tạ đơn (Seated Dumbbell Press) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị dumbbell với mức vận động MET 5.0.",
+    "description": "Bài tập Đẩy vai ngồi ghế tựa tạ đơn (Seated DB Shoulder Press) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị dumbbell với mức vận động MET 5.0.",
     "equipment": "dumbbell",
     "instructions": [
       "Grab a couple of dumbbells and sit on a military press bench or a utility bench that has a back support on it as you place the dumbbells upright on top of your thighs.",
@@ -421,8 +560,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Để cùi chỏ bè ngang 90 độ gây kẹt bao khớp vai; nên hướng nhẹ về trước góc 60 độ",
-      "Hạ tạ chưa đủ sâu qua tầm cằm"
+      "Chạm tạ mạnh vào nhau ở đỉnh chuyển động",
+      "Hạ tạ không đủ sâu (chưa tới ngang tầm tai)"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Dumbbell_Press/0.jpg",
     "video_url": null,
@@ -435,13 +574,75 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 15,
+    "id": 19,
     "category": "Strength",
-    "name_vi": "Dang tạ vai sau (Reverse Flyes)",
+    "name_vi": "Đẩy vai xoay tạ đơn Arnold (Arnold Dumbbell Press)",
+    "name_en": "Arnold Dumbbell Press",
+    "met_value": 5.0,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Đẩy vai xoay tạ đơn Arnold (Arnold Dumbbell Press) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị dumbbell với mức vận động MET 5.0.",
+    "equipment": "dumbbell",
+    "instructions": [
+      "Sit on an exercise bench with back support and hold two dumbbells in front of you at about upper chest level with your palms facing your body and your elbows bent. Tip: Your arms should be next to your torso. The starting position should look like the contracted portion of a dumbbell curl.",
+      "Now to perform the movement, raise the dumbbells as you rotate the palms of your hands until they are facing forward.",
+      "Continue lifting the dumbbells until your arms are extended above you in straight arm position. Breathe out as you perform this portion of the movement.",
+      "After a second pause at the top, begin to lower the dumbbells to the original position by rotating the palms of your hands towards you. Tip: The left arm will be rotated in a counter clockwise manner while the right one will be rotated clockwise. Breathe in as you perform this portion of the movement.",
+      "Repeat for the recommended amount of repetitions."
+    ],
+    "common_mistakes": [
+      "Xoay cổ tay quá sớm khi tạ chưa qua mặt",
+      "Ưỡn cong lưng dưới khi đẩy tạ lên đỉnh"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Arnold_Dumbbell_Press/0.jpg",
+    "video_url": null,
+    "target_muscle": "Shoulders",
+    "secondary_muscle": [
+      "Triceps"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 20,
+    "category": "Strength",
+    "name_vi": "Kéo tạ đòn thẳng đứng tập cầu vai (Upright Barbell Row)",
+    "name_en": "Upright Barbell Row",
+    "met_value": 5.0,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Kéo tạ đòn thẳng đứng tập cầu vai (Upright Barbell Row) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị barbell với mức vận động MET 5.0.",
+    "equipment": "barbell",
+    "instructions": [
+      "Grasp a barbell with an overhand grip that is slightly less than shoulder width. The bar should be resting on the top of your thighs with your arms extended and a slight bend in your elbows. Your back should also be straight. This will be your starting position.",
+      "Now exhale and use the sides of your shoulders to lift the bar, raising your elbows up and to the side. Keep the bar close to your body as you raise it. Continue to lift the bar until it nearly touches your chin. Tip: Your elbows should drive the motion, and should always be higher than your forearms. Remember to keep your torso stationary and pause for a second at the top of the movement.",
+      "Lower the bar back down slowly to the starting position. Inhale as you perform this portion of the movement.",
+      "Repeat for the recommended amount of repetitions."
+    ],
+    "common_mistakes": [
+      "Cầm tay quá hẹp làm bó khớp cổ tay và khuỷu tay",
+      "Kéo tạ quá cao vượt qua tầm xương đòn"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Upright_Barbell_Row/0.jpg",
+    "video_url": null,
+    "target_muscle": "Shoulders",
+    "secondary_muscle": [
+      "Biceps",
+      "Back"
+    ],
+    "banned_for": [
+      "shoulder_impingement"
+    ],
+    "clinical_reasons": "Chuyển động xoay trong khớp vai kết hợp nâng tay cao có nguy cơ chèn ép khoang dưới mỏm cùng vai.",
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 21,
+    "category": "Strength",
+    "name_vi": "Banh tạ đơn gập người vai sau (Rear Delt Flyes)",
     "name_en": "Reverse Flyes",
     "met_value": 4.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Dang tạ vai sau (Reverse Flyes) nhắm vào nhóm cơ Rear Delts, sử dụng thiết bị dumbbell với mức vận động MET 4.0.",
+    "description": "Bài tập Banh tạ đơn gập người vai sau (Rear Delt Flyes) nhắm vào nhóm cơ Rear Delts, sử dụng thiết bị dumbbell với mức vận động MET 4.0.",
     "equipment": "dumbbell",
     "instructions": [
       "To begin, lie down on an incline bench with the chest and stomach pressing against the incline. Have the dumbbells in each hand with the palms facing each other (neutral grip).",
@@ -452,55 +653,86 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Dùng cơ cầu vai co rúm thay vì tập trung mở rộng cánh tay",
-      "Cổ gập ngửa sai trục tự nhiên"
+      "Dùng đà thân người để vung tạ",
+      "Gập khuỷu tay quá nhiều biến thành bài chèo lưng"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Reverse_Flyes/0.jpg",
     "video_url": null,
     "target_muscle": "Rear Delts",
     "secondary_muscle": [
-      "Back",
-      "Shoulders"
+      "Back"
     ],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 16,
+    "id": 22,
     "category": "Strength",
-    "name_vi": "Kéo cáp mặt tập vai sau (Face Pull)",
+    "name_vi": "Kéo cáp dây thừng vào mặt (Face Pull)",
     "name_en": "Face Pull",
     "met_value": 4.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Kéo cáp mặt tập vai sau (Face Pull) nhắm vào nhóm cơ Rear Delts, sử dụng thiết bị cable với mức vận động MET 4.5.",
+    "description": "Bài tập Kéo cáp dây thừng vào mặt (Face Pull) nhắm vào nhóm cơ Rear Delts, sử dụng thiết bị cable với mức vận động MET 4.5.",
     "equipment": "cable",
     "instructions": [
       "Facing a high pulley with a rope or dual handles attached, pull the weight directly towards your face, separating your hands as you do so. Keep your upper arms parallel to the ground."
     ],
     "common_mistakes": [
-      "Hạ cùi chỏ thấp hơn cổ tay làm mất lực tác động vào cơ vai sau",
-      "Ưỡn ngực giật người ra sau"
+      "Kéo dây thừng về ngực thay vì kéo về ngang tầm mắt/trán",
+      "Không xoay cẳng tay ra ngoài ở cuối chuyển động",
+      "Dùng mức tạ quá nặng làm mất tư thế chuẩn"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Face_Pull/0.jpg",
     "video_url": null,
     "target_muscle": "Rear Delts",
     "secondary_muscle": [
-      "Back",
-      "Shoulders"
+      "Shoulders",
+      "Back"
     ],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 17,
+    "id": 23,
     "category": "Strength",
-    "name_vi": "Cuốn tay trước tạ đòn (Barbell Curl)",
+    "name_vi": "Ngồi gập người banh tạ đơn vai sau (Seated Rear Delt Raise)",
+    "name_en": "Seated Bent-Over Rear Delt Raise",
+    "met_value": 4.0,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Ngồi gập người banh tạ đơn vai sau (Seated Rear Delt Raise) nhắm vào nhóm cơ Rear Delts, sử dụng thiết bị dumbbell với mức vận động MET 4.0.",
+    "equipment": "dumbbell",
+    "instructions": [
+      "Place a couple of dumbbells looking forward in front of a flat bench.",
+      "Sit on the end of the bench with your legs together and the dumbbells behind your calves.",
+      "Bend at the waist while keeping the back straight in order to pick up the dumbbells. The palms of your hands should be facing each other as you pick them. This will be your starting position.",
+      "Keeping your torso forward and stationary, and the arms slightly bent at the elbows, lift the dumbbells straight to the side until both arms are parallel to the floor. Exhale as you lift the weights. (Note: avoid swinging the torso or bringing the arms back as opposed to the side.)",
+      "After a one second contraction at the top, slowly lower the dumbbells back to the starting position.",
+      "Repeat for the recommended amount of repetitions."
+    ],
+    "common_mistakes": [
+      "Dùng cơ lưng trên co kéo thay vì dùng vai sau",
+      "Nâng tạ bằng cách giật thân người khỏi đùi"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Bent-Over_Rear_Delt_Raise/0.jpg",
+    "video_url": null,
+    "target_muscle": "Rear Delts",
+    "secondary_muscle": [
+      "Back"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 24,
+    "category": "Strength",
+    "name_vi": "Cuốn tạ đòn tay trước (Barbell Curl)",
     "name_en": "Barbell Curl",
     "met_value": 4.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Cuốn tay trước tạ đòn (Barbell Curl) nhắm vào nhóm cơ Biceps, sử dụng thiết bị barbell với mức vận động MET 4.5.",
+    "description": "Bài tập Cuốn tạ đòn tay trước (Barbell Curl) nhắm vào nhóm cơ Biceps, sử dụng thiết bị barbell với mức vận động MET 4.5.",
     "equipment": "barbell",
     "instructions": [
       "Stand up with your torso upright while holding a barbell at a shoulder-width grip. The palm of your hands should be facing forward and the elbows should be close to the torso. This will be your starting position.",
@@ -510,27 +742,25 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Vung khuỷu tay ra trước khi cuộn tạ",
-      "Võng lưng dưới đung đưa lấy đà nâng tạ nặng"
+      "Đung đưa khuỷu tay ra sau và ra trước để lấy đà",
+      "Ưỡn người ra sau khi nâng tạ nặng gây áp lực lên lưng dưới"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Curl/0.jpg",
     "video_url": null,
     "target_muscle": "Biceps",
-    "secondary_muscle": [
-      "Forearms"
-    ],
+    "secondary_muscle": [],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 18,
+    "id": 25,
     "category": "Strength",
-    "name_vi": "Cuốn tạ đơn tay búa (Hammer Curl)",
+    "name_vi": "Cuốn tạ đơn búa (Hammer Curl)",
     "name_en": "Hammer Curls",
     "met_value": 4.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Cuốn tạ đơn tay búa (Hammer Curl) nhắm vào nhóm cơ Biceps, sử dụng thiết bị dumbbell với mức vận động MET 4.0.",
+    "description": "Bài tập Cuốn tạ đơn búa (Hammer Curl) nhắm vào nhóm cơ Biceps, sử dụng thiết bị dumbbell với mức vận động MET 4.0.",
     "equipment": "dumbbell",
     "instructions": [
       "Stand up with your torso upright and a dumbbell on each hand being held at arms length. The elbows should be close to the torso.",
@@ -540,26 +770,25 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Xoay cổ tay khi nâng làm mất trọng tâm tác động vào cơ cánh tay (brachialis)"
+      "Xoay cổ tay trong lúc nâng thay vì giữ lòng bàn tay đối diện nhau",
+      "Cùi chỏ không giữ cố định bên hông"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hammer_Curls/0.jpg",
     "video_url": null,
     "target_muscle": "Biceps",
-    "secondary_muscle": [
-      "Forearms"
-    ],
+    "secondary_muscle": [],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 19,
+    "id": 26,
     "category": "Strength",
-    "name_vi": "Ngồi ghế dốc cuốn tạ đơn (Incline Dumbbell Curl)",
+    "name_vi": "Cuốn tạ đơn trên ghế dốc (Incline Dumbbell Curl)",
     "name_en": "Incline Dumbbell Curl",
     "met_value": 4.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Ngồi ghế dốc cuốn tạ đơn (Incline Dumbbell Curl) nhắm vào nhóm cơ Biceps, sử dụng thiết bị dumbbell với mức vận động MET 4.0.",
+    "description": "Bài tập Cuốn tạ đơn trên ghế dốc (Incline Dumbbell Curl) nhắm vào nhóm cơ Biceps, sử dụng thiết bị dumbbell với mức vận động MET 4.0.",
     "equipment": "dumbbell",
     "instructions": [
       "Sit back on an incline bench with a dumbbell in each hand held at arms length. Keep your elbows close to your torso and rotate the palms of your hands until they are facing forward. This will be your starting position.",
@@ -568,26 +797,25 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Đưa khuỷu tay về phía trước làm mất biên độ kéo dãn tối đa của cơ nhị đầu"
+      "Đưa khuỷu tay về phía trước làm mất độ căng của đầu dài bắp tay",
+      "Nhấc lưng khỏi đệm ghế tựa"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Incline_Dumbbell_Curl/0.jpg",
     "video_url": null,
     "target_muscle": "Biceps",
-    "secondary_muscle": [
-      "Forearms"
-    ],
+    "secondary_muscle": [],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 20,
+    "id": 27,
     "category": "Strength",
-    "name_vi": "Cuốn tạ tập trung (Concentration Curl)",
+    "name_vi": "Cuốn tạ đơn tập trung một tay (Concentration Curl)",
     "name_en": "Concentration Curls",
-    "met_value": 3.8,
+    "met_value": 3.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Cuốn tạ tập trung (Concentration Curl) nhắm vào nhóm cơ Biceps, sử dụng thiết bị dumbbell với mức vận động MET 3.8.",
+    "description": "Bài tập Cuốn tạ đơn tập trung một tay (Concentration Curl) nhắm vào nhóm cơ Biceps, sử dụng thiết bị dumbbell với mức vận động MET 3.5.",
     "equipment": "dumbbell",
     "instructions": [
       "Sit down on a flat bench with one dumbbell in front of you between your legs. Your legs should be spread with your knees bent and feet on the floor.",
@@ -597,8 +825,8 @@
       "Repeat for the recommended amount of repetitions. Then repeat the movement with the left arm."
     ],
     "common_mistakes": [
-      "Không tì cố định khuỷu tay vào mặt trong đùi",
-      "Hạ tạ rơi tự do không ghìm kiểm soát"
+      "Tì khuỷu tay lên đỉnh đùi thay vì áp mặt sau cánh tay vào đùi trong",
+      "Dùng vai nhấc tạ"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Concentration_Curls/0.jpg",
     "video_url": null,
@@ -609,13 +837,41 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 21,
+    "id": 28,
+    "category": "Strength",
+    "name_vi": "Cuốn bắp tay ghế dốc Preacher (Preacher Curl)",
+    "name_en": "Preacher Curl",
+    "met_value": 4.5,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Cuốn bắp tay ghế dốc Preacher (Preacher Curl) nhắm vào nhóm cơ Biceps, sử dụng thiết bị barbell với mức vận động MET 4.5.",
+    "equipment": "barbell",
+    "instructions": [
+      "To perform this movement you will need a preacher bench and an E-Z bar. Grab the E-Z curl bar at the close inner handle (either have someone hand you the bar which is preferable or grab the bar from the front bar rest provided by most preacher benches). The palm of your hands should be facing forward and they should be slightly tilted inwards due to the shape of the bar.",
+      "With the upper arms positioned against the preacher bench pad and the chest against it, hold the E-Z Curl Bar at shoulder length. This will be your starting position.",
+      "As you breathe in, slowly lower the bar until your upper arm is extended and the biceps is fully stretched.",
+      "As you exhale, use the biceps to curl the weight up until your biceps is fully contracted and the bar is at shoulder height. Squeeze the biceps hard and hold this position for a second.",
+      "Repeat for the recommended amount of repetitions."
+    ],
+    "common_mistakes": [
+      "Khóa khớp khuỷu tay quá gắt ở đáy chuyển động gây căng đứt gân cơ",
+      "Nhấc nách khỏi đệm dốc để tạo lực kéo"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Preacher_Curl/0.jpg",
+    "video_url": null,
+    "target_muscle": "Biceps",
+    "secondary_muscle": [],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 29,
     "category": "Strength",
     "name_vi": "Kéo cáp tay sau (Triceps Pushdown)",
     "name_en": "Triceps Pushdown",
-    "met_value": 4.5,
+    "met_value": 4.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Kéo cáp tay sau (Triceps Pushdown) nhắm vào nhóm cơ Triceps, sử dụng thiết bị cable với mức vận động MET 4.5.",
+    "description": "Bài tập Kéo cáp tay sau (Triceps Pushdown) nhắm vào nhóm cơ Triceps, sử dụng thiết bị cable với mức vận động MET 4.0.",
     "equipment": "cable",
     "instructions": [
       "Attach a straight or angled bar to a high pulley and grab with an overhand grip (palms facing down) at shoulder width.",
@@ -625,8 +881,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Bè khuỷu tay sang hai bên thay vì kẹp sát thân mình",
-      "Đứng quá xa máy cáp làm đổi góc tác động"
+      "Bè cùi chỏ ra hai bên thay vì kẹp chặt sát sườn",
+      "Dùng trọng lượng cơ thể đè lên thanh đòn"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Triceps_Pushdown/0.jpg",
     "video_url": null,
@@ -637,7 +893,7 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 22,
+    "id": 30,
     "category": "Strength",
     "name_vi": "Chống xà kép tay sau (Triceps Dips)",
     "name_en": "Dips - Triceps Version",
@@ -652,7 +908,8 @@
       "Repeat the movement for the prescribed amount of repetitions."
     ],
     "common_mistakes": [
-      "Nghiêng người về phía trước thay vì giữ lưng thẳng đứng để cô lập tay sau"
+      "Nghiêng người về phía trước quá nhiều biến thành bài tập ngực",
+      "Xuống quá sâu gây đau khớp vai"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dips_-_Triceps_Version/0.jpg",
     "video_url": null,
@@ -666,13 +923,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 23,
+    "id": 31,
     "category": "Strength",
-    "name_vi": "Đẩy ngực tạ đòn tay hẹp (Close-Grip Bench Press)",
+    "name_vi": "Đẩy ngực tay hẹp tạ đòn (Close-Grip Bench Press)",
     "name_en": "Close-Grip Barbell Bench Press",
-    "met_value": 5.5,
-    "intensity_level": "Moderate",
-    "description": "Bài tập Đẩy ngực tạ đòn tay hẹp (Close-Grip Bench Press) nhắm vào nhóm cơ Triceps, sử dụng thiết bị barbell với mức vận động MET 5.5.",
+    "met_value": 6.0,
+    "intensity_level": "Vigorous",
+    "description": "Bài tập Đẩy ngực tay hẹp tạ đòn (Close-Grip Bench Press) nhắm vào nhóm cơ Triceps, sử dụng thiết bị barbell với mức vận động MET 6.0.",
     "equipment": "barbell",
     "instructions": [
       "Lie back on a flat bench. Using a close grip (around shoulder width), lift the bar from the rack and hold it straight over you with your arms locked. This will be your starting position.",
@@ -682,7 +939,8 @@
       "When you are done, place the bar back in the rack."
     ],
     "common_mistakes": [
-      "Cầm tay quá hẹp (<15cm) gây vặn vẹo áp lực lên cổ tay"
+      "Cầm tay quá sát nhau (<15cm) gây chèn ép cổ tay",
+      "Bè khuỷu tay vuông góc với thân người"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Close-Grip_Barbell_Bench_Press/0.jpg",
     "video_url": null,
@@ -696,13 +954,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 24,
+    "id": 32,
     "category": "Strength",
-    "name_vi": "Nằm duỗi tạ sau đầu (Skullcrusher)",
+    "name_vi": "Nằm duỗi tạ đòn tay sau (Skull Crusher)",
     "name_en": "Lying Triceps Press",
     "met_value": 4.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Nằm duỗi tạ sau đầu (Skullcrusher) nhắm vào nhóm cơ Triceps, sử dụng thiết bị e-z curl bar với mức vận động MET 4.5.",
+    "description": "Bài tập Nằm duỗi tạ đòn tay sau (Skull Crusher) nhắm vào nhóm cơ Triceps, sử dụng thiết bị e-z curl bar với mức vận động MET 4.5.",
     "equipment": "e-z curl bar",
     "instructions": [
       "Lie on a flat bench with either an e-z bar (my preference) or a straight bar placed on the floor behind your head and your feet on the floor.",
@@ -712,7 +970,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Di chuyển cánh tay thay vì giữ khuỷu tay cố định vuông góc với sàn"
+      "Di chuyển toàn bộ cánh tay thay vì chỉ xoay quanh khớp khuỷu",
+      "Bè cùi chỏ ra ngoài khi hạ tạ"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Triceps_Press/0.jpg",
     "video_url": null,
@@ -723,13 +982,45 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 25,
+    "id": 33,
     "category": "Strength",
-    "name_vi": "Gánh tạ đòn sâu (Back Squat)",
+    "name_vi": "Chống đẩy tay sau với ghế (Bench Dips)",
+    "name_en": "Bench Dips",
+    "met_value": 4.0,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Chống đẩy tay sau với ghế (Bench Dips) nhắm vào nhóm cơ Triceps, sử dụng thiết bị body only với mức vận động MET 4.0.",
+    "equipment": "body only",
+    "instructions": [
+      "For this exercise you will need to place a bench behind your back. With the bench perpendicular to your body, and while looking away from it, hold on to the bench on its edge with the hands fully extended, separated at shoulder width. The legs will be extended forward, bent at the waist and perpendicular to your torso. This will be your starting position.",
+      "Slowly lower your body as you inhale by bending at the elbows until you lower yourself far enough to where there is an angle slightly smaller than 90 degrees between the upper arm and the forearm. Tip: Keep the elbows as close as possible throughout the movement. Forearms should always be pointing down.",
+      "Using your triceps to bring your torso up again, lift yourself back to the starting position.",
+      "Repeat for the recommended amount of repetitions."
+    ],
+    "common_mistakes": [
+      "Đưa mông cách quá xa mép ghế làm quá tải khớp vai",
+      "Hạ người quá sâu vượt quá góc 90 độ của khuỷu tay"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bench_Dips/0.jpg",
+    "video_url": null,
+    "target_muscle": "Triceps",
+    "secondary_muscle": [
+      "Shoulders",
+      "Chest"
+    ],
+    "banned_for": [
+      "shoulder_impingement"
+    ],
+    "clinical_reasons": "Góc duỗi khớp vai ra sau quá mức chịu tải trọng cơ thể có thể gây căng bao khớp vai trước.",
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 34,
+    "category": "Strength",
+    "name_vi": "Gánh tạ đòn Squat (Barbell Full Squat)",
     "name_en": "Barbell Full Squat",
-    "met_value": 6.5,
+    "met_value": 6.0,
     "intensity_level": "Vigorous",
-    "description": "Bài tập Gánh tạ đòn sâu (Back Squat) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị barbell với mức vận động MET 6.5.",
+    "description": "Bài tập Gánh tạ đòn Squat (Barbell Full Squat) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị barbell với mức vận động MET 6.0.",
     "equipment": "barbell",
     "instructions": [
       "This exercise is best performed inside a squat rack for safety purposes. To begin, first set the bar on a rack just above shoulder level. Once the correct height is chosen and the bar is loaded, step under the bar and place the back of your shoulders (slightly below the neck) across it.",
@@ -740,9 +1031,9 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Đầu gối chụm vào trong (knee valgus) khi nâng người lên",
-      "Nhấc gót chân khỏi sàn",
-      "Gù thắt lưng ở điểm sâu nhất của động tác"
+      "Sụp đầu gối vào trong (Knee Valgus) khi đạp tạ lên",
+      "Nhấc gót chân khỏi sàn khi xuống sâu",
+      "Cong tròn lưng dưới ở đáy chuyển động (Butt Wink)"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Full_Squat/0.jpg",
     "video_url": null,
@@ -754,19 +1045,20 @@
     ],
     "banned_for": [
       "knee_osteoarthritis",
-      "hypertension"
+      "meniscus_tear",
+      "herniated_disc"
     ],
-    "clinical_reasons": "Gập gối sâu tạo áp lực nén đỉnh điểm lên sụn chêm và xương bánh chè; gồng bụng nén tạ nặng làm huyết áp tăng vọt",
+    "clinical_reasons": "Tạo tải trọng nén cực đại lên sụn chêm, gân bánh chè và các đốt sống thắt lưng.",
     "source": "free-exercise-db"
   },
   {
-    "id": 26,
+    "id": 35,
     "category": "Strength",
     "name_vi": "Gánh tạ đòn trước (Front Squat)",
     "name_en": "Front Barbell Squat",
-    "met_value": 6.5,
+    "met_value": 6.0,
     "intensity_level": "Vigorous",
-    "description": "Bài tập Gánh tạ đòn trước (Front Squat) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị barbell với mức vận động MET 6.5.",
+    "description": "Bài tập Gánh tạ đòn trước (Front Squat) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị barbell với mức vận động MET 6.0.",
     "equipment": "barbell",
     "instructions": [
       "This exercise is best performed inside a squat rack for safety purposes. To begin, first set the bar on a rack that best matches your height. Once the correct height is chosen and the bar is loaded, bring your arms up under the bar while keeping the elbows high and the upper arm slightly above parallel to the floor. Rest the bar on top of the deltoids and cross your arms while grasping the bar for total control.",
@@ -777,8 +1069,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Hạ cùi chỏ xuống làm thanh tạ trượt khỏi vai",
-      "Gập người quá nhiều về phía trước"
+      "Hạ cùi chỏ xuống khiến thanh đòn bị tuột khỏi vai",
+      "Nghiêng người về phía trước thay vì giữ lưng thẳng"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Front_Barbell_Squat/0.jpg",
     "video_url": null,
@@ -789,19 +1081,19 @@
     ],
     "banned_for": [
       "knee_osteoarthritis",
-      "hypertension"
+      "wrist_pain"
     ],
-    "clinical_reasons": "Lực nén lớn lên khớp gối và nín thở gồng bụng dưới tải trọng lớn",
+    "clinical_reasons": "Dồn trọng tâm hoàn toàn vào mặt trước đầu gối và yêu cầu gập cổ tay chịu lực lớn.",
     "source": "free-exercise-db"
   },
   {
-    "id": 27,
+    "id": 36,
     "category": "Strength",
-    "name_vi": "Đạp đùi bằng máy (Leg Press)",
+    "name_vi": "Đạp đùi trên máy (Leg Press)",
     "name_en": "Leg Press",
     "met_value": 5.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Đạp đùi bằng máy (Leg Press) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị machine với mức vận động MET 5.5.",
+    "description": "Bài tập Đạp đùi trên máy (Leg Press) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị machine với mức vận động MET 5.5.",
     "equipment": "machine",
     "instructions": [
       "Using a leg press machine, sit down on the machine and place your legs on the platform directly in front of you at a medium (shoulder width) foot stance. (Note: For the purposes of this discussion we will use the medium stance described above which targets overall development; however you can choose any of the three stances described in the foot positioning section).",
@@ -811,8 +1103,8 @@
       "Repeat for the recommended amount of repetitions and ensure to lock the safety pins properly once you are done. You do not want that platform falling on you fully loaded."
     ],
     "common_mistakes": [
-      "Khóa chết khớp gối ở điểm duỗi tối đa",
-      "Nhấc mông và xương cụt khỏi đệm tựa khi hạ bàn đạp xuống sâu"
+      "Khóa thẳng khớp gối ở đỉnh chuyển động gây áp lực cực lớn lên khớp gối",
+      "Nhấc mông và xương cụt khỏi đệm lưng khi hạ bàn đạp xuống sâu"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Press/0.jpg",
     "video_url": null,
@@ -821,20 +1113,18 @@
       "Glutes",
       "Hamstrings"
     ],
-    "banned_for": [
-      "knee_osteoarthritis"
-    ],
-    "clinical_reasons": "Gập gối góc nhọn dưới tải trọng lớn tạo áp lực nén mạnh lên bao khớp gối",
+    "banned_for": [],
+    "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 28,
+    "id": 37,
     "category": "Strength",
-    "name_vi": "Chùng chân bước tới tạ đơn (Dumbbell Lunge)",
+    "name_vi": "Bước chùng chân tạ đơn (Dumbbell Lunges)",
     "name_en": "Dumbbell Lunges",
-    "met_value": 5.5,
+    "met_value": 5.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Chùng chân bước tới tạ đơn (Dumbbell Lunge) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị dumbbell với mức vận động MET 5.5.",
+    "description": "Bài tập Bước chùng chân tạ đơn (Dumbbell Lunges) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị dumbbell với mức vận động MET 5.0.",
     "equipment": "dumbbell",
     "instructions": [
       "Stand with your torso upright holding two dumbbells in your hands by your sides. This will be your starting position.",
@@ -843,8 +1133,8 @@
       "Repeat the movement for the recommended amount of repetitions and then perform with the left leg."
     ],
     "common_mistakes": [
-      "Đầu gối chân trước vượt quá xa đầu ngón chân",
-      "Thân mình bị nghiêng lệch vẹo sang một bên"
+      "Đầu gối chân trước lao quá xa vượt ngón chân",
+      "Thân người đổ quá nhiều về trước làm mất thăng bằng"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Lunges/0.jpg",
     "video_url": null,
@@ -856,44 +1146,74 @@
     "banned_for": [
       "knee_osteoarthritis"
     ],
-    "clinical_reasons": "Chịu tải đơn chân với lực cắt ngang lớn tác động trực tiếp lên dây chằng chéo và sụn gối",
+    "clinical_reasons": "Tạo lực lệch tâm và tải trọng một bên gối lớn khi bước chân về trước.",
     "source": "free-exercise-db"
   },
   {
-    "id": 29,
+    "id": 38,
     "category": "Stretching",
-    "name_vi": "Nâng chân duỗi thẳng trên thảm (Rear Leg Raise - An toàn khớp gối)",
+    "name_vi": "Đá chân sau tư thế quỳ bò (Rear Leg Raises)",
     "name_en": "Rear Leg Raises",
     "met_value": 2.8,
     "intensity_level": "Light",
-    "description": "Bài tập Nâng chân duỗi thẳng trên thảm (Rear Leg Raise - An toàn khớp gối) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị body only với mức vận động MET 2.8.",
+    "description": "Bài tập Đá chân sau tư thế quỳ bò (Rear Leg Raises) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị body only với mức vận động MET 2.8.",
     "equipment": "body only",
     "instructions": [
       "Place yourself on your hands knees on an exercise mat. Your head should be looking forward and the bend of the knees should create a 90-degree angle between the hamstrings and the calves. This will be your starting position.",
       "Extend one leg up and behind you. The knee and hip should both extend. Repeat for 5-10 repetitions, and then switch sides."
     ],
     "common_mistakes": [
-      "Võng lưng dưới khi nâng chân",
-      "Không gồng siết cơ đùi và cơ mông ở đỉnh chuyển động"
+      "Võng lưng dưới khi đá chân lên cao",
+      "Dùng đà lăng chân thay vì gồng siết kiểm soát chuyển động"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Rear_Leg_Raises/0.jpg",
     "video_url": null,
     "target_muscle": "Quadriceps",
     "secondary_muscle": [
-      "Glutes"
+      "Glutes",
+      "Hamstrings"
     ],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 30,
+    "id": 39,
     "category": "Strength",
-    "name_vi": "Deadlift kiểu Rumani (Romanian Deadlift - RDL)",
-    "name_en": "Romanian Deadlift",
-    "met_value": 5.5,
+    "name_vi": "Đá đùi trước trên máy chuyên dụng (Leg Extensions)",
+    "name_en": "Leg Extensions",
+    "met_value": 4.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Deadlift kiểu Rumani (Romanian Deadlift - RDL) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị barbell với mức vận động MET 5.5.",
+    "description": "Bài tập Đá đùi trước trên máy chuyên dụng (Leg Extensions) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị machine với mức vận động MET 4.5.",
+    "equipment": "machine",
+    "instructions": [
+      "For this exercise you will need to use a leg extension machine. First choose your weight and sit on the machine with your legs under the pad (feet pointed forward) and the hands holding the side bars. This will be your starting position. Tip: You will need to adjust the pad so that it falls on top of your lower leg (just above your feet). Also, make sure that your legs form a 90-degree angle between the lower and upper leg. If the angle is less than 90-degrees then that means the knee is over the toes which in turn creates undue stress at the knee joint. If the machine is designed that way, either look for another machine or just make sure that when you start executing the exercise you stop going down once you hit the 90-degree angle.",
+      "Using your quadriceps, extend your legs to the maximum as you exhale. Ensure that the rest of the body remains stationary on the seat. Pause a second on the contracted position.",
+      "Slowly lower the weight back to the original position as you inhale, ensuring that you do not go past the 90-degree angle limit.",
+      "Repeat for the recommended amount of times."
+    ],
+    "common_mistakes": [
+      "Đá giật tạ lên nhanh và để rơi tự do",
+      "Chỉnh con lăn đệm sai vị trí (quá cao trên cẳng chân hoặc quá thấp dưới bàn chân)"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Extensions/0.jpg",
+    "video_url": null,
+    "target_muscle": "Quadriceps",
+    "secondary_muscle": [],
+    "banned_for": [
+      "knee_osteoarthritis"
+    ],
+    "clinical_reasons": "Tạo lực cắt (shear force) mở rộng khớp gối trực tiếp lên gân bánh chè và sụn khớp.",
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 40,
+    "category": "Strength",
+    "name_vi": "Deadlift kiểu Romania (Romanian Deadlift - RDL)",
+    "name_en": "Romanian Deadlift",
+    "met_value": 6.0,
+    "intensity_level": "Vigorous",
+    "description": "Bài tập Deadlift kiểu Romania (Romanian Deadlift - RDL) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị barbell với mức vận động MET 6.0.",
     "equipment": "barbell",
     "instructions": [
       "Put a barbell in front of you on the ground and grab it using a pronated (palms facing down) grip that a little wider than shoulder width. Tip: Depending on the weight used, you may need wrist wraps to perform the exercise and also a raised platform in order to allow for better range of motion.",
@@ -903,8 +1223,9 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Trùng gối quá nhiều biến thành bài squat",
-      "Cong lưng dưới khi hạ thanh đòn xuống dưới gối"
+      "Gập đầu gối quá nhiều biến thành bài Squat",
+      "Gù lưng khi đẩy hông ra sau",
+      "Để tạ rơi ra xa cẳng chân"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Romanian_Deadlift/0.jpg",
     "video_url": null,
@@ -913,18 +1234,21 @@
       "Glutes",
       "Back"
     ],
-    "banned_for": [],
-    "clinical_reasons": null,
+    "banned_for": [
+      "lower_back_pain",
+      "herniated_disc"
+    ],
+    "clinical_reasons": "Căng tối đa cơ đùi sau đồng thời đòi hỏi nhóm cơ dựng sống giữ tải tĩnh lớn.",
     "source": "free-exercise-db"
   },
   {
-    "id": 31,
+    "id": 41,
     "category": "Strength",
-    "name_vi": "Nằm cuốn đùi sau máy (Lying Leg Curl)",
+    "name_vi": "Nằm móc đùi sau trên máy (Lying Leg Curl)",
     "name_en": "Lying Leg Curls",
-    "met_value": 4.0,
+    "met_value": 4.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Nằm cuốn đùi sau máy (Lying Leg Curl) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị machine với mức vận động MET 4.0.",
+    "description": "Bài tập Nằm móc đùi sau trên máy (Lying Leg Curl) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị machine với mức vận động MET 4.5.",
     "equipment": "machine",
     "instructions": [
       "Adjust the machine lever to fit your height and lie face down on the leg curl machine with the pad of the lever on the back of your legs (just a few inches under the calves). Tip: Preferably use a leg curl machine that is angled as opposed to flat since an angled position is more favorable for hamstrings recruitment.",
@@ -933,27 +1257,25 @@
       "As you inhale, bring the legs back to the initial position. Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Nhấc hông khỏi đệm khi cuộn chân",
-      "Để tạ rơi nhanh không ghìm lực"
+      "Nhấc hông khỏi đệm ghế khi cuộn tạ lên",
+      "Hạ tạ quá nhanh làm mất thời gian chịu áp lực của cơ bắp"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Leg_Curls/0.jpg",
     "video_url": null,
     "target_muscle": "Hamstrings",
-    "secondary_muscle": [
-      "Calves"
-    ],
+    "secondary_muscle": [],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 32,
+    "id": 42,
     "category": "Strength",
-    "name_vi": "Ngồi cuốn đùi sau máy (Seated Leg Curl)",
+    "name_vi": "Ngồi móc đùi sau trên máy (Seated Leg Curl)",
     "name_en": "Seated Leg Curl",
-    "met_value": 4.0,
+    "met_value": 4.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Ngồi cuốn đùi sau máy (Seated Leg Curl) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị machine với mức vận động MET 4.0.",
+    "description": "Bài tập Ngồi móc đùi sau trên máy (Seated Leg Curl) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị machine với mức vận động MET 4.5.",
     "equipment": "machine",
     "instructions": [
       "Adjust the machine lever to fit your height and sit on the machine with your back against the back support pad.",
@@ -963,26 +1285,25 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Không khóa chặt đệm giữ đùi khiến cơ thể bị trượt về trước"
+      "Không khóa đệm đùi sát vào chân khiến người bị nhấc lên khi co cơ",
+      "Gồng cứng cổ và vai thay vì tập trung vào đùi sau"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Leg_Curl/0.jpg",
     "video_url": null,
     "target_muscle": "Hamstrings",
-    "secondary_muscle": [
-      "Calves"
-    ],
+    "secondary_muscle": [],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 33,
+    "id": 43,
     "category": "Powerlifting",
-    "name_vi": "Gập người chào buổi sáng (Good Morning)",
+    "name_vi": "Gập người gánh tạ đòn (Good Morning)",
     "name_en": "Good Morning",
     "met_value": 5.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Gập người chào buổi sáng (Good Morning) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị barbell với mức vận động MET 5.0.",
+    "description": "Bài tập Gập người gánh tạ đòn (Good Morning) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị barbell với mức vận động MET 5.0.",
     "equipment": "barbell",
     "instructions": [
       "Begin with a bar on a rack at shoulder height. Rack the bar across the rear of your shoulders as you would a power squat, not on top of your shoulders. Keep your back tight, shoulder blades pinched together, and your knees slightly bent. Step back from the rack.",
@@ -990,8 +1311,8 @@
       "Reverse the motion by extending through the hips with your glutes and hamstrings. Continue until you have returned to the starting position."
     ],
     "common_mistakes": [
-      "Cong cột sống thắt lưng khi gập hông",
-      "Chọn mức tạ quá nặng gây quá tải cơ dựng sống"
+      "Gù lưng khi gập thân người xuống",
+      "Xuống quá sâu vượt quá biên độ căng của cơ đùi sau"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Good_Morning/0.jpg",
     "video_url": null,
@@ -1001,19 +1322,20 @@
       "Back"
     ],
     "banned_for": [
-      "hypertension"
+      "lower_back_pain",
+      "herniated_disc"
     ],
-    "clinical_reasons": "Tư thế dốc đầu xuống kết hợp gánh tạ đòn trên vai tạo áp lực tĩnh mạch lớn vùng đầu",
+    "clinical_reasons": "Cánh tay đòn dài đặt thanh tạ trên vai tạo mô-men uốn cực lớn tại đốt sống thắt lưng.",
     "source": "free-exercise-db"
   },
   {
-    "id": 34,
+    "id": 44,
     "category": "Olympic Weightlifting",
-    "name_vi": "Kéo tạ Clean Deadlift (Đùi sau & Lưng)",
+    "name_vi": "Deadlift cử tạ (Clean Deadlift)",
     "name_en": "Clean Deadlift",
     "met_value": 6.0,
     "intensity_level": "Vigorous",
-    "description": "Bài tập Kéo tạ Clean Deadlift (Đùi sau & Lưng) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị barbell với mức vận động MET 6.0.",
+    "description": "Bài tập Deadlift cử tạ (Clean Deadlift) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị barbell với mức vận động MET 6.0.",
     "equipment": "barbell",
     "instructions": [
       "Begin standing with a barbell close to your shins. Your feet should be directly under your hips with your feet turned out slightly. Grip the bar with a double overhand grip or hook grip, about shoulder width apart. Squat down to the bar. Your spine should be in full extension, with a back angle that places your shoulders in front of the bar and your back as vertical as possible.",
@@ -1021,25 +1343,60 @@
       "After the bar crosses the knees, complete the lift by driving the hips into the bar until your hips and knees are extended."
     ],
     "common_mistakes": [
-      "Nhấc mông trước khi vai di chuyển",
-      "Thanh đòn trôi xa cơ thể"
+      "Nhấc mông quá nhanh trước khi ngực kịp nâng lên",
+      "Kéo tạ bằng tay thay vì dùng lực đạp sàn của chân"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Clean_Deadlift/0.jpg",
     "video_url": null,
     "target_muscle": "Hamstrings",
     "secondary_muscle": [
       "Glutes",
-      "Back",
-      "Quadriceps"
+      "Quadriceps",
+      "Back"
     ],
     "banned_for": [
-      "hypertension"
+      "lower_back_pain",
+      "herniated_disc"
     ],
-    "clinical_reasons": "Nâng tạ nặng từ sàn kèm phản xạ nín thở làm tăng huyết áp nhanh",
+    "clinical_reasons": "Đòi hỏi lực bộc phát và áp lực tải trọng nén cao lên cột sống.",
     "source": "free-exercise-db"
   },
   {
-    "id": 35,
+    "id": 45,
+    "category": "Powerlifting",
+    "name_vi": "Kéo tạ đòn thế Sumo (Sumo Deadlift)",
+    "name_en": "Sumo Deadlift",
+    "met_value": 6.0,
+    "intensity_level": "Vigorous",
+    "description": "Bài tập Kéo tạ đòn thế Sumo (Sumo Deadlift) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị barbell với mức vận động MET 6.0.",
+    "equipment": "barbell",
+    "instructions": [
+      "Begin with a bar loaded on the ground. Approach the bar so that the bar intersects the middle of the feet. The feet should be set very wide, near the collars. Bend at the hips to grip the bar. The arms should be directly below the shoulders, inside the legs, and you can use a pronated grip, a mixed grip, or hook grip. Relax the shoulders, which in effect lengthens your arms.",
+      "Take a breath, and then lower your hips, looking forward with your head with your chest up. Drive through the floor, spreading your feet apart, with your weight on the back half of your feet. Extend through the hips and knees.",
+      "As the bar passes through the knees, lean back and drive the hips into the bar, pulling your shoulder blades together.",
+      "Return the weight to the ground by bending at the hips and controlling the weight on the way down."
+    ],
+    "common_mistakes": [
+      "Để đầu gối sụp vào trong khi đạp tạ lên",
+      "Không mở rộng khớp háng dẫn đến cong lưng dưới"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Sumo_Deadlift/0.jpg",
+    "video_url": null,
+    "target_muscle": "Hamstrings",
+    "secondary_muscle": [
+      "Glutes",
+      "Quadriceps",
+      "Back"
+    ],
+    "banned_for": [
+      "groin_strain",
+      "herniated_disc"
+    ],
+    "clinical_reasons": "Thế đứng rộng tạo áp lực kéo căng lớn lên các nhóm cơ khép đùi và khớp háng.",
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 46,
     "category": "Powerlifting",
     "name_vi": "Đẩy hông tạ đòn (Barbell Hip Thrust)",
     "name_en": "Barbell Hip Thrust",
@@ -1053,8 +1410,8 @@
       "Begin the movement by driving through your feet, extending your hips vertically through the bar. Your weight should be supported by your shoulder blades and your feet. Extend as far as possible, then reverse the motion to return to the starting position."
     ],
     "common_mistakes": [
-      "Võng lưng dưới ở đỉnh thay vì cuộn xương chậu siết mông",
-      "Đặt bàn chân quá xa hoặc quá gần thân người"
+      "Ưỡn lưng dưới ở đỉnh thay vì cuộn xương chậu siết mông (Posterior Pelvic Tilt)",
+      "Đặt chân quá xa làm ăn vào đùi sau, hoặc quá gần làm mỏi đùi trước"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Hip_Thrust/0.jpg",
     "video_url": null,
@@ -1067,13 +1424,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 36,
+    "id": 47,
     "category": "Powerlifting",
-    "name_vi": "Cầu mông tạ đòn nằm sàn (Barbell Glute Bridge)",
+    "name_vi": "Cầu mông tạ đòn trên sàn (Barbell Glute Bridge)",
     "name_en": "Barbell Glute Bridge",
     "met_value": 5.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Cầu mông tạ đòn nằm sàn (Barbell Glute Bridge) nhắm vào nhóm cơ Glutes, sử dụng thiết bị barbell với mức vận động MET 5.0.",
+    "description": "Bài tập Cầu mông tạ đòn trên sàn (Barbell Glute Bridge) nhắm vào nhóm cơ Glutes, sử dụng thiết bị barbell với mức vận động MET 5.0.",
     "equipment": "barbell",
     "instructions": [
       "Begin seated on the ground with a loaded barbell over your legs. Using a fat bar or having a pad on the bar can greatly reduce the discomfort caused by this exercise. Roll the bar so that it is directly above your hips, and lay down flat on the floor.",
@@ -1081,7 +1438,8 @@
       "Extend as far as possible, then reverse the motion to return to the starting position."
     ],
     "common_mistakes": [
-      "Đẩy bằng mũi chân thay vì đạp gót chân xuống sàn"
+      "Nhấc gót chân lên khỏi mặt sàn",
+      "Không giữ siết cơ mông 1 giây ở đỉnh động tác"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Glute_Bridge/0.jpg",
     "video_url": null,
@@ -1094,13 +1452,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 37,
+    "id": 48,
     "category": "Strength",
-    "name_vi": "Đá chân sau tập mông (Glute Kickback)",
+    "name_vi": "Đá mông sau dây cáp (Cable Glute Kickback)",
     "name_en": "Glute Kickback",
-    "met_value": 3.8,
+    "met_value": 4.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Đá chân sau tập mông (Glute Kickback) nhắm vào nhóm cơ Glutes, sử dụng thiết bị body only với mức vận động MET 3.8.",
+    "description": "Bài tập Đá mông sau dây cáp (Cable Glute Kickback) nhắm vào nhóm cơ Glutes, sử dụng thiết bị body only với mức vận động MET 4.0.",
     "equipment": "body only",
     "instructions": [
       "Kneel on the floor or an exercise mat and bend at the waist with your arms extended in front of you (perpendicular to the torso) in order to get into a kneeling push-up position but with the arms spaced at shoulder width. Your head should be looking forward and the bend of the knees should create a 90-degree angle between the hamstrings and the calves. This will be your starting position.",
@@ -1109,7 +1467,8 @@
       "Continue to alternate legs until all of the recommended repetitions have been performed."
     ],
     "common_mistakes": [
-      "Võng cột sống lưng dưới để đá chân lên cao"
+      "Võng lưng dưới khi đá chân ra sau",
+      "Dùng quán tính đung đưa người thay vì dùng cơ mông"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Glute_Kickback/0.jpg",
     "video_url": null,
@@ -1122,13 +1481,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 38,
+    "id": 49,
     "category": "Strength",
-    "name_vi": "Cầu mông thể trọng (Bodyweight Glute Bridge)",
+    "name_vi": "Cầu mông tay không (Bodyweight Glute Bridge)",
     "name_en": "Butt Lift (Bridge)",
     "met_value": 2.8,
     "intensity_level": "Light",
-    "description": "Bài tập Cầu mông thể trọng (Bodyweight Glute Bridge) nhắm vào nhóm cơ Glutes, sử dụng thiết bị body only với mức vận động MET 2.8.",
+    "description": "Bài tập Cầu mông tay không (Bodyweight Glute Bridge) nhắm vào nhóm cơ Glutes, sử dụng thiết bị body only với mức vận động MET 2.8.",
     "equipment": "body only",
     "instructions": [
       "Lie flat on the floor on your back with the hands by your side and your knees bent. Your feet should be placed around shoulder width. This will be your starting position.",
@@ -1136,27 +1495,27 @@
       "Slowly go back to the starting position as you breathe in."
     ],
     "common_mistakes": [
-      "Không dừng lại siết chặt cơ mông 1-2 giây ở điểm cao nhất"
+      "Dùng cơ lưng dưới đẩy hông lên thay vì gồng mông",
+      "Gót chân đặt quá xa mông"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Butt_Lift_Bridge/0.jpg",
     "video_url": null,
     "target_muscle": "Glutes",
     "secondary_muscle": [
-      "Hamstrings",
-      "Abs"
+      "Hamstrings"
     ],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 39,
+    "id": 50,
     "category": "Strength",
-    "name_vi": "Cầu mông đơn chân (Single Leg Glute Bridge)",
+    "name_vi": "Cầu mông một chân (Single Leg Glute Bridge)",
     "name_en": "Single Leg Glute Bridge",
-    "met_value": 4.0,
-    "intensity_level": "Moderate",
-    "description": "Bài tập Cầu mông đơn chân (Single Leg Glute Bridge) nhắm vào nhóm cơ Glutes, sử dụng thiết bị body only với mức vận động MET 4.0.",
+    "met_value": 2.8,
+    "intensity_level": "Light",
+    "description": "Bài tập Cầu mông một chân (Single Leg Glute Bridge) nhắm vào nhóm cơ Glutes, sử dụng thiết bị body only với mức vận động MET 2.8.",
     "equipment": "body only",
     "instructions": [
       "Lay on the floor with your feet flat and knees bent.",
@@ -1165,7 +1524,8 @@
       "Extend as far as possible, pause and then return to the starting position."
     ],
     "common_mistakes": [
-      "Hông bị nghiêng lệch sang bên chân đang nâng"
+      "Xương chậu bị lệch sang một bên khi nâng",
+      "Không siết chặt mông chân trụ"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Single_Leg_Glute_Bridge/0.jpg",
     "video_url": null,
@@ -1178,13 +1538,45 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 40,
+    "id": 51,
+    "category": "Strength",
+    "name_vi": "Bước lên bục cầm tạ đơn (Dumbbell Step Ups)",
+    "name_en": "Dumbbell Step Ups",
+    "met_value": 5.0,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Bước lên bục cầm tạ đơn (Dumbbell Step Ups) nhắm vào nhóm cơ Glutes, sử dụng thiết bị dumbbell với mức vận động MET 5.0.",
+    "equipment": "dumbbell",
+    "instructions": [
+      "Stand up straight while holding a dumbbell on each hand (palms facing the side of your legs).",
+      "Place the right foot on the elevated platform. Step on the platform by extending the hip and the knee of your right leg. Use the heel mainly to lift the rest of your body up and place the foot of the left leg on the platform as well. Breathe out as you execute the force required to come up.",
+      "Step down with the left leg by flexing the hip and knee of the right leg as you inhale. Return to the original standing position by placing the right foot of to next to the left foot on the initial position.",
+      "Repeat with the right leg for the recommended amount of repetitions and then perform with the left leg."
+    ],
+    "common_mistakes": [
+      "Dùng chân dưới bật nhảy thay vì dùng lực cơ mông đùi chân trên bục",
+      "Để đầu gối chân trước xoay vẹo vào trong"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Step_Ups/0.jpg",
+    "video_url": null,
+    "target_muscle": "Glutes",
+    "secondary_muscle": [
+      "Quadriceps",
+      "Hamstrings"
+    ],
+    "banned_for": [
+      "knee_instability"
+    ],
+    "clinical_reasons": "Đòi hỏi khả năng thăng bằng đơn chân và kiểm soát độ lệch trục xương bánh chè khi bước lên cao.",
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 52,
     "category": "Strength",
     "name_vi": "Nhón bắp chân đứng (Standing Calf Raise)",
     "name_en": "Standing Calf Raises",
-    "met_value": 4.0,
-    "intensity_level": "Moderate",
-    "description": "Bài tập Nhón bắp chân đứng (Standing Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị machine với mức vận động MET 4.0.",
+    "met_value": 2.8,
+    "intensity_level": "Light",
+    "description": "Bài tập Nhón bắp chân đứng (Standing Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị machine với mức vận động MET 2.8.",
     "equipment": "machine",
     "instructions": [
       "Adjust the padded lever of the calf raise machine to fit your height.",
@@ -1194,8 +1586,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Nhấp nhả dùng quán tính gân gót thay vì kéo dãn và siết cơ bắp chuối",
-      "Trùng gối khi nhón"
+      "Nhấp nhả nhanh không kéo căng tối đa ở đáy",
+      "Gập gối khi nhón chân làm giảm kích hoạt cơ bụng chân"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Calf_Raises/0.jpg",
     "video_url": null,
@@ -1206,13 +1598,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 41,
+    "id": 53,
     "category": "Strength",
     "name_vi": "Nhón bắp chân ngồi máy (Seated Calf Raise)",
     "name_en": "Seated Calf Raise",
-    "met_value": 2.8,
-    "intensity_level": "Light",
-    "description": "Bài tập Nhón bắp chân ngồi máy (Seated Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị machine với mức vận động MET 2.8.",
+    "met_value": 3.5,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Nhón bắp chân ngồi máy (Seated Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị machine với mức vận động MET 3.5.",
     "equipment": "machine",
     "instructions": [
       "Sit on the machine and place your toes on the lower portion of the platform provided with the heels extending off. Choose the toe positioning of your choice (forward, in, or out) as per the beginning of this chapter.",
@@ -1223,7 +1615,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Không hạ sâu gót chân để đạt độ căng tối đa của cơ dép (soleus)"
+      "Nhảy nhót lò xo thay vì chuyển động chậm rãi kiểm soát",
+      "Không hạ gót chân xuống sâu hết biên độ"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Calf_Raise/0.jpg",
     "video_url": null,
@@ -1234,13 +1627,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 42,
+    "id": 54,
     "category": "Strength",
-    "name_vi": "Nhón bắp chân trên máy đạp đùi (Calf Press on Leg Press)",
+    "name_vi": "Nhón bắp chân trên máy đạp đùi (Leg Press Calf Press)",
     "name_en": "Calf Press On The Leg Press Machine",
     "met_value": 4.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Nhón bắp chân trên máy đạp đùi (Calf Press on Leg Press) nhắm vào nhóm cơ Calves, sử dụng thiết bị machine với mức vận động MET 4.5.",
+    "description": "Bài tập Nhón bắp chân trên máy đạp đùi (Leg Press Calf Press) nhắm vào nhóm cơ Calves, sử dụng thiết bị machine với mức vận động MET 4.5.",
     "equipment": "machine",
     "instructions": [
       "Using a leg press machine, sit down on the machine and place your legs on the platform directly in front of you at a medium (shoulder width) foot stance.",
@@ -1250,7 +1643,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Khóa chết khớp gối gây rủi ro bật ngược khớp; cần giữ gối hơi chùng nhẹ"
+      "Để mũi chân trượt khỏi bàn đạp gây nguy hiểm",
+      "Khóa thẳng khớp gối hoàn toàn khi nhón chân"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Calf_Press_On_The_Leg_Press_Machine/0.jpg",
     "video_url": null,
@@ -1261,13 +1655,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 43,
+    "id": 55,
     "category": "Strength",
-    "name_vi": "Nhón bắp chân với máy Smith (Smith Machine Calf Raise)",
+    "name_vi": "Nhón bắp chân trên máy Smith (Smith Machine Calf Raise)",
     "name_en": "Smith Machine Calf Raise",
-    "met_value": 4.0,
+    "met_value": 4.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Nhón bắp chân với máy Smith (Smith Machine Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị machine với mức vận động MET 4.0.",
+    "description": "Bài tập Nhón bắp chân trên máy Smith (Smith Machine Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị machine với mức vận động MET 4.5.",
     "equipment": "machine",
     "instructions": [
       "Place a block or weight plate below the bar on the Smith machine. Set the bar to a position that best matches your height. Once the correct height is chosen and the bar is loaded, step onto the plates with the balls of your feet and place the bar on the back of your shoulders.",
@@ -1277,7 +1671,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Gập thân về trước để giảm tải"
+      "Không đứng trên bục kê để có biên độ duỗi sâu",
+      "Cong lưng khi gánh thanh đòn"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Smith_Machine_Calf_Raise/0.jpg",
     "video_url": null,
@@ -1288,13 +1683,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 44,
+    "id": 56,
     "category": "Strength",
-    "name_vi": "Nhón bắp chân bập bênh (Rocking Calf Raise)",
+    "name_vi": "Nhón bắp chân bập bênh (Rocking Standing Calf Raise)",
     "name_en": "Rocking Standing Calf Raise",
-    "met_value": 2.5,
+    "met_value": 2.6,
     "intensity_level": "Light",
-    "description": "Bài tập Nhón bắp chân bập bênh (Rocking Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị barbell với mức vận động MET 2.5.",
+    "description": "Bài tập Nhón bắp chân bập bênh (Rocking Standing Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị barbell với mức vận động MET 2.6.",
     "equipment": "barbell",
     "instructions": [
       "This exercise is best performed inside a squat rack for safety purposes. To begin, first set the bar on a rack that best matches your height. Once the correct height is chosen and the bar is loaded, step under the bar and place it on the back of your shoulders (slightly below the neck).",
@@ -1307,7 +1702,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Mất thăng bằng ngã người"
+      "Mất thăng bằng ngả nghiêng thân người",
+      "Thực hiện với nhịp độ quá nhanh"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Rocking_Standing_Calf_Raise/0.jpg",
     "video_url": null,
@@ -1318,22 +1714,49 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 45,
+    "id": 57,
     "category": "Strength",
-    "name_vi": "Plank giữ thân người (Plank)",
-    "name_en": "Plank",
-    "met_value": 3.8,
+    "name_vi": "Nhón bắp chân đứng cầm tạ đơn (Standing Dumbbell Calf Raise)",
+    "name_en": "Standing Dumbbell Calf Raise",
+    "met_value": 3.5,
     "intensity_level": "Moderate",
-    "description": "Bài tập Plank giữ thân người (Plank) nhắm vào nhóm cơ Abs, sử dụng thiết bị body only với mức vận động MET 3.8.",
+    "description": "Bài tập Nhón bắp chân đứng cầm tạ đơn (Standing Dumbbell Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị dumbbell với mức vận động MET 3.5.",
+    "equipment": "dumbbell",
+    "instructions": [
+      "Stand with your torso upright holding two dumbbells in your hands by your sides. Place the ball of the foot on a sturdy and stable wooden board (that is around 2-3 inches tall) while your heels extend off and touch the floor. This will be your starting position.",
+      "With the toes pointing either straight (to hit all parts equally), inwards (for emphasis on the outer head) or outwards (for emphasis on the inner head), raise the heels off the floor as you exhale by contracting the calves. Hold the top contraction for a second.",
+      "As you inhale, go back to the starting position by slowly lowering the heels.",
+      "Repeat for the recommended amount of times."
+    ],
+    "common_mistakes": [
+      "Nhún nhảy liên tục không dừng ở điểm căng tối đa",
+      "Hơi gập gối làm giảm áp lực dồn vào cơ bắp chân"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Dumbbell_Calf_Raise/0.jpg",
+    "video_url": null,
+    "target_muscle": "Calves",
+    "secondary_muscle": [],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 58,
+    "category": "Strength",
+    "name_vi": "Tư thế Plank gồng bụng (Plank)",
+    "name_en": "Plank",
+    "met_value": 3.5,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Tư thế Plank gồng bụng (Plank) nhắm vào nhóm cơ Abs, sử dụng thiết bị body only với mức vận động MET 3.5.",
     "equipment": "body only",
     "instructions": [
       "Get into a prone position on the floor, supporting your weight on your toes and your forearms. Your arms are bent and directly below the shoulder.",
       "Keep your body straight at all times, and hold this position as long as possible. To increase difficulty, an arm or leg can be raised."
     ],
     "common_mistakes": [
-      "Võng thắt lưng gây đau cột sống",
-      "Đẩy mông lên quá cao",
-      "Nín thở khi giữ tư thế"
+      "Võng lưng dưới gây đau cột sống thắt lưng",
+      "Chổng mông lên quá cao làm mất lực gồng cơ bụng",
+      "Ngửa cổ nhìn về phía trước thay vì nhìn xuống thảm"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank/0.jpg",
     "video_url": null,
@@ -1342,20 +1765,18 @@
       "Shoulders",
       "Glutes"
     ],
-    "banned_for": [
-      "hypertension"
-    ],
-    "clinical_reasons": "Co cơ tĩnh đẳng trường (isometric hold) kéo dài làm gia tăng sức cản mạch máu ngoại vi và huyết áp",
+    "banned_for": [],
+    "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
-    "id": 46,
+    "id": 59,
     "category": "Strength",
-    "name_vi": "Gập bụng cơ bản (Crunch)",
+    "name_vi": "Gập bụng tiêu chuẩn (Crunches)",
     "name_en": "Crunches",
-    "met_value": 3.5,
+    "met_value": 3.8,
     "intensity_level": "Moderate",
-    "description": "Bài tập Gập bụng cơ bản (Crunch) nhắm vào nhóm cơ Abs, sử dụng thiết bị body only với mức vận động MET 3.5.",
+    "description": "Bài tập Gập bụng tiêu chuẩn (Crunches) nhắm vào nhóm cơ Abs, sử dụng thiết bị body only với mức vận động MET 3.8.",
     "equipment": "body only",
     "instructions": [
       "Lie flat on your back with your feet flat on the ground, or resting on a bench with your knees bent at a 90 degree angle. If you are resting your feet on a bench, place them three to four inches apart and point your toes inward so they touch.",
@@ -1366,8 +1787,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Dùng tay kéo giật đốt sống cổ",
-      "Nhấc toàn bộ lưng dưới khỏi sàn thay vì chỉ cuộn xương bả vai"
+      "Dùng hai tay kéo mạnh gáy về phía trước gây đau cơ cổ",
+      "Nâng toàn bộ lưng dưới khỏi sàn biến thành động tác Sit-up"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Crunches/0.jpg",
     "video_url": null,
@@ -1378,13 +1799,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 47,
+    "id": 60,
     "category": "Strength",
-    "name_vi": "Xoay người kiểu Nga (Russian Twist)",
+    "name_vi": "Vặn người kiểu Nga (Russian Twist)",
     "name_en": "Russian Twist",
     "met_value": 4.0,
     "intensity_level": "Moderate",
-    "description": "Bài tập Xoay người kiểu Nga (Russian Twist) nhắm vào nhóm cơ Abs, sử dụng thiết bị body only với mức vận động MET 4.0.",
+    "description": "Bài tập Vặn người kiểu Nga (Russian Twist) nhắm vào nhóm cơ Abs, sử dụng thiết bị body only với mức vận động MET 4.0.",
     "equipment": "body only",
     "instructions": [
       "Lie down on the floor placing your feet either under something that will not move or by having a partner hold them. Your legs should be bent at the knees.",
@@ -1394,24 +1815,27 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Chỉ vung tay qua lại thay vì xoay toàn bộ thân trên từ cơ liên sườn"
+      "Chỉ di chuyển cánh tay qua lại mà không xoay vùng ngực và vai",
+      "Gù lưng tròn khi ngả người ra sau"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Russian_Twist/0.jpg",
     "video_url": null,
     "target_muscle": "Abs",
     "secondary_muscle": [],
-    "banned_for": [],
-    "clinical_reasons": null,
+    "banned_for": [
+      "herniated_disc"
+    ],
+    "clinical_reasons": "Chuyển động vặn xoắn cột sống thắt lưng có tải trọng làm tăng nguy cơ tổn thương vòng sợi đĩa đệm.",
     "source": "free-exercise-db"
   },
   {
-    "id": 48,
+    "id": 61,
     "category": "Strength",
-    "name_vi": "Treo người nâng chân gập bụng (Hanging Leg Raise)",
+    "name_vi": "Treo người nâng chân xà đơn (Hanging Leg Raise)",
     "name_en": "Hanging Leg Raise",
-    "met_value": 5.0,
-    "intensity_level": "Moderate",
-    "description": "Bài tập Treo người nâng chân gập bụng (Hanging Leg Raise) nhắm vào nhóm cơ Abs, sử dụng thiết bị body only với mức vận động MET 5.0.",
+    "met_value": 6.0,
+    "intensity_level": "Vigorous",
+    "description": "Bài tập Treo người nâng chân xà đơn (Hanging Leg Raise) nhắm vào nhóm cơ Abs, sử dụng thiết bị body only với mức vận động MET 6.0.",
     "equipment": "body only",
     "instructions": [
       "Hang from a chin-up bar with both arms extended at arms length in top of you using either a wide grip or a medium grip. The legs should be straight down with the pelvis rolled slightly backwards. This will be your starting position.",
@@ -1420,8 +1844,8 @@
       "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Đung đưa lấy đà cơ thể",
-      "Chỉ nâng đùi bằng cơ gấp hông mà không cuộn khung xương chậu"
+      "Lăng người lấy đà thay vì dùng cơ bụng dưới cuộn xương chậu",
+      "Thả rơi chân quá nhanh khi hạ xuống"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hanging_Leg_Raise/0.jpg",
     "video_url": null,
@@ -1434,13 +1858,13 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 49,
+    "id": 62,
     "category": "Strength",
-    "name_vi": "Lăn bánh xe tập bụng (Ab Roller Rollout)",
+    "name_vi": "Lăn bánh xe gập bụng (Ab Wheel Rollout)",
     "name_en": "Ab Roller",
-    "met_value": 5.5,
-    "intensity_level": "Moderate",
-    "description": "Bài tập Lăn bánh xe tập bụng (Ab Roller Rollout) nhắm vào nhóm cơ Abs, sử dụng thiết bị other với mức vận động MET 5.5.",
+    "met_value": 6.0,
+    "intensity_level": "Vigorous",
+    "description": "Bài tập Lăn bánh xe gập bụng (Ab Wheel Rollout) nhắm vào nhóm cơ Abs, sử dụng thiết bị other với mức vận động MET 6.0.",
     "equipment": "other",
     "instructions": [
       "Hold the Ab Roller with both hands and kneel on the floor.",
@@ -1449,8 +1873,8 @@
       "After a pause at the stretched position, start pulling yourself back to the starting position as you breathe out. Tip: Go slowly and keep your abs tight at all times."
     ],
     "common_mistakes": [
-      "Võng lưng dưới khi vươn ra xa",
-      "Dùng cơ xô kéo bánh xe về thay vì siết gập cơ bụng"
+      "Võng lưng dưới khi đẩy bánh xe ra xa",
+      "Dùng khớp hông kéo về thay vì gồng cuộn cơ bụng"
     ],
     "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Roller/0.jpg",
     "video_url": null,
@@ -1459,18 +1883,21 @@
       "Shoulders",
       "Back"
     ],
-    "banned_for": [],
-    "clinical_reasons": null,
+    "banned_for": [
+      "lower_back_pain",
+      "herniated_disc"
+    ],
+    "clinical_reasons": "Đòi hỏi sức mạnh cơ lõi cực lớn để chống lại lực võng lưng; dễ gây quá tải đốt sống thắt lưng.",
     "source": "free-exercise-db"
   },
   {
-    "id": 50,
+    "id": 63,
     "category": "Strength",
-    "name_vi": "Gập bụng 3/4 (3/4 Sit-up)",
+    "name_vi": "Gập bụng 3/4 kiểm soát (3/4 Sit-up)",
     "name_en": "3/4 Sit-Up",
-    "met_value": 3.8,
-    "intensity_level": "Moderate",
-    "description": "Bài tập Gập bụng 3/4 (3/4 Sit-up) nhắm vào nhóm cơ Abs, sử dụng thiết bị body only với mức vận động MET 3.8.",
+    "met_value": 2.8,
+    "intensity_level": "Light",
+    "description": "Bài tập Gập bụng 3/4 kiểm soát (3/4 Sit-up) nhắm vào nhóm cơ Abs, sử dụng thiết bị body only với mức vận động MET 2.8.",
     "equipment": "body only",
     "instructions": [
       "Lie down on the floor and secure your feet. Your legs should be bent at the knees.",
@@ -1492,411 +1919,63 @@
     "source": "free-exercise-db"
   },
   {
-    "id": 51,
-    "category": "Stretching",
-    "name_vi": "Giãn ngực vòng tay sau đầu (Behind Head Chest Stretch)",
-    "name_en": "Behind Head Chest Stretch",
-    "met_value": 2.3,
-    "intensity_level": "Light",
-    "description": "Bài tập Giãn ngực vòng tay sau đầu (Behind Head Chest Stretch) nhắm vào nhóm cơ Chest, sử dụng thiết bị other với mức vận động MET 2.3.",
-    "equipment": "other",
-    "instructions": [
-      "Sit upright on the floor with your partner behind you.",
-      "Place your hands behind your hand, and push your elbows back as far as you can. Your partner should hold your elbows. This will be your starting position.",
-      "Gently attempt to pull your elbows forward with your hands still behind your head for 10 or more seconds. Your partner should prevent your elbows from moving.",
-      "Now, relax your muscles and have your partner gently pull the elbows back as far as it comfortable for you. Be sure to let your partner know when the stretch is adequate to prevent overstretching or injury."
-    ],
-    "common_mistakes": [
-      "Gập cổ về phía trước thay vì giữ thẳng lưng và cổ",
-      "Kéo khuỷu tay quá giật cục gây chèn ép khớp vai"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Behind_Head_Chest_Stretch/0.jpg",
-    "video_url": null,
-    "target_muscle": "Chest",
-    "secondary_muscle": [
-      "Shoulders"
-    ],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 52,
-    "category": "Stretching",
-    "name_vi": "Tư thế em bé giãn lưng dưới (Child's Pose)",
-    "name_en": "Child's Pose",
-    "met_value": 2.0,
-    "intensity_level": "Light",
-    "description": "Bài tập Tư thế em bé giãn lưng dưới (Child's Pose) nhắm vào nhóm cơ Back, sử dụng thiết bị other với mức vận động MET 2.0.",
-    "equipment": "other",
-    "instructions": [
-      "Get on your hands and knees, walk your hands in front of you.",
-      "Lower your buttocks down to sit on your heels. Let your arms drag along the floor as you sit back to stretch your entire spine.",
-      "Once you settle onto your heels, bring your hands next to your feet and relax. \"breathe\" into your back. Rest your forehead on the floor. Avoid this position if you have knee problems."
-    ],
-    "common_mistakes": [
-      "Không thả lỏng cơ vai và hông",
-      "Nín thở khi giữ tư thế"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Childs_Pose/0.jpg",
-    "video_url": null,
-    "target_muscle": "Back",
-    "secondary_muscle": [
-      "Glutes"
-    ],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 53,
-    "category": "Stretching",
-    "name_vi": "Tư thế con mèo giãn cột sống lưng (Cat Stretch)",
-    "name_en": "Cat Stretch",
-    "met_value": 2.3,
-    "intensity_level": "Light",
-    "description": "Bài tập Tư thế con mèo giãn cột sống lưng (Cat Stretch) nhắm vào nhóm cơ Back, sử dụng thiết bị other với mức vận động MET 2.3.",
-    "equipment": "other",
-    "instructions": [
-      "Position yourself on the floor on your hands and knees.",
-      "Pull your belly in and round your spine, lower back, shoulders, and neck, letting your head drop.",
-      "Hold for 15 seconds."
-    ],
-    "common_mistakes": [
-      "Chuyển động quá nhanh làm mất kiểm soát khớp đốt sống",
-      "Không gập cằm về ngực khi uốn cong lưng"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cat_Stretch/0.jpg",
-    "video_url": null,
-    "target_muscle": "Back",
-    "secondary_muscle": [
-      "Shoulders"
-    ],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 54,
-    "category": "Stretching",
-    "name_vi": "Xoay vòng khớp vai khởi động (Arm Circles)",
-    "name_en": "Arm Circles",
-    "met_value": 2.5,
-    "intensity_level": "Light",
-    "description": "Bài tập Xoay vòng khớp vai khởi động (Arm Circles) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị other với mức vận động MET 2.5.",
-    "equipment": "other",
-    "instructions": [
-      "Stand up and extend your arms straight out by the sides. The arms should be parallel to the floor and perpendicular (90-degree angle) to your torso. This will be your starting position.",
-      "Slowly start to make circles of about 1 foot in diameter with each outstretched arm. Breathe normally as you perform the movement.",
-      "Continue the circular motion of the outstretched arms for about ten seconds. Then reverse the movement, going the opposite direction."
-    ],
-    "common_mistakes": [
-      "Xoay với biên độ quá nhanh và giật cục",
-      "Nhún vai lên tai thay vì giữ vai hạ lỏng tự nhiên"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Arm_Circles/0.jpg",
-    "video_url": null,
-    "target_muscle": "Shoulders",
-    "secondary_muscle": [],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 55,
-    "category": "Stretching",
-    "name_vi": "Giãn cơ vai bắt chéo tay (Shoulder Stretch)",
-    "name_en": "Shoulder Stretch",
-    "met_value": 2.3,
-    "intensity_level": "Light",
-    "description": "Bài tập Giãn cơ vai bắt chéo tay (Shoulder Stretch) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị other với mức vận động MET 2.3.",
-    "equipment": "other",
-    "instructions": [
-      "Reach your left arm across your body and hold it straight."
-    ],
-    "common_mistakes": [
-      "Nâng vai sát tai làm căng cứng cơ cổ",
-      "Xoay vặn toàn thân theo hướng cánh tay"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Shoulder_Stretch/0.jpg",
-    "video_url": null,
-    "target_muscle": "Shoulders",
-    "secondary_muscle": [],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 56,
-    "category": "Stretching",
-    "name_vi": "Giãn cơ vai sau và lưng trên (Upper Back Stretch)",
-    "name_en": "Upper Back Stretch",
-    "met_value": 2.3,
-    "intensity_level": "Light",
-    "description": "Bài tập Giãn cơ vai sau và lưng trên (Upper Back Stretch) nhắm vào nhóm cơ Rear Delts, sử dụng thiết bị other với mức vận động MET 2.3.",
-    "equipment": "other",
-    "instructions": [
-      "Clasp fingers together with your thumbs pointing down, round your shoulders as you reach your hands forward."
-    ],
-    "common_mistakes": [
-      "Gù lưng dưới thay vì tập trung mở rộng bả vai",
-      "Dùng lực kéo quá mạnh gây đau khớp khuỷu"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Upper_Back_Stretch/0.jpg",
-    "video_url": null,
-    "target_muscle": "Rear Delts",
-    "secondary_muscle": [
-      "Back"
-    ],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 57,
-    "category": "Stretching",
-    "name_vi": "Giãn cơ bắp tay trước đứng (Standing Biceps Stretch)",
-    "name_en": "Standing Biceps Stretch",
-    "met_value": 2.2,
-    "intensity_level": "Light",
-    "description": "Bài tập Giãn cơ bắp tay trước đứng (Standing Biceps Stretch) nhắm vào nhóm cơ Biceps, sử dụng thiết bị other với mức vận động MET 2.2.",
-    "equipment": "other",
-    "instructions": [
-      "Clasp your hands behind your back with your palms together, straighten arms and then rotate them so your palms face downward.",
-      "Raise your arms up and hold until you feel a stretch in your biceps."
-    ],
-    "common_mistakes": [
-      "Ưỡn bụng về phía trước để bù trừ biên độ khớp vai",
-      "Gập khuỷu tay thay vì duỗi thẳng nhẹ nhàng"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Biceps_Stretch/0.jpg",
-    "video_url": null,
-    "target_muscle": "Biceps",
-    "secondary_muscle": [
-      "Chest"
-    ],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 58,
-    "category": "Stretching",
-    "name_vi": "Giãn cơ bắp tay sau qua đầu (Overhead Triceps Stretch)",
-    "name_en": "Overhead Triceps",
-    "met_value": 2.2,
-    "intensity_level": "Light",
-    "description": "Bài tập Giãn cơ bắp tay sau qua đầu (Overhead Triceps Stretch) nhắm vào nhóm cơ Triceps, sử dụng thiết bị body only với mức vận động MET 2.2.",
-    "equipment": "body only",
-    "instructions": [
-      "Sit upright on the floor with your partner behind you. Raise one arm straight up, and flex the elbow, attempting to touch your hand to your back. Your parner should hold your elbow and wrist. This will be your starting position.",
-      "Attempt to extend the arm straight into the air as your partner prevents you from doing actually doing so.",
-      "After 10-20 seconds, relax the arm and allow your partner to further stretch the tricep by applying gentle pressure to the wrist. Hold for 10-20 seconds, and then switch sides."
-    ],
-    "common_mistakes": [
-      "Gập đầu về phía trước khiến cằm chạm ngực",
-      "Kéo cùi chỏ quá mạnh sang bên đối diện"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Overhead_Triceps/0.jpg",
-    "video_url": null,
-    "target_muscle": "Triceps",
-    "secondary_muscle": [
-      "Shoulders"
-    ],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 59,
-    "category": "Stretching",
-    "name_vi": "Giãn cơ tứ đầu đùi tư thế quỳ bò (All Fours Quad Stretch)",
-    "name_en": "All Fours Quad Stretch",
-    "met_value": 2.3,
-    "intensity_level": "Light",
-    "description": "Bài tập Giãn cơ tứ đầu đùi tư thế quỳ bò (All Fours Quad Stretch) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị body only với mức vận động MET 2.3.",
-    "equipment": "body only",
-    "instructions": [
-      "Start off on your hands and knees, then lift your leg off the floor and hold the foot with your hand.",
-      "Use your hand to hold the foot or ankle, keeping the knee fully flexed, stretching the quadriceps and hip flexors.",
-      "Focus on extending your hips, thrusting them towards the floor. Hold for 10-20 seconds and then switch sides."
-    ],
-    "common_mistakes": [
-      "Võng lưng dưới khi kéo gót chân về mông",
-      "Đặt đầu gối trên mặt sàn cứng không có thảm đệm"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/All_Fours_Quad_Stretch/0.jpg",
-    "video_url": null,
-    "target_muscle": "Quadriceps",
-    "secondary_muscle": [
-      "Glutes"
-    ],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 60,
-    "category": "Stretching",
-    "name_vi": "Giãn cơ đùi sau và bắp chân đứng (Standing Hamstring & Calf Stretch)",
-    "name_en": "Standing Hamstring and Calf Stretch",
-    "met_value": 2.4,
-    "intensity_level": "Light",
-    "description": "Bài tập Giãn cơ đùi sau và bắp chân đứng (Standing Hamstring & Calf Stretch) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị other với mức vận động MET 2.4.",
-    "equipment": "other",
-    "instructions": [
-      "Being by looping a belt, band, or rope around one foot. While standing, place that foot forward.",
-      "Bend your back leg, while keeping the front one straight. Now raise the toes of your front foot off of the ground and lean forward.",
-      "Using the belt, pull on the top of the foot to increase the stretch in the calf. Hold for 10-20 seconds and repeat with the other foot."
-    ],
-    "common_mistakes": [
-      "Cong tròn toàn bộ cột sống thay vì gập từ khớp hông",
-      "Khóa cứng khớp gối chân trước quá mức"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Hamstring_and_Calf_Stretch/0.jpg",
-    "video_url": null,
-    "target_muscle": "Hamstrings",
-    "secondary_muscle": [
-      "Calves"
-    ],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 61,
-    "category": "Stretching",
-    "name_vi": "Giãn cơ mông hình số 4 (Figure 4 Glute Stretch)",
-    "name_en": "Ankle On The Knee",
-    "met_value": 2.3,
-    "intensity_level": "Light",
-    "description": "Bài tập Giãn cơ mông hình số 4 (Figure 4 Glute Stretch) nhắm vào nhóm cơ Glutes, sử dụng thiết bị other với mức vận động MET 2.3.",
-    "equipment": "other",
-    "instructions": [
-      "From a lying position, bend your knees and keep your feet on the floor.",
-      "Place your ankle of one foot on your opposite knee.",
-      "Grasp the thigh or knee of the bottom leg and pull both of your legs into the chest. Relax your neck and shoulders. Hold for 10-20 seconds and then switch sides."
-    ],
-    "common_mistakes": [
-      "Nhấc mông và xương cụt khỏi thảm",
-      "Gồng cứng cơ cổ và vai khi kéo chân"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ankle_On_The_Knee/0.jpg",
-    "video_url": null,
-    "target_muscle": "Glutes",
-    "secondary_muscle": [
-      "Hamstrings"
-    ],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 62,
-    "category": "Stretching",
-    "name_vi": "Xoay khớp cổ chân thả lỏng (Ankle Circles)",
-    "name_en": "Ankle Circles",
-    "met_value": 2.0,
-    "intensity_level": "Light",
-    "description": "Bài tập Xoay khớp cổ chân thả lỏng (Ankle Circles) nhắm vào nhóm cơ Calves, sử dụng thiết bị other với mức vận động MET 2.0.",
-    "equipment": "other",
-    "instructions": [
-      "Use a sturdy object like a squat rack to hold yourself.",
-      "Lift the right leg in the air (just around 2 inches from the floor) and perform a circular motion with the big toe. Pretend that you are drawing a big circle with it. Tip: One circle equals 1 repetition. Breathe normally as you perform the movement.",
-      "When you are done with the right foot, then repeat with the left leg."
-    ],
-    "common_mistakes": [
-      "Xoay giật cục hoặc dùng cả cẳng chân thay vì chỉ xoay khớp cổ chân"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ankle_Circles/0.jpg",
-    "video_url": null,
-    "target_muscle": "Calves",
-    "secondary_muscle": [],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
-    "id": 63,
-    "category": "Stretching",
-    "name_vi": "Giãn bắp chân chống tường (Standing Calf Stretch)",
-    "name_en": "Standing Gastrocnemius Calf Stretch",
-    "met_value": 2.3,
-    "intensity_level": "Light",
-    "description": "Bài tập Giãn bắp chân chống tường (Standing Calf Stretch) nhắm vào nhóm cơ Calves, sử dụng thiết bị other với mức vận động MET 2.3.",
-    "equipment": "other",
-    "instructions": [
-      "Place your right heel on a step with your knee extended and lean forward to grab your right toe with your right hand. Your left knee should be slightly bent and your back should be straight.",
-      "Support your weight on your left leg and place your left hand on your left thigh.",
-      "Pull your right toes toward your knee until you feel a stretch in your calf."
-    ],
-    "common_mistakes": [
-      "Nhấc gót chân sau lên khỏi mặt sàn",
-      "Bàn chân sau xoay hướng ra ngoài thay vì hướng thẳng về trước"
-    ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Gastrocnemius_Calf_Stretch/0.jpg",
-    "video_url": null,
-    "target_muscle": "Calves",
-    "secondary_muscle": [
-      "Hamstrings"
-    ],
-    "banned_for": [],
-    "clinical_reasons": null,
-    "source": "free-exercise-db"
-  },
-  {
     "id": 64,
-    "category": "Stretching",
-    "name_vi": "Nghiêng xương chậu kết hợp nâng hông nhẹ (Pelvic Tilt Bridge)",
-    "name_en": "Pelvic Tilt Into Bridge",
-    "met_value": 2.4,
-    "intensity_level": "Light",
-    "description": "Bài tập Nghiêng xương chậu kết hợp nâng hông nhẹ (Pelvic Tilt Bridge) nhắm vào nhóm cơ Abs, sử dụng thiết bị other với mức vận động MET 2.4.",
-    "equipment": "other",
+    "category": "Strength",
+    "name_vi": "Đạp xe gập bụng liên sườn (Air Bike / Bicycle Crunch)",
+    "name_en": "Air Bike",
+    "met_value": 4.5,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Đạp xe gập bụng liên sườn (Air Bike / Bicycle Crunch) nhắm vào nhóm cơ Abs, sử dụng thiết bị body only với mức vận động MET 4.5.",
+    "equipment": "body only",
     "instructions": [
-      "Lie down with your feet on the floor, heels directly under your knees.",
-      "Lift only your tailbone to the ceiling to stretch your lower back. (Don't lift the entire spine yet.) Pull in your stomach.",
-      "To go into a bridge, lift the entire spine except the neck."
+      "Lie flat on the floor with your lower back pressed to the ground. For this exercise, you will need to put your hands beside your head. Be careful however to not strain with the neck as you perform it. Now lift your shoulders into the crunch position.",
+      "Bring knees up to where they are perpendicular to the floor, with your lower legs parallel to the floor. This will be your starting position.",
+      "Now simultaneously, slowly go through a cycle pedal motion kicking forward with the right leg and bringing in the knee of the left leg. Bring your right elbow close to your left knee by crunching to the side, as you breathe out.",
+      "Go back to the initial position as you breathe in.",
+      "Crunch to the opposite side as you cycle your legs and bring closer your left elbow to your right knee and exhale.",
+      "Continue alternating in this manner until all of the recommended repetitions for each side have been completed."
     ],
     "common_mistakes": [
-      "Ưỡn lưng trên quá cao làm mất kiểm soát cơ bụng dưới",
-      "Không siết nhẹ cơ sàn chậu và cơ bụng"
+      "Kéo mạnh cổ về phía trước gây đau cơ gáy",
+      "Chỉ vặn cùi chỏ thay vì xoay chuyển toàn bộ vùng vai và ngực"
     ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pelvic_Tilt_Into_Bridge/0.jpg",
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Air_Bike/0.jpg",
     "video_url": null,
     "target_muscle": "Abs",
-    "secondary_muscle": [
-      "Glutes"
-    ],
+    "secondary_muscle": [],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"
   },
   {
     "id": 65,
-    "category": "Stretching",
-    "name_vi": "Vặn mình gập gối giãn cơ liên sườn và lưng (Knee Across The Body)",
-    "name_en": "Knee Across The Body",
-    "met_value": 2.3,
-    "intensity_level": "Light",
-    "description": "Bài tập Vặn mình gập gối giãn cơ liên sườn và lưng (Knee Across The Body) nhắm vào nhóm cơ Abs, sử dụng thiết bị other với mức vận động MET 2.3.",
-    "equipment": "other",
+    "category": "Strength",
+    "name_vi": "Gập bụng quỳ dây cáp (Cable Crunch)",
+    "name_en": "Cable Crunch",
+    "met_value": 4.5,
+    "intensity_level": "Moderate",
+    "description": "Bài tập Gập bụng quỳ dây cáp (Cable Crunch) nhắm vào nhóm cơ Abs, sử dụng thiết bị cable với mức vận động MET 4.5.",
+    "equipment": "cable",
     "instructions": [
-      "Lie down on the floor with your right leg straight. Bend your left leg and lower it across your body, holding the knee down toward the floor with your right hand. (The knee doesn't need to touch the floor if you're tight.)",
-      "Place your left arm comfortably beside you and turn your head to the left. Imagine you have a weight tied to your tailbone. let your tailbone fall back toward the floor as your chest reaches in the opposite direction to stretch your lower back. Switch sides."
+      "Kneel below a high pulley that contains a rope attachment.",
+      "Grasp cable rope attachment and lower the rope until your hands are placed next to your face.",
+      "Flex your hips slightly and allow the weight to hyperextend the lower back. This will be your starting position.",
+      "With the hips stationary, flex the waist as you contract the abs so that the elbows travel towards the middle of the thighs. Exhale as you perform this portion of the movement and hold the contraction for a second.",
+      "Slowly return to the starting position as you inhale. Tip: Make sure that you keep constant tension on the abs throughout the movement. Also, do not choose a weight so heavy that the lower back handles the brunt of the work.",
+      "Repeat for the recommended amount of repetitions."
     ],
     "common_mistakes": [
-      "Để vai cùng bên nhấc bổng khỏi mặt sàn",
-      "Dùng tay kéo gối ép mạnh đột ngột xuống sàn"
+      "Gập từ khớp hông ngồi lùi mông ra sau thay vì cuộn tròn cơ bụng",
+      "Dùng cánh tay kéo dây thừng xuống thay vì dùng lực co thắt cơ bụng"
     ],
-    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Knee_Across_The_Body/0.jpg",
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Crunch/0.jpg",
     "video_url": null,
     "target_muscle": "Abs",
-    "secondary_muscle": [
-      "Glutes"
+    "secondary_muscle": [],
+    "banned_for": [
+      "lower_back_pain"
     ],
-    "banned_for": [],
-    "clinical_reasons": null,
+    "clinical_reasons": "Gập cột sống dưới tải trọng đối kháng liên tục cần kiểm soát tốt để tránh chèn ép đĩa đệm.",
     "source": "free-exercise-db"
   }
 ]
