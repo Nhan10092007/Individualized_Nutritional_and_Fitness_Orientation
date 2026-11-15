@@ -5,6 +5,7 @@ import { AuthProvider } from "./context/AuthContext";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
+import ExercisesPage from "./pages/exercises/ExercisesPage";
 import NutritionPage from "./pages/nutrition/NutritionPage";
 import OnboardingPage from "./pages/onboarding/OnboardingPage";
 import ProfilePage from "./pages/profile/ProfilePage";
@@ -30,6 +31,7 @@ export default function App() {
             <Route element={<AppLayout />}>
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/workout" element={<WorkoutPage />} />
+              <Route path="/exercises" element={<ExercisesPage />} />
               <Route path="/nutrition" element={<NutritionPage />} />
               <Route path="/progress" element={<ProgressPage />} />
               <Route path="/profile" element={<ProfilePage />} />

@@ -1,65 +1,108 @@
-import {
-  Activity,
-  ArrowRight,
-  CalendarDays,
-  Coffee,
-  Dumbbell,
-  Flame,
-  User,
-  Wallet,
-} from "lucide-react";
+import { CalendarDays, Coffee, Flame, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import heroSlide1 from "../../assets/pullups_man_workout_121789_1600x900.jpg";
+import heroSlide2 from "../../assets/gym-couple-1600x900.jpg";
+import heroSlide3 from "../../assets/kai-greene-g0-1600x900.jpg";
 import { useAuth } from "../../context/useAuth";
 
-const GOAL_LABELS = {
-  fat_loss: "Giảm mỡ",
-  muscle_gain: "Tăng cơ",
-  maintain: "Duy trì vóc dáng",
-};
-
-const LEVEL_LABELS = {
-  beginner: "Mới bắt đầu",
-  experienced: "Có kinh nghiệm",
-  advanced: "Nâng cao",
-};
-
-const WEEK_DAYS = [
-  { key: "Mon", short: "T2", full: "Thứ 2" },
-  { key: "Tue", short: "T3", full: "Thứ 3" },
-  { key: "Wed", short: "T4", full: "Thứ 4" },
-  { key: "Thu", short: "T5", full: "Thứ 5" },
-  { key: "Fri", short: "T6", full: "Thứ 6" },
-  { key: "Sat", short: "T7", full: "Thứ 7" },
-  { key: "Sun", short: "CN", full: "Chủ nhật" },
+const HERO_SLIDES = [
+  {
+    src: heroSlide1,
+    alt: "Không gian tập luyện thể hình",
+    eyebrow: "Sức mạnh & Kỷ luật",
+    tagline: "Kỷ luật tạo nên bứt phá",
+    caption:
+      "Từng hiệp tập chuẩn kỹ thuật giúp bạn tiến gần hơn tới mục tiêu thể chất mỗi ngày.",
+  },
+  {
+    src: heroSlide2,
+    alt: "Rèn luyện sức khỏe và thể lực",
+    eyebrow: "Bền bỉ mỗi ngày",
+    tagline: "Tập luyện bền bỉ mỗi ngày",
+    caption:
+      "Duy trì nhịp vận động đều đặn để nâng cao sức bền, vóc dáng và tinh thần tích cực.",
+  },
+  {
+    src: heroSlide3,
+    alt: "Lối sống năng động và dinh dưỡng cân bằng",
+    eyebrow: "Khoa học & Cân bằng",
+    tagline: "Cân bằng tập luyện & dinh dưỡng",
+    caption:
+      "Kết hợp lịch tập cá nhân hóa cùng thực đơn chuẩn calo để tối ưu hiệu quả dài lâu.",
+  },
 ];
 
 const JS_DAY_TO_KEY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-function getBmiInfo(bmi) {
-  if (bmi == null) return { label: "Chưa có", badgeClass: "badge" };
-  if (bmi < 18.5) return { label: "Thiếu cân", badgeClass: "badge badge-warning" };
-  if (bmi < 25) return { label: "Bình thường", badgeClass: "badge badge-success" };
-  if (bmi < 30) return { label: "Thừa cân", badgeClass: "badge badge-warning" };
-  return { label: "Béo phì", badgeClass: "badge badge-danger" };
-}
+const WORKFLOW_STEPS = [
+  {
+    step: "01",
+    title: "Thiết lập hồ sơ",
+    desc: "Cung cấp chiều cao, cân nặng, độ tuổi, mục tiêu thể chất, lịch rảnh trong tuần, ngân sách và bệnh nền nếu có.",
+  },
+  {
+    step: "02",
+    title: "Phân tích & Sàng lọc",
+    desc: "Hệ thống tự động tính BMR, TDEE, BMI, nhu cầu Calo/Macro mục tiêu và loại trừ các bài tập có rủi ro y khoa.",
+  },
+  {
+    step: "03",
+    title: "Lập lịch tự động",
+    desc: "Sinh lịch tập phân chia nhóm cơ khoa học cùng thực đơn 7 ngày cân đối dinh dưỡng trong mức chi tiêu.",
+  },
+];
 
-function formatBudgetTier(tier) {
-  if (tier === "tier_50k_to_100k") return "Tiết kiệm (50k – 100k/ngày)";
-  if (tier === "tier_over_100k") return "Thoải mái (Trên 100k/ngày)";
-  return tier || "Chưa thiết lập";
-}
+const FEATURE_CARDS = [
+  {
+    tag: "01 · Tập luyện",
+    title: "Lịch tập luyện cá nhân hóa",
+    description:
+      "Tự động lựa chọn mô hình chia lịch Full Body, Upper/Lower hoặc Push/Pull/Legs theo số ngày rảnh trong tuần và trình độ của bạn.",
+    highlights: [
+      "Tính toán số hiệp, số lần lặp và thời gian nghỉ giữa hiệp/giữa bài",
+      "Lọc an toàn theo bệnh nền và xem hướng dẫn bài tập ngay trên lịch",
+    ],
+    to: "/workout",
+    cta: "Mở Lịch tập luyện →",
+  },
+  {
+    tag: "02 · Tra cứu",
+    title: "Kho lưu trữ bài tập",
+    description:
+      "Thư viện bài tập hỗ trợ tìm kiếm nhanh theo tên, dụng cụ, nhóm cơ chính và mức độ cường độ vận động.",
+    highlights: [
+      "Xem chỉ số MET, lượng calo tiêu hao ước tính, dụng cụ và nhóm cơ phụ",
+      "Hướng dẫn thực hiện từng bước cùng lưu ý chống chỉ định y khoa",
+    ],
+    to: "/exercises",
+    cta: "Khám phá Kho bài tập →",
+  },
+  {
+    tag: "03 · Dinh dưỡng",
+    title: "Thực đơn dinh dưỡng 7 ngày",
+    description:
+      "Tự động phân bổ 3 bữa Sáng · Trưa · Tối cho cả tuần dựa trên mức Calo và tỷ lệ Đạm · Tinh bột · Chất béo mục tiêu.",
+    highlights: [
+      "Kiểm soát chi phí trung bình ngày nằm trong phạm vi ngân sách thiết lập",
+      "Theo dõi chi tiết khẩu phần, khối lượng món ăn và tổng quan từng ngày",
+    ],
+    to: "/nutrition",
+    cta: "Xem Thực đơn dinh dưỡng →",
+  },
+  {
+    tag: "04 · Cá nhân hóa",
+    title: "Hồ sơ & Chỉ số cơ thể",
+    description:
+      "Trung tâm lưu trữ toàn bộ thông số nhân trắc học, mục tiêu tăng cơ/giảm mỡ/duy trì và các ràng buộc sức khỏe cá nhân.",
+    highlights: [
+      "Cập nhật nhanh các chỉ số BMR, TDEE, BMI và cân nặng lý tưởng",
+      "Điều chỉnh lịch rảnh hoặc ngân sách để tái tạo lộ trình mới tức thì",
+    ],
+    to: "/profile",
+    cta: "Quản lý Hồ sơ cá nhân →",
+  },
+];
 
 function formatTodayVi(date) {
   const dayNames = [
@@ -80,393 +123,151 @@ function formatTodayVi(date) {
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const [activeSlide, setActiveSlide] = useState(0);
 
-  const bio = user?.biometrics || {};
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
   const targets = user?.plan_targets || {};
-  const macros = targets?.macro_split || {};
-  const constraints = user?.constraints || {};
-
   const availableDays = Array.isArray(targets.available_days)
     ? targets.available_days
     : [];
   const durationMins = Number(targets.session_duration_mins || 0);
-  const weeklyMinutes = availableDays.length * durationMins;
 
   const now = new Date();
   const todayKey = JS_DAY_TO_KEY[now.getDay()];
   const isTrainingToday = availableDays.includes(todayKey);
-
-  const bmr = Number(targets.bmr_kcal || 0);
-  const tdee = Number(targets.tdee_kcal || 0);
-  const targetKcal = Number(targets.target_calorie_kcal || 0);
-  const calorieDelta = tdee > 0 && targetKcal > 0 ? Math.round(targetKcal - tdee) : 0;
-
-  let calorieDeltaText = "Cân bằng theo TDEE";
-  if (calorieDelta < 0) {
-    calorieDeltaText = `Thâm hụt ${Math.abs(calorieDelta).toLocaleString("vi-VN")} kcal/ngày`;
-  } else if (calorieDelta > 0) {
-    calorieDeltaText = `Thặng dư +${calorieDelta.toLocaleString("vi-VN")} kcal/ngày`;
-  }
-
-  const proteinG = Number(macros.protein_g || 0);
-  const carbG = Number(macros.carb_g || 0);
-  const fatG = Number(macros.fat_g || 0);
-
-  const proteinKcal = proteinG * 4;
-  const carbKcal = carbG * 4;
-  const fatKcal = fatG * 9;
-  const totalMacroKcal = proteinKcal + carbKcal + fatKcal;
-
-  const macroChartData = [
-    {
-      name: "Protein (Đạm)",
-      grams: proteinG,
-      kcal: proteinKcal,
-      pct: totalMacroKcal > 0 ? Math.round((proteinKcal / totalMacroKcal) * 100) : 0,
-      color: "#059669",
-    },
-    {
-      name: "Carbohydrate (Tinh bột)",
-      grams: carbG,
-      kcal: carbKcal,
-      pct: totalMacroKcal > 0 ? Math.round((carbKcal / totalMacroKcal) * 100) : 0,
-      color: "#2563eb",
-    },
-    {
-      name: "Fat (Chất béo)",
-      grams: fatG,
-      kcal: fatKcal,
-      pct: totalMacroKcal > 0 ? Math.round((fatKcal / totalMacroKcal) * 100) : 0,
-      color: "#f59e0b",
-    },
-  ];
-
-  const hasMacroData = totalMacroKcal > 0;
-  const energyData = [
-    { name: "BMR", value: bmr, color: "#64748b" },
-    { name: "TDEE", value: tdee, color: "#2563eb" },
-    { name: "Mục tiêu", value: targetKcal, color: "#059669" },
-  ];
-
-  const bmiInfo = getBmiInfo(bio.bmi);
+  const currentSlide = HERO_SLIDES[activeSlide];
 
   return (
     <div className="dash-stack">
-      {/* Hero Banner */}
-      <section className="dash-hero">
-        <div>
+      {/* Hero Banner with Auto-cycling Background Slideshow */}
+      <section className="dash-hero dash-hero-banner">
+        <div className="dash-hero-bg" aria-hidden="true">
+          {HERO_SLIDES.map((slide, index) => (
+            <img
+              key={slide.src}
+              src={slide.src}
+              alt={slide.alt}
+              className={
+                index === activeSlide
+                  ? "dash-hero-slide active"
+                  : "dash-hero-slide"
+              }
+            />
+          ))}
+          <div className="dash-hero-overlay" />
+        </div>
+
+        <div className="dash-hero-top">
           <div className="dash-hero-badges">
             <span className="badge">
-              <CalendarDays size={13} />
+              <CalendarDays size={15} />
               <span>{formatTodayVi(now)}</span>
             </span>
             {isTrainingToday ? (
-              <span className="badge badge-success">
-                <Flame size={13} />
+              <span className="badge">
+                <Flame size={15} />
                 <span>Hôm nay: Ngày tập luyện ({durationMins || 45} phút)</span>
               </span>
             ) : (
-              <span className="badge badge-accent">
-                <Coffee size={13} />
+              <span className="badge">
+                <Coffee size={15} />
                 <span>Hôm nay: Ngày nghỉ phục hồi</span>
               </span>
             )}
           </div>
 
-          <h1 className="dash-hero-title">
-            Xin chào, {user?.full_name || "bạn"}!
-          </h1>
-          <p className="dash-hero-desc">
-            Lộ trình cá nhân hóa trình độ{" "}
-            <strong>{LEVEL_LABELS[targets.fitness_level] || "tiêu chuẩn"}</strong> với mục
-            tiêu{" "}
-            <strong>
-              {targetKcal > 0 ? `${targetKcal.toLocaleString("vi-VN")} kcal/ngày` : "cân bằng"}
-            </strong>{" "}
-            và tần suất <strong>{availableDays.length} buổi/tuần</strong>.
+          <span className="badge dash-hero-slide-badge">
+            <Sparkles size={15} />
+            <span>{currentSlide.eyebrow}</span>
+          </span>
+        </div>
+
+        <div className="dash-hero-bottom">
+          <div className="dash-hero-copy">
+            <h1 className="dash-hero-title">
+              Xin chào, {user?.full_name || "bạn"}!
+            </h1>
+            <div key={activeSlide} className="dash-hero-slide-copy">
+              <p className="dash-hero-tagline">{currentSlide.tagline}</p>
+              <p className="dash-hero-caption">{currentSlide.caption}</p>
+            </div>
+          </div>
+
+          <div className="dash-hero-dots" aria-label="Chuyển ảnh nền">
+            {HERO_SLIDES.map((slide, index) => (
+              <button
+                key={slide.src}
+                type="button"
+                onClick={() => setActiveSlide(index)}
+                className={
+                  index === activeSlide
+                    ? "dash-hero-dot active"
+                    : "dash-hero-dot"
+                }
+                aria-label={`Ảnh nền ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Web Introduction */}
+      <section className="dash-card">
+        <div className="dash-intro-header">
+          <span className="dash-section-eyebrow">Giới thiệu nền tảng</span>
+          <h2 className="dash-intro-title">
+            Hệ thống lập kế hoạch tập luyện &amp; dinh dưỡng cá nhân hóa
+          </h2>
+          <p className="dash-intro-desc">
+            Ứng dụng giúp bạn xây dựng lộ trình rèn luyện sức khỏe khoa học và
+            đồng bộ trên một nền tảng duy nhất: từ phân tích chỉ số cơ thể,
+            sàng lọc bài tập an toàn theo bệnh lý nền đến tự động lập lịch tập
+            theo tuần và thực đơn ăn uống phù hợp ngân sách hằng ngày.
           </p>
         </div>
 
-        <div className="dash-hero-actions">
-          <Link to="/profile" className="btn btn-primary">
-            <User size={16} />
-            <span>Hồ sơ &amp; Khảo sát</span>
-          </Link>
-        </div>
-      </section>
-
-      {/* 4 KPI Cards */}
-      <section className="dash-kpi-grid">
-        <div className="dash-kpi-card">
-          <div className="dash-kpi-top">
-            <span className="dash-kpi-label">Calo mục tiêu / ngày</span>
-            <span className="dash-icon-badge dash-icon-emerald">
-              <Flame size={18} />
-            </span>
-          </div>
-          <div className="dash-kpi-value">
-            {targetKcal > 0 ? `${targetKcal.toLocaleString("vi-VN")} kcal` : "-"}
-          </div>
-          <div className="dash-kpi-sub">
-            <span>{calorieDeltaText}</span>
-          </div>
-        </div>
-
-        <div className="dash-kpi-card">
-          <div className="dash-kpi-top">
-            <span className="dash-kpi-label">Cân nặng &amp; BMI</span>
-            <span className="dash-icon-badge dash-icon-blue">
-              <Activity size={18} />
-            </span>
-          </div>
-          <div className="dash-kpi-value">
-            {bio.weight_kg != null ? `${bio.weight_kg} kg` : "-"}
-          </div>
-          <div className="dash-kpi-sub">
-            <span className={bmiInfo.badgeClass}>
-              BMI {bio.bmi ?? "-"} • {bmiInfo.label}
-            </span>
-            {bio.ibw_kg != null && <span>Lý tưởng: {bio.ibw_kg} kg</span>}
-          </div>
-        </div>
-
-        <div className="dash-kpi-card">
-          <div className="dash-kpi-top">
-            <span className="dash-kpi-label">Lịch tập hàng tuần</span>
-            <span className="dash-icon-badge dash-icon-violet">
-              <Dumbbell size={18} />
-            </span>
-          </div>
-          <div className="dash-kpi-value">{availableDays.length} buổi / tuần</div>
-          <div className="dash-kpi-sub">
-            <span>
-              {durationMins > 0
-                ? `${durationMins} phút/buổi • Tổng ${weeklyMinutes} phút`
-                : "Chưa thiết lập thời lượng"}
-            </span>
-          </div>
-        </div>
-
-        <div className="dash-kpi-card">
-          <div className="dash-kpi-top">
-            <span className="dash-kpi-label">Ngân sách dinh dưỡng</span>
-            <span className="dash-icon-badge dash-icon-amber">
-              <Wallet size={18} />
-            </span>
-          </div>
-          <div className="dash-kpi-value">
-            {constraints.daily_budget_vnd != null
-              ? `${Number(constraints.daily_budget_vnd).toLocaleString("vi-VN")} ₫`
-              : "-"}
-          </div>
-          <div className="dash-kpi-sub">
-            <span>{formatBudgetTier(constraints.budget_tier)}</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Charts Row */}
-      <section className="dash-two-col">
-        {/* Macro Breakdown Donut */}
-        <div className="dash-card">
-          <div className="dash-card-header">
-            <div>
-              <h2 className="dash-card-title">Phân bổ Macro mục tiêu</h2>
-              <p className="dash-card-subtitle">
-                Tỷ lệ năng lượng từ Đạm, Tinh bột và Chất béo mỗi ngày
-              </p>
+        <div className="dash-workflow-grid">
+          {WORKFLOW_STEPS.map((item) => (
+            <div key={item.step} className="dash-workflow-step">
+              <span className="dash-step-num">{item.step}</span>
+              <h3 className="dash-step-title">{item.title}</h3>
+              <p className="dash-step-desc">{item.desc}</p>
             </div>
-            <span className="badge badge-success">
-              {GOAL_LABELS[targets.fitness_goal] || "Mục tiêu"}
-            </span>
-          </div>
+          ))}
+        </div>
+      </section>
 
-          {hasMacroData ? (
-            <div className="dash-macro-layout">
-              <div className="dash-donut-wrap">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={macroChartData}
-                      dataKey="kcal"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={58}
-                      outerRadius={82}
-                      paddingAngle={3}
-                      stroke="none"
-                    >
-                      {macroChartData.map((entry) => (
-                        <Cell key={entry.name} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      formatter={(value, name) => [`${value} kcal`, name]}
-                      contentStyle={{
-                        backgroundColor: "#ffffff",
-                        border: "1px solid #e2e8f0",
-                        borderRadius: "10px",
-                        fontSize: "13px",
-                      }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-                <div className="dash-donut-center">
-                  <span className="dash-donut-kcal">
-                    {targetKcal > 0
-                      ? targetKcal.toLocaleString("vi-VN")
-                      : totalMacroKcal.toLocaleString("vi-VN")}
-                  </span>
-                  <span className="dash-donut-unit">kcal / ngày</span>
-                </div>
-              </div>
+      {/* Main Features */}
+      <section className="dash-features-section">
+        <div className="dash-section-heading">
+          <span className="dash-section-eyebrow">Các chức năng chính</span>
+          <h2 className="dash-card-title">Khám phá công cụ trên hệ thống</h2>
+        </div>
 
-              <div className="dash-macro-list">
-                {macroChartData.map((item) => (
-                  <div key={item.name} className="dash-macro-item">
-                    <div className="dash-macro-row">
-                      <span className="dash-macro-name">
-                        <span
-                          className="dash-macro-dot"
-                          style={{ backgroundColor: item.color }}
-                        />
-                        {item.name}
-                      </span>
-                      <span className="dash-macro-stats">
-                        {item.grams} g ({item.pct}%)
-                      </span>
-                    </div>
-                    <div className="dash-progress-track">
-                      <div
-                        className="dash-progress-fill"
-                        style={{
-                          width: `${item.pct}%`,
-                          backgroundColor: item.color,
-                        }}
-                      />
-                    </div>
-                  </div>
+        <div className="dash-features-grid">
+          {FEATURE_CARDS.map((feature) => (
+            <article key={feature.to} className="dash-card dash-feature-card">
+              <span className="dash-feature-tag">{feature.tag}</span>
+              <h3 className="dash-feature-title">{feature.title}</h3>
+              <p className="dash-feature-desc">{feature.description}</p>
+              <ul className="dash-feature-list">
+                {feature.highlights.map((line) => (
+                  <li key={line}>{line}</li>
                 ))}
+              </ul>
+              <div className="dash-feature-footer">
+                <Link to={feature.to} className="dash-feature-link">
+                  {feature.cta}
+                </Link>
               </div>
-            </div>
-          ) : (
-            <p className="page-description">Chưa có dữ liệu Macro để hiển thị.</p>
-          )}
-        </div>
-
-        {/* Energy Balance Bar Chart */}
-        <div className="dash-card">
-          <div className="dash-card-header">
-            <div>
-              <h2 className="dash-card-title">Cân bằng năng lượng (kcal)</h2>
-              <p className="dash-card-subtitle">
-                So sánh BMR, tổng tiêu hao TDEE và lượng calo mục tiêu
-              </p>
-            </div>
-          </div>
-
-          <div style={{ width: "100%", height: 195 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={energyData}
-                margin={{ top: 10, right: 12, left: -12, bottom: 0 }}
-                barSize={44}
-              >
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis
-                  dataKey="name"
-                  tick={{ fill: "#475569", fontSize: 13, fontWeight: 600 }}
-                  axisLine={{ stroke: "#e2e8f0" }}
-                  tickLine={false}
-                />
-                <YAxis
-                  tick={{ fill: "#64748b", fontSize: 12 }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <Tooltip
-                  cursor={{ fill: "#f8fafc" }}
-                  formatter={(value) => [`${Number(value).toLocaleString("vi-VN")} kcal`, "Năng lượng"]}
-                  contentStyle={{
-                    backgroundColor: "#ffffff",
-                    border: "1px solid #e2e8f0",
-                    borderRadius: "10px",
-                    fontSize: "13px",
-                  }}
-                />
-                <Bar dataKey="value" radius={[8, 8, 0, 0]}>
-                  {energyData.map((entry) => (
-                    <Cell key={entry.name} fill={entry.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className="dash-energy-notes">
-            <div className="dash-energy-pill">
-              <div className="dash-energy-pill-label">Chuyển hóa cơ bản</div>
-              <div className="dash-energy-pill-val">
-                {bmr > 0 ? `${bmr.toLocaleString("vi-VN")} kcal` : "-"}
-              </div>
-            </div>
-            <div className="dash-energy-pill">
-              <div className="dash-energy-pill-label">Tiêu hao cả ngày</div>
-              <div className="dash-energy-pill-val">
-                {tdee > 0 ? `${tdee.toLocaleString("vi-VN")} kcal` : "-"}
-              </div>
-            </div>
-            <div className="dash-energy-pill">
-              <div className="dash-energy-pill-label">Mục tiêu nạp</div>
-              <div className="dash-energy-pill-val" style={{ color: "var(--primary)" }}>
-                {targetKcal > 0 ? `${targetKcal.toLocaleString("vi-VN")} kcal` : "-"}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Bottom Row: Full-width Weekly Schedule */}
-      <section className="dash-card">
-        <div className="dash-card-header">
-          <div>
-            <h2 className="dash-card-title">Lịch tập trong tuần</h2>
-            <p className="dash-card-subtitle">
-              Các ngày bạn đã chọn sẵn sàng cho buổi tập cá nhân hóa
-            </p>
-          </div>
-          <Link
-            to="/workout"
-            className="btn btn-secondary"
-            style={{ padding: "6px 12px", fontSize: "13px" }}
-          >
-            <span>Chi tiết</span>
-            <ArrowRight size={14} />
-          </Link>
-        </div>
-
-        <div className="dash-week-grid">
-          {WEEK_DAYS.map((day) => {
-            const isWorkout = availableDays.includes(day.key);
-            const isToday = day.key === todayKey;
-            let cardClass = "dash-day-card";
-            if (isWorkout) cardClass += " workout";
-            if (isToday) cardClass += " today";
-
-            return (
-              <div key={day.key} className={cardClass} title={day.full}>
-                <span className="dash-day-name">{day.full}</span>
-                <span className="dash-day-icon">
-                  {isWorkout ? <Dumbbell size={15} /> : <Coffee size={15} />}
-                </span>
-                <span className="dash-day-status">
-                  {isWorkout ? `${durationMins || 45} phút` : "Ngày nghỉ"}
-                </span>
-                {isToday && <span className="dash-today-tag">Hôm nay</span>}
-              </div>
-            );
-          })}
+            </article>
+          ))}
         </div>
       </section>
     </div>
