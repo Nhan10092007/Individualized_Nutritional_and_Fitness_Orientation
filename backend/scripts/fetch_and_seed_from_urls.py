@@ -1,136 +1,83 @@
 """
 fetch_and_seed_from_urls.py
 =============================================================================
-SCRIPT TỰ ĐỘNG NẠP DATASET TRỰC TIẾP TỪ CÁC ĐƯỜNG DẪN URL TRÊN INTERNET:
-1. GitHub Compendium (Raw CSV): Tải tự động 800+ hoạt động từ Ainsworth 2011.
-   URL: https://raw.githubusercontent.com/andyreagan/compendium-of-physical-activity/master/compendiumofphysicalactivities.csv
-2. USDA FoodData Central (REST API): Gọi API trực tiếp từ USDA lấy dinh dưỡng 100g.
-   Endpoint: https://api.nal.usda.gov/fdc/v1/foods/search
-3. FAO Vietnamese Food Composition (PDF): Tải file PDF chính thức từ FAO về thư mục data/
-   URL: https://www.fao.org/fileadmin/templates/food_composition/documents/pdf/VTN_FCT_2007.pdf
-4. Kaggle Exercise Dataset: Hỗ trợ nạp file exercise_dataset.csv hoặc tải từ mirror.
+SCRIPT TỰ ĐỘNG TẢI RAW DATASET TỪ INTERNET VỀ backend/data/raw/ VÀ CHẠY ETL ORM:
+1. GitHub free-exercise-db (`exercises.json`) + ánh xạ Asset URLs (Step 2)
+2. GitHub Compendium (`compendium_github.csv`) - Ainsworth 2011 (Step 1 + 3 + 4)
+3. USDA FoodData Central REST API - lấy dinh dưỡng chuẩn 100g
+4. Bảng thành phần dinh dưỡng thực phẩm Việt Nam 2017 (PDF Viện Dinh Dưỡng - Bộ Y Tế)
+5. Kaggle `exercise_dataset.csv` (nếu đã đặt trong `backend/data/raw/`)
 
 Cách chạy (từ thư mục backend/):  python -m scripts.fetch_and_seed_from_urls
-Dữ liệu được ghi qua SQLAlchemy ORM (SessionLocal), không dùng sqlite3 thuần.
 =============================================================================
 """
 
-import os
-import csv
 import json
-import urllib.request
+import os
 import urllib.parse
+import urllib.request
 
-from app.config import BACKEND_DIR
-from app.database import SessionLocal, init_db
-from app.models import Exercise, Food
-from scripts.common import upsert_by_code
+from scripts.etl import (
+    RAW_DATA_DIR,
+    AssetHandler,
+    download_file,
+    extract_compendium_csv,
+    extract_exercises_json,
+    extract_kaggle_exercise_csv,
+    load_exercises,
+    load_foods,
+    transform_compendium_rows,
+    transform_exercises_json,
+    transform_kaggle_rows,
+    VIETNAM_FCT_2017_PDF_NAME,
+    check_vietnam_fct_2017_pdf,
+)
 
-DATA_DIR = BACKEND_DIR / "data"
-DATA_DIR.mkdir(exist_ok=True)
-
-# 1. Các URL nguồn chính thống
-GITHUB_COMPENDIUM_RAW_URL = "https://raw.githubusercontent.com/andyreagan/compendium-of-physical-activity/master/compendiumofphysicalactivities.csv"
-FAO_VIETNAM_PDF_URL = "https://www.fao.org/fileadmin/templates/food_composition/documents/pdf/VTN_FCT_2007.pdf"
 USDA_API_ENDPOINT = "https://api.nal.usda.gov/fdc/v1/foods/search"
-USDA_API_KEY = "DEMO_KEY"  # Key dùng thử chính thức do USDA cấp công khai
+USDA_API_KEY = "DEMO_KEY"
 
 
-# =============================================================================
-# A. TẢI VÀ NẠP TOÀN BỘ 800+ BÀI TẬP TỪ GITHUB COMPENDIUM RAW URL
-# =============================================================================
-def fetch_and_seed_compendium_from_github():
-    print("\n[1/4] Đang kết nối tới GitHub Compendium Raw URL...")
-    print(f"      URL: {GITHUB_COMPENDIUM_RAW_URL}")
-    local_csv = DATA_DIR / "compendium_github.csv"
-    
-    try:
-        req = urllib.request.Request(
-            GITHUB_COMPENDIUM_RAW_URL, 
-            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-        )
-        with urllib.request.urlopen(req, timeout=15) as response, open(local_csv, "wb") as out_file:
-            out_file.write(response.read())
-        print(f"      [✓] Đã tải xong file CSV về: {local_csv}")
-    except Exception as e:
-        print(f"      [!] Lỗi khi tải từ GitHub URL: {e}")
-        print("      (Nếu chạy offline hoặc không có mạng, script sẽ bỏ qua bước này).")
+def fetch_and_seed_exercises_json_from_github() -> int:
+    print("\n[1/5] Extract & Transform GitHub free-exercise-db (exercises.json)...")
+    raw_items = extract_exercises_json(download_if_missing=True)
+    if not raw_items:
+        print("      [!] Không lấy được exercises.json.")
         return 0
-
-    init_db()
-    db = SessionLocal()
-    count = 0
-
-    with open(local_csv, mode="r", encoding="utf-8-sig", errors="ignore") as f:
-        # File compendium của repo dùng delimiter là dấu gạch đứng '|'
-        reader = csv.reader(f, delimiter="|")
-        header = next(reader, None)
-        
-        for row in reader:
-            if len(row) < 4:
-                continue
-            
-            code = row[0].strip()
-            met_str = row[1].strip()
-            major_heading = row[2].strip()
-            specific_activity = row[3].strip()
-
-            try:
-                met = float(met_str)
-            except ValueError:
-                continue
-
-            if met <= 0 or not specific_activity:
-                continue
-
-            # Phân loại cường độ
-            if met < 3.0:
-                intensity = "Light"
-            elif met < 6.0:
-                intensity = "Moderate"
-            else:
-                intensity = "Vigorous"
-
-            name_en = specific_activity
-            name_vi = f"{specific_activity} ({major_heading})"
-
-            # Tương đương INSERT OR REPLACE theo cột code
-            upsert_by_code(
-                db, Exercise, code,
-                category=major_heading, name_vi=name_vi, name_en=name_en, met_value=met,
-                intensity_level=intensity, description=f"Compendium Code {code} - {major_heading}",
-                source="GitHub Ainsworth 2011",
-            )
-            count += 1
-
-    db.commit()
-    db.close()
-    print(f"      [✓] Đã nạp thành công {count} bài tập tự động từ GitHub vào SQLite Database!")
-    return count
+    records = transform_exercises_json(raw_items, asset_handler=AssetHandler())
+    created, updated = load_exercises(records, replace=True)
+    print(f"      [✓] exercises.json: tạo mới {created}, cập nhật {updated} bài tập.")
+    return created + updated
 
 
-# =============================================================================
-# B. TẢI VÀ NẠP DỮ LIỆU THỰC PHẨM TRỰC TIẾP TỪ REST API CỦA USDA
-# =============================================================================
-def fetch_and_seed_usda_from_api(food_queries=None):
+def fetch_and_seed_compendium_from_github() -> int:
+    print("\n[2/5] Extract & Transform GitHub Compendium (compendium_github.csv)...")
+    raw_rows = extract_compendium_csv(download_if_missing=True)
+    if not raw_rows:
+        print("      [!] Không lấy được compendium_github.csv.")
+        return 0
+    records = transform_compendium_rows(raw_rows)
+    created, updated = load_exercises(records, replace=True)
+    print(f"      [✓] Compendium 2011: tạo mới {created}, cập nhật {updated} bài tập.")
+    return created + updated
+
+
+def fetch_and_seed_usda_from_api(food_queries: list[str] | None = None) -> int:
     if food_queries is None:
         food_queries = [
-            "Chicken breast raw", "Beef tenderloin raw", "Salmon raw", 
-            "Egg whole raw", "Rolled oats", "Brown rice raw", 
-            "Broccoli raw", "Avocado raw", "Almonds", "Sweet potato raw"
+            "Chicken breast raw", "Beef tenderloin raw", "Salmon raw",
+            "Egg whole raw", "Rolled oats", "Brown rice raw",
+            "Broccoli raw", "Avocado raw", "Almonds", "Sweet potato raw",
         ]
 
-    print("\n[2/4] Đang gọi trực tiếp REST API của USDA FoodData Central...")
-    init_db()
-    db = SessionLocal()
-    count = 0
+    print("\n[3/5] Đang gọi REST API của USDA FoodData Central...")
+    food_records: list[dict] = []
 
     for query in food_queries:
         params = urllib.parse.urlencode({
             "api_key": USDA_API_KEY,
             "query": query,
             "dataType": "Foundation,SR Legacy",
-            "pageSize": 1
+            "pageSize": 1,
         })
         url = f"{USDA_API_ENDPOINT}?{params}"
 
@@ -138,112 +85,90 @@ def fetch_and_seed_usda_from_api(food_queries=None):
             req = urllib.request.Request(url, headers={"User-Agent": "FitnessNutritionApp/1.0"})
             with urllib.request.urlopen(req, timeout=10) as response:
                 data = json.loads(response.read().decode("utf-8"))
-                
-                foods = data.get("foods", [])
-                if not foods:
-                    continue
 
-                item = foods[0]
-                fdc_id = f"USDA_{item.get('fdcId')}"
-                name_en = item.get("description", query)
-                name_vi = f"{query} (Chuẩn USDA FDC)"
-                category = item.get("foodCategory", "Thực phẩm quốc tế")
+            foods = data.get("foods", [])
+            if not foods:
+                continue
 
-                # Trích xuất 4 chỉ số Macro & Calo trên 100g từ foodNutrients
-                cal_100g, protein_100g, fat_100g, carbs_100g, fiber_100g = 0.0, 0.0, 0.0, 0.0, 0.0
-                for n in item.get("foodNutrients", []):
-                    name = n.get("nutrientName", "").lower()
-                    val = float(n.get("value", 0.0))
-                    if "energy" in name and (n.get("unitName") == "KCAL" or val < 1000):
-                        cal_100g = val
-                    elif "protein" in name:
-                        protein_100g = val
-                    elif "total lipid" in name or "fat" in name:
-                        fat_100g = val
-                    elif "carbohydrate" in name:
-                        carbs_100g = val
-                    elif "fiber" in name:
-                        fiber_100g = val
+            item = foods[0]
+            fdc_id = f"USDA_{item.get('fdcId')}"
+            name_en = item.get("description", query)
+            category = item.get("foodCategory", "Thực phẩm quốc tế")
 
-                # Tương đương INSERT OR REPLACE theo cột code
-                upsert_by_code(
-                    db, Food, fdc_id,
-                    name_vi=name_vi, name_en=name_en, category=category, source="USDA",
-                    serving_unit="100g", serving_weight_g=100.0, calories_100g=cal_100g,
-                    protein_100g=protein_100g, fat_100g=fat_100g, carbs_100g=carbs_100g,
-                    fiber_100g=fiber_100g, estimated_price_vnd=20000.0, diet_type="all",
-                    notes="Dữ liệu trực tiếp từ USDA REST API",
-                )
-                count += 1
-                print(f"      [✓] Đã nạp từ USDA: {name_en} ({cal_100g} kcal/100g, P:{protein_100g}g, F:{fat_100g}g, C:{carbs_100g}g)")
-        except Exception as e:
-            print(f"      [!] Lỗi khi gọi API cho '{query}': {e}")
+            cal_100g = protein_100g = fat_100g = carbs_100g = fiber_100g = 0.0
+            for n in item.get("foodNutrients", []):
+                name = n.get("nutrientName", "").lower()
+                val = float(n.get("value", 0.0))
+                if "energy" in name and (n.get("unitName") == "KCAL" or val < 1000):
+                    cal_100g = val
+                elif "protein" in name:
+                    protein_100g = val
+                elif "total lipid" in name or "fat" in name:
+                    fat_100g = val
+                elif "carbohydrate" in name:
+                    carbs_100g = val
+                elif "fiber" in name:
+                    fiber_100g = val
 
-    db.commit()
-    db.close()
-    print(f"      [✓] Hoàn tất nạp {count} thực phẩm trực tiếp từ USDA FoodData Central API!")
-    return count
+            food_records.append({
+                "code": fdc_id,
+                "name_vi": f"{query} (Chuẩn USDA FDC)",
+                "name_en": name_en,
+                "category": category,
+                "source": "USDA",
+                "serving_unit": "100g",
+                "serving_weight_g": 100.0,
+                "calories_100g": cal_100g,
+                "protein_100g": protein_100g,
+                "fat_100g": fat_100g,
+                "carbs_100g": carbs_100g,
+                "fiber_100g": fiber_100g,
+                "estimated_price_vnd": 20000.0,
+                "diet_type": "all",
+                "notes": "Dữ liệu trực tiếp từ USDA REST API",
+            })
+        except Exception as exc:
+            print(f"      [!] Lỗi khi gọi API cho '{query}': {exc}")
+
+    created, updated = load_foods(food_records, replace=True)
+    print(f"      [✓] USDA API: tạo mới {created}, cập nhật {updated} thực phẩm.")
+    return created + updated
 
 
-# =============================================================================
-# C. TẢI FILE GỐC FAO VIỆT NAM (VTN_FCT_2007.pdf) TỪ URL CHÍNH THỐNG
-# =============================================================================
-def download_fao_vietnam_fct_pdf():
-    print("\n[3/4] Đang tải file gốc Bảng thành phần thực phẩm Việt Nam từ FAO...")
-    print(f"      URL: {FAO_VIETNAM_PDF_URL}")
-    local_pdf = DATA_DIR / "VTN_FCT_2007.pdf"
-
-    if local_pdf.exists():
-        print(f"      [i] File PDF đã tồn tại sẵn tại: {local_pdf}")
+def verify_vietnam_fct_pdf() -> bool:
+    print("\n[4/5] Kiểm tra file Bảng thành phần dinh dưỡng thực phẩm Việt Nam 2017 (PDF)...")
+    local_pdf = check_vietnam_fct_2017_pdf()
+    if local_pdf:
+        size_kb = os.path.getsize(local_pdf) // 1024
+        print(f"      [✓] Đã có sẵn file PDF chuẩn 2017: {local_pdf.name} ({size_kb} KB)")
         return True
-
-    try:
-        req = urllib.request.Request(
-            FAO_VIETNAM_PDF_URL, 
-            headers={"User-Agent": "Mozilla/5.0"}
-        )
-        with urllib.request.urlopen(req, timeout=30) as response, open(local_pdf, "wb") as out_file:
-            out_file.write(response.read())
-        print(f"      [✓] Tải thành công file PDF Viện Dinh Dưỡng/FAO ({os.path.getsize(local_pdf) // 1024} KB) về thư mục data/.")
-        return True
-    except Exception as e:
-        print(f"      [!] Không thể tải PDF từ FAO: {e}")
-        return False
+    print(f"      [!] Chưa tìm thấy file '{VIETNAM_FCT_2017_PDF_NAME}' trong {RAW_DATA_DIR}")
+    return False
 
 
-# =============================================================================
-# D. NẠP DỮ LIỆU TỪ KAGGLE EXERCISE DATASET (NẾU CÓ FILE TRONG DATA/)
-# =============================================================================
-def seed_from_kaggle_csv():
-    print("\n[4/4] Kiểm tra file Kaggle 'exercise_dataset.csv'...")
-    local_kaggle = DATA_DIR / "exercise_dataset.csv"
-    if not local_kaggle.exists():
-        print("      [i] File 'exercise_dataset.csv' chưa có trong thư mục backend/data/.")
-        print("          (Kaggle bắt buộc đăng nhập tài khoản để tải; nếu bạn đã tải về máy, hãy chép file vào backend/data/)")
+def seed_from_kaggle_csv() -> int:
+    print("\n[5/5] Kiểm tra Kaggle 'exercise_dataset.csv' trong backend/data/raw/...")
+    raw_rows = extract_kaggle_exercise_csv()
+    if not raw_rows:
+        print("      [i] Chưa có 'backend/data/raw/exercise_dataset.csv'.")
         return 0
-
-    from scripts.import_kaggle_github import import_kaggle_exercise_csv
-    import_kaggle_exercise_csv(str(local_kaggle))
-    return 1
+    records = transform_kaggle_rows(raw_rows)
+    created, updated = load_exercises(records, replace=False)
+    print(f"      [✓] Kaggle CSV: tạo mới {created}, bỏ qua trùng/cập nhật {updated} bài tập.")
+    return created + updated
 
 
 if __name__ == "__main__":
     print("=" * 70)
-    print(" BẮT ĐẦU QUY TRÌNH NẠP DỮ LIỆU TỰ ĐỘNG TỪ CÁC LINK URL TRỰC TUYẾN")
+    print(" BẮT ĐẦU QUY TRÌNH EXTRACT & SEED TỰ ĐỘNG (SQLAlchemy ORM)")
     print("=" * 70)
-    
-    # 1. Kéo 800+ bài tập từ GitHub Raw
+
+    fetch_and_seed_exercises_json_from_github()
     fetch_and_seed_compendium_from_github()
-    
-    # 2. Gọi REST API USDA lấy thực phẩm
     fetch_and_seed_usda_from_api()
-    
-    # 3. Tải PDF FAO
-    download_fao_vietnam_fct_pdf()
-    
-    # 4. Kiểm tra Kaggle file
+    verify_vietnam_fct_pdf()
     seed_from_kaggle_csv()
 
     print("\n" + "=" * 70)
-    print(" TỔNG KẾT HOÀN TẤT QUY TRÌNH TỰ ĐỘNG NẠP QUA URL!")
+    print(" TỔNG KẾT HOÀN TẤT QUY TRÌNH!")
     print("=" * 70)

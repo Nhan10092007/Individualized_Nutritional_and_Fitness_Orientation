@@ -315,7 +315,9 @@ Nhập mật khẩu khi được yêu cầu. Thoát `psql` bằng:
 
 Các lệnh bắt đầu bằng dấu `\` là lệnh của công cụ `psql`, không phải SQL chuẩn.
 
-> Tạo database, migration và schema cụ thể cần làm theo cấu hình thực tế của backend. Chưa chạy migration nếu team chưa thiết lập Alembic hoặc chưa thống nhất cách quản lý schema.
+> **Cơ chế quản lý Database của dự án:**  
+> Hệ thống sử dụng **SQLAlchemy ORM** để tự động sinh toàn bộ bảng trực tiếp từ Python models (`backend/app/models/`), không sử dụng file schema `.sql` thủ công. Hỗ trợ cả **SQLite** (mặc định chạy local nhanh) lẫn **PostgreSQL**.  
+> Chi tiết cách khởi tạo database, nạp dữ liệu chuẩn hóa và chạy pipeline ETL 4 bước được mô tả chi tiết tại [backend/DATABASE_SEEDING_GUIDE.md](file:///c:/Users/PC/Computational_Thinking/Individualized_Nutritional_and_Fitness_Orientation/backend/DATABASE_SEEDING_GUIDE.md).
 
 ---
 

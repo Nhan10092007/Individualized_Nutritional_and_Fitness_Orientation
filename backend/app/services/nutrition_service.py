@@ -6,10 +6,6 @@ from app.algorithms.nutrition_calculator import generate_optimal_meal_plan
 
 def create_meal_plan_service(db: Session, request: MealPlanRequest) -> MealPlanResponse:
     foods_from_db = db.query(Food).all()
-    if not foods:
-        from scripts.seed_database import seed_foods
-        seed_foods(db)
-        foods = db.query(Food).all()
 
     food_list = []
     for f in foods_from_db:

@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, Float, CheckConstraint, JSON
-
 from app.database import Base
 
 

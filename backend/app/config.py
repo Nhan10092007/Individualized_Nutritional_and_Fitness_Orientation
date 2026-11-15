@@ -19,6 +19,23 @@ class Settings(BaseSettings):
     # Gemini API Key (for the chatbot module)
     GEMINI_API_KEY: str = ""
 
+    # Step 2 (Asset Handling): "github_cdn" | "cloudinary" | "s3"
+    ASSET_STORAGE_PROVIDER: str = "github_cdn"
+    ASSET_BASE_URL: str = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises"
+
+    # Cloudinary (tùy chọn khi ASSET_STORAGE_PROVIDER="cloudinary")
+    CLOUDINARY_CLOUD_NAME: str = ""
+    CLOUDINARY_API_KEY: str = ""
+    CLOUDINARY_API_SECRET: str = ""
+    CLOUDINARY_FOLDER: str = "fitness_app/exercises"
+
+    # AWS S3 (tùy chọn khi ASSET_STORAGE_PROVIDER="s3")
+    AWS_S3_BUCKET: str = ""
+    AWS_S3_REGION: str = "ap-southeast-1"
+    AWS_S3_PREFIX: str = "exercises"
+    AWS_ACCESS_KEY_ID: str = ""
+    AWS_SECRET_ACCESS_KEY: str = ""
+
     # Allowed origins for CORS (allowing React Vite frontend)
     CORS_ORIGINS: list[str] = [
         "http://localhost:5173",
