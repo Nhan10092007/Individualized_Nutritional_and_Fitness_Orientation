@@ -200,6 +200,8 @@ def generate_weekly_workout_schedule(
     k = len(available_days)
     if k==0:
         return {"error": "No available days provided."}
+    DAY_ORDER = {"Mon": 1, "Tue": 2, "Wed": 3, "Thu": 4, "Fri": 5, "Sat": 6, "Sun": 7}
+    available_days = sorted(available_days, key=lambda d: DAY_ORDER.get(d,99))
     split_type = determine_split_type(k)
     max_time_sec = session_duration_mins*60
 
