@@ -18,6 +18,8 @@ import json
 from app.database import DATABASE_URL, SessionLocal, init_db
 from app.models import Exercise, Food
 from scripts.etl.build_50_exercises import build_50_exercises
+from scripts.etl.build_curated_foods import build_curated_foods
+from scripts.etl.crawl_bhx_prices import crawl_bhx_food_prices
 from scripts.etl.extract_pdf_foods import extract_pdf_foods
 from scripts.seed_database import seed_exercises, seed_foods, seed_sample_user_and_logs
 
@@ -37,10 +39,12 @@ def run_pipeline(
     init_db()
     db = SessionLocal()
     try:
-        print("\n[1/4] EXTRACT:")
-        print("      -> Trích xuất Bảng thành phần dinh dưỡng VN 2017 từ file PDF...")
-        pdf_foods = extract_pdf_foods()
-        print(f"         + Đã trích xuất {len(pdf_foods)} món ăn từ PDF 2017.")
+        print("\n[1/4] EXTRACT & CRAWL:")
+        print("      -> Crawl giá thực tế từ Bách Hóa Xanh (bachhoaxanh.com)...")
+        crawl_bhx_food_prices()
+        print("      -> Chuẩn hóa danh mục thực phẩm quen thuộc (Viện Dinh Dưỡng 2017 + USDA + Giá BHX)...")
+        curated_foods = build_curated_foods()
+        print(f"         + Đã chuẩn hóa {len(curated_foods)} thực phẩm quen thuộc kèm giá Bách Hóa Xanh.")
 
         print("      -> Trích xuất 50 bài tập chọn lọc từ backend/data/raw/exercises.json...")
         exercises_50 = build_50_exercises()

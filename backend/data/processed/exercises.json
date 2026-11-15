@@ -864,9 +864,9 @@
     "category": "Stretching",
     "name_vi": "Nâng chân duỗi thẳng trên thảm (Rear Leg Raise - An toàn khớp gối)",
     "name_en": "Rear Leg Raises",
-    "met_value": 3.5,
-    "intensity_level": "Moderate",
-    "description": "Bài tập Nâng chân duỗi thẳng trên thảm (Rear Leg Raise - An toàn khớp gối) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị body only với mức vận động MET 3.5.",
+    "met_value": 2.8,
+    "intensity_level": "Light",
+    "description": "Bài tập Nâng chân duỗi thẳng trên thảm (Rear Leg Raise - An toàn khớp gối) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị body only với mức vận động MET 2.8.",
     "equipment": "body only",
     "instructions": [
       "Place yourself on your hands knees on an exercise mat. Your head should be looking forward and the bend of the knees should create a 90-degree angle between the hamstrings and the calves. This will be your starting position.",
@@ -1126,9 +1126,9 @@
     "category": "Strength",
     "name_vi": "Cầu mông thể trọng (Bodyweight Glute Bridge)",
     "name_en": "Butt Lift (Bridge)",
-    "met_value": 3.5,
-    "intensity_level": "Moderate",
-    "description": "Bài tập Cầu mông thể trọng (Bodyweight Glute Bridge) nhắm vào nhóm cơ Glutes, sử dụng thiết bị body only với mức vận động MET 3.5.",
+    "met_value": 2.8,
+    "intensity_level": "Light",
+    "description": "Bài tập Cầu mông thể trọng (Bodyweight Glute Bridge) nhắm vào nhóm cơ Glutes, sử dụng thiết bị body only với mức vận động MET 2.8.",
     "equipment": "body only",
     "instructions": [
       "Lie flat on the floor on your back with the hands by your side and your knees bent. Your feet should be placed around shoulder width. This will be your starting position.",
@@ -1210,9 +1210,9 @@
     "category": "Strength",
     "name_vi": "Nhón bắp chân ngồi máy (Seated Calf Raise)",
     "name_en": "Seated Calf Raise",
-    "met_value": 3.5,
-    "intensity_level": "Moderate",
-    "description": "Bài tập Nhón bắp chân ngồi máy (Seated Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị machine với mức vận động MET 3.5.",
+    "met_value": 2.8,
+    "intensity_level": "Light",
+    "description": "Bài tập Nhón bắp chân ngồi máy (Seated Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị machine với mức vận động MET 2.8.",
     "equipment": "machine",
     "instructions": [
       "Sit on the machine and place your toes on the lower portion of the platform provided with the heels extending off. Choose the toe positioning of your choice (forward, in, or out) as per the beginning of this chapter.",
@@ -1292,9 +1292,9 @@
     "category": "Strength",
     "name_vi": "Nhón bắp chân bập bênh (Rocking Calf Raise)",
     "name_en": "Rocking Standing Calf Raise",
-    "met_value": 3.5,
-    "intensity_level": "Moderate",
-    "description": "Bài tập Nhón bắp chân bập bênh (Rocking Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị barbell với mức vận động MET 3.5.",
+    "met_value": 2.5,
+    "intensity_level": "Light",
+    "description": "Bài tập Nhón bắp chân bập bênh (Rocking Calf Raise) nhắm vào nhóm cơ Calves, sử dụng thiết bị barbell với mức vận động MET 2.5.",
     "equipment": "barbell",
     "instructions": [
       "This exercise is best performed inside a squat rack for safety purposes. To begin, first set the bar on a rack that best matches your height. Once the correct height is chosen and the bar is loaded, step under the bar and place it on the back of your shoulders (slightly below the neck).",
@@ -1487,6 +1487,414 @@
     "video_url": null,
     "target_muscle": "Abs",
     "secondary_muscle": [],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 51,
+    "category": "Stretching",
+    "name_vi": "Giãn ngực vòng tay sau đầu (Behind Head Chest Stretch)",
+    "name_en": "Behind Head Chest Stretch",
+    "met_value": 2.3,
+    "intensity_level": "Light",
+    "description": "Bài tập Giãn ngực vòng tay sau đầu (Behind Head Chest Stretch) nhắm vào nhóm cơ Chest, sử dụng thiết bị other với mức vận động MET 2.3.",
+    "equipment": "other",
+    "instructions": [
+      "Sit upright on the floor with your partner behind you.",
+      "Place your hands behind your hand, and push your elbows back as far as you can. Your partner should hold your elbows. This will be your starting position.",
+      "Gently attempt to pull your elbows forward with your hands still behind your head for 10 or more seconds. Your partner should prevent your elbows from moving.",
+      "Now, relax your muscles and have your partner gently pull the elbows back as far as it comfortable for you. Be sure to let your partner know when the stretch is adequate to prevent overstretching or injury."
+    ],
+    "common_mistakes": [
+      "Gập cổ về phía trước thay vì giữ thẳng lưng và cổ",
+      "Kéo khuỷu tay quá giật cục gây chèn ép khớp vai"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Behind_Head_Chest_Stretch/0.jpg",
+    "video_url": null,
+    "target_muscle": "Chest",
+    "secondary_muscle": [
+      "Shoulders"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 52,
+    "category": "Stretching",
+    "name_vi": "Tư thế em bé giãn lưng dưới (Child's Pose)",
+    "name_en": "Child's Pose",
+    "met_value": 2.0,
+    "intensity_level": "Light",
+    "description": "Bài tập Tư thế em bé giãn lưng dưới (Child's Pose) nhắm vào nhóm cơ Back, sử dụng thiết bị other với mức vận động MET 2.0.",
+    "equipment": "other",
+    "instructions": [
+      "Get on your hands and knees, walk your hands in front of you.",
+      "Lower your buttocks down to sit on your heels. Let your arms drag along the floor as you sit back to stretch your entire spine.",
+      "Once you settle onto your heels, bring your hands next to your feet and relax. \"breathe\" into your back. Rest your forehead on the floor. Avoid this position if you have knee problems."
+    ],
+    "common_mistakes": [
+      "Không thả lỏng cơ vai và hông",
+      "Nín thở khi giữ tư thế"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Childs_Pose/0.jpg",
+    "video_url": null,
+    "target_muscle": "Back",
+    "secondary_muscle": [
+      "Glutes"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 53,
+    "category": "Stretching",
+    "name_vi": "Tư thế con mèo giãn cột sống lưng (Cat Stretch)",
+    "name_en": "Cat Stretch",
+    "met_value": 2.3,
+    "intensity_level": "Light",
+    "description": "Bài tập Tư thế con mèo giãn cột sống lưng (Cat Stretch) nhắm vào nhóm cơ Back, sử dụng thiết bị other với mức vận động MET 2.3.",
+    "equipment": "other",
+    "instructions": [
+      "Position yourself on the floor on your hands and knees.",
+      "Pull your belly in and round your spine, lower back, shoulders, and neck, letting your head drop.",
+      "Hold for 15 seconds."
+    ],
+    "common_mistakes": [
+      "Chuyển động quá nhanh làm mất kiểm soát khớp đốt sống",
+      "Không gập cằm về ngực khi uốn cong lưng"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cat_Stretch/0.jpg",
+    "video_url": null,
+    "target_muscle": "Back",
+    "secondary_muscle": [
+      "Shoulders"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 54,
+    "category": "Stretching",
+    "name_vi": "Xoay vòng khớp vai khởi động (Arm Circles)",
+    "name_en": "Arm Circles",
+    "met_value": 2.5,
+    "intensity_level": "Light",
+    "description": "Bài tập Xoay vòng khớp vai khởi động (Arm Circles) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị other với mức vận động MET 2.5.",
+    "equipment": "other",
+    "instructions": [
+      "Stand up and extend your arms straight out by the sides. The arms should be parallel to the floor and perpendicular (90-degree angle) to your torso. This will be your starting position.",
+      "Slowly start to make circles of about 1 foot in diameter with each outstretched arm. Breathe normally as you perform the movement.",
+      "Continue the circular motion of the outstretched arms for about ten seconds. Then reverse the movement, going the opposite direction."
+    ],
+    "common_mistakes": [
+      "Xoay với biên độ quá nhanh và giật cục",
+      "Nhún vai lên tai thay vì giữ vai hạ lỏng tự nhiên"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Arm_Circles/0.jpg",
+    "video_url": null,
+    "target_muscle": "Shoulders",
+    "secondary_muscle": [],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 55,
+    "category": "Stretching",
+    "name_vi": "Giãn cơ vai bắt chéo tay (Shoulder Stretch)",
+    "name_en": "Shoulder Stretch",
+    "met_value": 2.3,
+    "intensity_level": "Light",
+    "description": "Bài tập Giãn cơ vai bắt chéo tay (Shoulder Stretch) nhắm vào nhóm cơ Shoulders, sử dụng thiết bị other với mức vận động MET 2.3.",
+    "equipment": "other",
+    "instructions": [
+      "Reach your left arm across your body and hold it straight."
+    ],
+    "common_mistakes": [
+      "Nâng vai sát tai làm căng cứng cơ cổ",
+      "Xoay vặn toàn thân theo hướng cánh tay"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Shoulder_Stretch/0.jpg",
+    "video_url": null,
+    "target_muscle": "Shoulders",
+    "secondary_muscle": [],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 56,
+    "category": "Stretching",
+    "name_vi": "Giãn cơ vai sau và lưng trên (Upper Back Stretch)",
+    "name_en": "Upper Back Stretch",
+    "met_value": 2.3,
+    "intensity_level": "Light",
+    "description": "Bài tập Giãn cơ vai sau và lưng trên (Upper Back Stretch) nhắm vào nhóm cơ Rear Delts, sử dụng thiết bị other với mức vận động MET 2.3.",
+    "equipment": "other",
+    "instructions": [
+      "Clasp fingers together with your thumbs pointing down, round your shoulders as you reach your hands forward."
+    ],
+    "common_mistakes": [
+      "Gù lưng dưới thay vì tập trung mở rộng bả vai",
+      "Dùng lực kéo quá mạnh gây đau khớp khuỷu"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Upper_Back_Stretch/0.jpg",
+    "video_url": null,
+    "target_muscle": "Rear Delts",
+    "secondary_muscle": [
+      "Back"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 57,
+    "category": "Stretching",
+    "name_vi": "Giãn cơ bắp tay trước đứng (Standing Biceps Stretch)",
+    "name_en": "Standing Biceps Stretch",
+    "met_value": 2.2,
+    "intensity_level": "Light",
+    "description": "Bài tập Giãn cơ bắp tay trước đứng (Standing Biceps Stretch) nhắm vào nhóm cơ Biceps, sử dụng thiết bị other với mức vận động MET 2.2.",
+    "equipment": "other",
+    "instructions": [
+      "Clasp your hands behind your back with your palms together, straighten arms and then rotate them so your palms face downward.",
+      "Raise your arms up and hold until you feel a stretch in your biceps."
+    ],
+    "common_mistakes": [
+      "Ưỡn bụng về phía trước để bù trừ biên độ khớp vai",
+      "Gập khuỷu tay thay vì duỗi thẳng nhẹ nhàng"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Biceps_Stretch/0.jpg",
+    "video_url": null,
+    "target_muscle": "Biceps",
+    "secondary_muscle": [
+      "Chest"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 58,
+    "category": "Stretching",
+    "name_vi": "Giãn cơ bắp tay sau qua đầu (Overhead Triceps Stretch)",
+    "name_en": "Overhead Triceps",
+    "met_value": 2.2,
+    "intensity_level": "Light",
+    "description": "Bài tập Giãn cơ bắp tay sau qua đầu (Overhead Triceps Stretch) nhắm vào nhóm cơ Triceps, sử dụng thiết bị body only với mức vận động MET 2.2.",
+    "equipment": "body only",
+    "instructions": [
+      "Sit upright on the floor with your partner behind you. Raise one arm straight up, and flex the elbow, attempting to touch your hand to your back. Your parner should hold your elbow and wrist. This will be your starting position.",
+      "Attempt to extend the arm straight into the air as your partner prevents you from doing actually doing so.",
+      "After 10-20 seconds, relax the arm and allow your partner to further stretch the tricep by applying gentle pressure to the wrist. Hold for 10-20 seconds, and then switch sides."
+    ],
+    "common_mistakes": [
+      "Gập đầu về phía trước khiến cằm chạm ngực",
+      "Kéo cùi chỏ quá mạnh sang bên đối diện"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Overhead_Triceps/0.jpg",
+    "video_url": null,
+    "target_muscle": "Triceps",
+    "secondary_muscle": [
+      "Shoulders"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 59,
+    "category": "Stretching",
+    "name_vi": "Giãn cơ tứ đầu đùi tư thế quỳ bò (All Fours Quad Stretch)",
+    "name_en": "All Fours Quad Stretch",
+    "met_value": 2.3,
+    "intensity_level": "Light",
+    "description": "Bài tập Giãn cơ tứ đầu đùi tư thế quỳ bò (All Fours Quad Stretch) nhắm vào nhóm cơ Quadriceps, sử dụng thiết bị body only với mức vận động MET 2.3.",
+    "equipment": "body only",
+    "instructions": [
+      "Start off on your hands and knees, then lift your leg off the floor and hold the foot with your hand.",
+      "Use your hand to hold the foot or ankle, keeping the knee fully flexed, stretching the quadriceps and hip flexors.",
+      "Focus on extending your hips, thrusting them towards the floor. Hold for 10-20 seconds and then switch sides."
+    ],
+    "common_mistakes": [
+      "Võng lưng dưới khi kéo gót chân về mông",
+      "Đặt đầu gối trên mặt sàn cứng không có thảm đệm"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/All_Fours_Quad_Stretch/0.jpg",
+    "video_url": null,
+    "target_muscle": "Quadriceps",
+    "secondary_muscle": [
+      "Glutes"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 60,
+    "category": "Stretching",
+    "name_vi": "Giãn cơ đùi sau và bắp chân đứng (Standing Hamstring & Calf Stretch)",
+    "name_en": "Standing Hamstring and Calf Stretch",
+    "met_value": 2.4,
+    "intensity_level": "Light",
+    "description": "Bài tập Giãn cơ đùi sau và bắp chân đứng (Standing Hamstring & Calf Stretch) nhắm vào nhóm cơ Hamstrings, sử dụng thiết bị other với mức vận động MET 2.4.",
+    "equipment": "other",
+    "instructions": [
+      "Being by looping a belt, band, or rope around one foot. While standing, place that foot forward.",
+      "Bend your back leg, while keeping the front one straight. Now raise the toes of your front foot off of the ground and lean forward.",
+      "Using the belt, pull on the top of the foot to increase the stretch in the calf. Hold for 10-20 seconds and repeat with the other foot."
+    ],
+    "common_mistakes": [
+      "Cong tròn toàn bộ cột sống thay vì gập từ khớp hông",
+      "Khóa cứng khớp gối chân trước quá mức"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Hamstring_and_Calf_Stretch/0.jpg",
+    "video_url": null,
+    "target_muscle": "Hamstrings",
+    "secondary_muscle": [
+      "Calves"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 61,
+    "category": "Stretching",
+    "name_vi": "Giãn cơ mông hình số 4 (Figure 4 Glute Stretch)",
+    "name_en": "Ankle On The Knee",
+    "met_value": 2.3,
+    "intensity_level": "Light",
+    "description": "Bài tập Giãn cơ mông hình số 4 (Figure 4 Glute Stretch) nhắm vào nhóm cơ Glutes, sử dụng thiết bị other với mức vận động MET 2.3.",
+    "equipment": "other",
+    "instructions": [
+      "From a lying position, bend your knees and keep your feet on the floor.",
+      "Place your ankle of one foot on your opposite knee.",
+      "Grasp the thigh or knee of the bottom leg and pull both of your legs into the chest. Relax your neck and shoulders. Hold for 10-20 seconds and then switch sides."
+    ],
+    "common_mistakes": [
+      "Nhấc mông và xương cụt khỏi thảm",
+      "Gồng cứng cơ cổ và vai khi kéo chân"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ankle_On_The_Knee/0.jpg",
+    "video_url": null,
+    "target_muscle": "Glutes",
+    "secondary_muscle": [
+      "Hamstrings"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 62,
+    "category": "Stretching",
+    "name_vi": "Xoay khớp cổ chân thả lỏng (Ankle Circles)",
+    "name_en": "Ankle Circles",
+    "met_value": 2.0,
+    "intensity_level": "Light",
+    "description": "Bài tập Xoay khớp cổ chân thả lỏng (Ankle Circles) nhắm vào nhóm cơ Calves, sử dụng thiết bị other với mức vận động MET 2.0.",
+    "equipment": "other",
+    "instructions": [
+      "Use a sturdy object like a squat rack to hold yourself.",
+      "Lift the right leg in the air (just around 2 inches from the floor) and perform a circular motion with the big toe. Pretend that you are drawing a big circle with it. Tip: One circle equals 1 repetition. Breathe normally as you perform the movement.",
+      "When you are done with the right foot, then repeat with the left leg."
+    ],
+    "common_mistakes": [
+      "Xoay giật cục hoặc dùng cả cẳng chân thay vì chỉ xoay khớp cổ chân"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ankle_Circles/0.jpg",
+    "video_url": null,
+    "target_muscle": "Calves",
+    "secondary_muscle": [],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 63,
+    "category": "Stretching",
+    "name_vi": "Giãn bắp chân chống tường (Standing Calf Stretch)",
+    "name_en": "Standing Gastrocnemius Calf Stretch",
+    "met_value": 2.3,
+    "intensity_level": "Light",
+    "description": "Bài tập Giãn bắp chân chống tường (Standing Calf Stretch) nhắm vào nhóm cơ Calves, sử dụng thiết bị other với mức vận động MET 2.3.",
+    "equipment": "other",
+    "instructions": [
+      "Place your right heel on a step with your knee extended and lean forward to grab your right toe with your right hand. Your left knee should be slightly bent and your back should be straight.",
+      "Support your weight on your left leg and place your left hand on your left thigh.",
+      "Pull your right toes toward your knee until you feel a stretch in your calf."
+    ],
+    "common_mistakes": [
+      "Nhấc gót chân sau lên khỏi mặt sàn",
+      "Bàn chân sau xoay hướng ra ngoài thay vì hướng thẳng về trước"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Gastrocnemius_Calf_Stretch/0.jpg",
+    "video_url": null,
+    "target_muscle": "Calves",
+    "secondary_muscle": [
+      "Hamstrings"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 64,
+    "category": "Stretching",
+    "name_vi": "Nghiêng xương chậu kết hợp nâng hông nhẹ (Pelvic Tilt Bridge)",
+    "name_en": "Pelvic Tilt Into Bridge",
+    "met_value": 2.4,
+    "intensity_level": "Light",
+    "description": "Bài tập Nghiêng xương chậu kết hợp nâng hông nhẹ (Pelvic Tilt Bridge) nhắm vào nhóm cơ Abs, sử dụng thiết bị other với mức vận động MET 2.4.",
+    "equipment": "other",
+    "instructions": [
+      "Lie down with your feet on the floor, heels directly under your knees.",
+      "Lift only your tailbone to the ceiling to stretch your lower back. (Don't lift the entire spine yet.) Pull in your stomach.",
+      "To go into a bridge, lift the entire spine except the neck."
+    ],
+    "common_mistakes": [
+      "Ưỡn lưng trên quá cao làm mất kiểm soát cơ bụng dưới",
+      "Không siết nhẹ cơ sàn chậu và cơ bụng"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Pelvic_Tilt_Into_Bridge/0.jpg",
+    "video_url": null,
+    "target_muscle": "Abs",
+    "secondary_muscle": [
+      "Glutes"
+    ],
+    "banned_for": [],
+    "clinical_reasons": null,
+    "source": "free-exercise-db"
+  },
+  {
+    "id": 65,
+    "category": "Stretching",
+    "name_vi": "Vặn mình gập gối giãn cơ liên sườn và lưng (Knee Across The Body)",
+    "name_en": "Knee Across The Body",
+    "met_value": 2.3,
+    "intensity_level": "Light",
+    "description": "Bài tập Vặn mình gập gối giãn cơ liên sườn và lưng (Knee Across The Body) nhắm vào nhóm cơ Abs, sử dụng thiết bị other với mức vận động MET 2.3.",
+    "equipment": "other",
+    "instructions": [
+      "Lie down on the floor with your right leg straight. Bend your left leg and lower it across your body, holding the knee down toward the floor with your right hand. (The knee doesn't need to touch the floor if you're tight.)",
+      "Place your left arm comfortably beside you and turn your head to the left. Imagine you have a weight tied to your tailbone. let your tailbone fall back toward the floor as your chest reaches in the opposite direction to stretch your lower back. Switch sides."
+    ],
+    "common_mistakes": [
+      "Để vai cùng bên nhấc bổng khỏi mặt sàn",
+      "Dùng tay kéo gối ép mạnh đột ngột xuống sàn"
+    ],
+    "image": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Knee_Across_The_Body/0.jpg",
+    "video_url": null,
+    "target_muscle": "Abs",
+    "secondary_muscle": [
+      "Glutes"
+    ],
     "banned_for": [],
     "clinical_reasons": null,
     "source": "free-exercise-db"

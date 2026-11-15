@@ -33,7 +33,7 @@ from app.models import Exercise, Food, FoodLog, User, WorkoutLog
 from app.services.progress_service import get_daily_energy_balance
 from app.utils.security import hash_password
 from scripts.etl.build_50_exercises import PROCESSED_50_PATH, build_50_exercises
-from scripts.etl.extract_pdf_foods import OUTPUT_JSON_PATH as PDF_FOODS_PATH, extract_pdf_foods
+from scripts.etl.build_curated_foods import CURATED_FOODS_PATH, build_curated_foods
 from scripts.etl.load import _bulk_upsert_exercises, _bulk_upsert_foods
 
 # Danh sách thực phẩm bổ trợ cơ bản (USDA & Món ăn gia đình thông dụng)
@@ -196,23 +196,30 @@ CORE_ADDITIONAL_FOODS = [
 ]
 
 
-def seed_foods(db: Session) -> int:
-    """Nạp toàn bộ dữ liệu thực phẩm từ file PDF 2017 và danh mục bổ trợ."""
-    print("[*] Đang nạp dữ liệu Thực phẩm (Bảng thành phần dinh dưỡng VN 2017 + USDA)...")
+def seed_foods(db: Session, *, clean: bool = True) -> int:
+    """Nạp danh mục thực phẩm quen thuộc chuẩn hóa (kèm giá Bách Hóa Xanh)."""
+    print("[*] Đang nạp dữ liệu Thực phẩm quen thuộc (VN 2017 + USDA + Giá Bách Hóa Xanh)...")
 
-    if not PDF_FOODS_PATH.exists():
-        print(f"    -> Đang trích xuất dữ liệu từ PDF 2017...")
-        pdf_foods = extract_pdf_foods()
+    if not CURATED_FOODS_PATH.exists():
+        print("    -> Đang xây dựng danh mục thực phẩm quen thuộc và crawl giá Bách Hóa Xanh...")
+        all_foods = build_curated_foods()
     else:
-        with open(PDF_FOODS_PATH, mode="r", encoding="utf-8") as f:
-            pdf_foods = json.load(f)
+        with open(CURATED_FOODS_PATH, mode="r", encoding="utf-8") as f:
+            all_foods = json.load(f)
 
-    all_foods = list(pdf_foods) + CORE_ADDITIONAL_FOODS
+    if clean:
+        valid_codes = {f["code"] for f in all_foods}
+        # Xóa các thực phẩm lạ không thuộc danh mục quen thuộc
+        deleted = db.query(Food).filter(~Food.code.in_(valid_codes)).delete(synchronize_session=False)
+        if deleted > 0:
+            print(f"    -> Đã loại bỏ {deleted} món ăn/nguyên liệu lạ không thuộc danh mục quen thuộc.")
+        db.commit()
+
     created, updated = _bulk_upsert_foods(db, all_foods, replace=True)
     db.commit()
 
     total = db.query(Food).count()
-    print(f"[+] Hoàn tất nạp Thực phẩm: tạo mới {created}, cập nhật {updated} (Tổng cộng trong DB: {total} món).")
+    print(f"[+] Hoàn tất nạp Thực phẩm: tạo mới {created}, cập nhật {updated} (Tổng cộng trong DB: {total} món quen thuộc).")
     return total
 
 

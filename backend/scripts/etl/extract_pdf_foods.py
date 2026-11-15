@@ -17,7 +17,7 @@ import pypdf
 from app.config import BACKEND_DIR
 
 PDF_PATH = BACKEND_DIR / "data" / "raw" / "bang-thanh-phan-dinh-duong-thuc-pham-vn-2017-27-4-17.pdf"
-OUTPUT_JSON_PATH = BACKEND_DIR / "data" / "processed" / "vietnam_foods_2017.json"
+OUTPUT_JSON_PATH = BACKEND_DIR / "data" / "processed" / "vietnam_foods_raw_pdf.json"
 
 CATEGORY_MAP: dict[str, str] = {
     "01": "Ngũ cốc và sản phẩm chế biến",

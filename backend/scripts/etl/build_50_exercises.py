@@ -440,8 +440,8 @@ EXERCISE_DEFINITIONS: list[dict[str, Any]] = [
         "name_vi": "Nâng chân duỗi thẳng trên thảm (Rear Leg Raise - An toàn khớp gối)",
         "target_muscle": "Quadriceps",
         "secondary_muscle": ["Glutes"],
-        "met_value": 3.5,
-        "intensity_level": "Moderate",
+        "met_value": 2.8,
+        "intensity_level": "Light",
         "banned_for": [],
         "clinical_reasons": None,
         "common_mistakes": [
@@ -567,8 +567,8 @@ EXERCISE_DEFINITIONS: list[dict[str, Any]] = [
         "name_vi": "Cầu mông thể trọng (Bodyweight Glute Bridge)",
         "target_muscle": "Glutes",
         "secondary_muscle": ["Hamstrings", "Abs"],
-        "met_value": 3.5,
-        "intensity_level": "Moderate",
+        "met_value": 2.8,
+        "intensity_level": "Light",
         "banned_for": [],
         "clinical_reasons": None,
         "common_mistakes": [
@@ -609,8 +609,8 @@ EXERCISE_DEFINITIONS: list[dict[str, Any]] = [
         "name_vi": "Nhón bắp chân ngồi máy (Seated Calf Raise)",
         "target_muscle": "Calves",
         "secondary_muscle": [],
-        "met_value": 3.5,
-        "intensity_level": "Moderate",
+        "met_value": 2.8,
+        "intensity_level": "Light",
         "banned_for": [],
         "clinical_reasons": None,
         "common_mistakes": [
@@ -648,8 +648,8 @@ EXERCISE_DEFINITIONS: list[dict[str, Any]] = [
         "name_vi": "Nhón bắp chân bập bênh (Rocking Calf Raise)",
         "target_muscle": "Calves",
         "secondary_muscle": [],
-        "met_value": 3.5,
-        "intensity_level": "Moderate",
+        "met_value": 2.5,
+        "intensity_level": "Light",
         "banned_for": [],
         "clinical_reasons": None,
         "common_mistakes": [
@@ -742,6 +742,217 @@ EXERCISE_DEFINITIONS: list[dict[str, Any]] = [
             "Không hóp chặt rốn gồng bụng khi nâng thân người",
         ],
     },
+
+    # ================= 12. CÁC BÀI TẬP CƯỜNG ĐỘ NHẸ (LIGHT / MOBILITY / STRETCHING) =================
+    {
+        "key": "behind head chest stretch",
+        "name_vi": "Giãn ngực vòng tay sau đầu (Behind Head Chest Stretch)",
+        "target_muscle": "Chest",
+        "secondary_muscle": ["Shoulders"],
+        "met_value": 2.3,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Gập cổ về phía trước thay vì giữ thẳng lưng và cổ",
+            "Kéo khuỷu tay quá giật cục gây chèn ép khớp vai",
+        ],
+    },
+    {
+        "key": "child's pose",
+        "name_vi": "Tư thế em bé giãn lưng dưới (Child's Pose)",
+        "target_muscle": "Back",
+        "secondary_muscle": ["Glutes"],
+        "met_value": 2.0,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Không thả lỏng cơ vai và hông",
+            "Nín thở khi giữ tư thế",
+        ],
+    },
+    {
+        "key": "cat stretch",
+        "name_vi": "Tư thế con mèo giãn cột sống lưng (Cat Stretch)",
+        "target_muscle": "Back",
+        "secondary_muscle": ["Shoulders"],
+        "met_value": 2.3,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Chuyển động quá nhanh làm mất kiểm soát khớp đốt sống",
+            "Không gập cằm về ngực khi uốn cong lưng",
+        ],
+    },
+    {
+        "key": "arm circles",
+        "name_vi": "Xoay vòng khớp vai khởi động (Arm Circles)",
+        "target_muscle": "Shoulders",
+        "secondary_muscle": [],
+        "met_value": 2.5,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Xoay với biên độ quá nhanh và giật cục",
+            "Nhún vai lên tai thay vì giữ vai hạ lỏng tự nhiên",
+        ],
+    },
+    {
+        "key": "shoulder stretch",
+        "name_vi": "Giãn cơ vai bắt chéo tay (Shoulder Stretch)",
+        "target_muscle": "Shoulders",
+        "secondary_muscle": [],
+        "met_value": 2.3,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Nâng vai sát tai làm căng cứng cơ cổ",
+            "Xoay vặn toàn thân theo hướng cánh tay",
+        ],
+    },
+    {
+        "key": "upper back stretch",
+        "name_vi": "Giãn cơ vai sau và lưng trên (Upper Back Stretch)",
+        "target_muscle": "Rear Delts",
+        "secondary_muscle": ["Back"],
+        "met_value": 2.3,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Gù lưng dưới thay vì tập trung mở rộng bả vai",
+            "Dùng lực kéo quá mạnh gây đau khớp khuỷu",
+        ],
+    },
+    {
+        "key": "standing biceps stretch",
+        "name_vi": "Giãn cơ bắp tay trước đứng (Standing Biceps Stretch)",
+        "target_muscle": "Biceps",
+        "secondary_muscle": ["Chest"],
+        "met_value": 2.2,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Ưỡn bụng về phía trước để bù trừ biên độ khớp vai",
+            "Gập khuỷu tay thay vì duỗi thẳng nhẹ nhàng",
+        ],
+    },
+    {
+        "key": "overhead triceps",
+        "name_vi": "Giãn cơ bắp tay sau qua đầu (Overhead Triceps Stretch)",
+        "target_muscle": "Triceps",
+        "secondary_muscle": ["Shoulders"],
+        "met_value": 2.2,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Gập đầu về phía trước khiến cằm chạm ngực",
+            "Kéo cùi chỏ quá mạnh sang bên đối diện",
+        ],
+    },
+    {
+        "key": "all fours quad stretch",
+        "name_vi": "Giãn cơ tứ đầu đùi tư thế quỳ bò (All Fours Quad Stretch)",
+        "target_muscle": "Quadriceps",
+        "secondary_muscle": ["Glutes"],
+        "met_value": 2.3,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Võng lưng dưới khi kéo gót chân về mông",
+            "Đặt đầu gối trên mặt sàn cứng không có thảm đệm",
+        ],
+    },
+    {
+        "key": "standing hamstring and calf stretch",
+        "name_vi": "Giãn cơ đùi sau và bắp chân đứng (Standing Hamstring & Calf Stretch)",
+        "target_muscle": "Hamstrings",
+        "secondary_muscle": ["Calves"],
+        "met_value": 2.4,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Cong tròn toàn bộ cột sống thay vì gập từ khớp hông",
+            "Khóa cứng khớp gối chân trước quá mức",
+        ],
+    },
+    {
+        "key": "ankle on the knee",
+        "name_vi": "Giãn cơ mông hình số 4 (Figure 4 Glute Stretch)",
+        "target_muscle": "Glutes",
+        "secondary_muscle": ["Hamstrings"],
+        "met_value": 2.3,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Nhấc mông và xương cụt khỏi thảm",
+            "Gồng cứng cơ cổ và vai khi kéo chân",
+        ],
+    },
+    {
+        "key": "ankle circles",
+        "name_vi": "Xoay khớp cổ chân thả lỏng (Ankle Circles)",
+        "target_muscle": "Calves",
+        "secondary_muscle": [],
+        "met_value": 2.0,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Xoay giật cục hoặc dùng cả cẳng chân thay vì chỉ xoay khớp cổ chân",
+        ],
+    },
+    {
+        "key": "standing gastrocnemius calf stretch",
+        "name_vi": "Giãn bắp chân chống tường (Standing Calf Stretch)",
+        "target_muscle": "Calves",
+        "secondary_muscle": ["Hamstrings"],
+        "met_value": 2.3,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Nhấc gót chân sau lên khỏi mặt sàn",
+            "Bàn chân sau xoay hướng ra ngoài thay vì hướng thẳng về trước",
+        ],
+    },
+    {
+        "key": "pelvic tilt into bridge",
+        "name_vi": "Nghiêng xương chậu kết hợp nâng hông nhẹ (Pelvic Tilt Bridge)",
+        "target_muscle": "Abs",
+        "secondary_muscle": ["Glutes"],
+        "met_value": 2.4,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Ưỡn lưng trên quá cao làm mất kiểm soát cơ bụng dưới",
+            "Không siết nhẹ cơ sàn chậu và cơ bụng",
+        ],
+    },
+    {
+        "key": "knee across the body",
+        "name_vi": "Vặn mình gập gối giãn cơ liên sườn và lưng (Knee Across The Body)",
+        "target_muscle": "Abs",
+        "secondary_muscle": ["Glutes"],
+        "met_value": 2.3,
+        "intensity_level": "Light",
+        "banned_for": [],
+        "clinical_reasons": None,
+        "common_mistakes": [
+            "Để vai cùng bên nhấc bổng khỏi mặt sàn",
+            "Dùng tay kéo gối ép mạnh đột ngột xuống sàn",
+        ],
+    },
 ]
 
 
@@ -798,6 +1009,10 @@ def build_50_exercises() -> list[dict[str, Any]]:
 
     PROCESSED_50_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(PROCESSED_50_PATH, mode="w", encoding="utf-8") as out:
+        json.dump(processed_exercises, out, ensure_ascii=False, indent=2)
+
+    alt_path = BACKEND_DIR / "data" / "processed" / "exercises.json"
+    with open(alt_path, mode="w", encoding="utf-8") as out:
         json.dump(processed_exercises, out, ensure_ascii=False, indent=2)
 
     return processed_exercises

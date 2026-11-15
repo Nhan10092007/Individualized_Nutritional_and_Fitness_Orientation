@@ -26,8 +26,11 @@ Dự án đã chuyển hoàn toàn từ cách tạo bảng bằng SQL thuần (`
 
 Dữ liệu được xử lý tự động và nạp vào DB theo đúng yêu cầu:
 
-1. **Thực phẩm (Calo IN)**: Trích xuất trực tiếp từ file PDF chính thức **`backend/data/raw/bang-thanh-phan-dinh-duong-thuc-pham-vn-2017-27-4-17.pdf`** (Viện Dinh Dưỡng Quốc Gia - Bộ Y Tế). Trích xuất 590+ thực phẩm thuần Việt (Gạo, ngũ cốc, khoai củ, rau quả, thịt cá, thủy sản, đồ chế biến...) kèm định lượng Kcal, Protein, Lipid, Glucid, Xơ và phân loại ăn chay (`vegan`, `vegetarian`, `all`).
-2. **Bài tập (Calo BURN)**: Trích xuất **đúng 50 bài tập nền tảng** từ `backend/data/raw/exercises.json` phủ đều 10 nhóm cơ chính (`Chest`, `Back`, `Shoulders`, `Biceps`, `Triceps`, `Quadriceps`, `Hamstrings`, `Glutes`, `Calves`, `Abs`) phục vụ hoàn hảo cho thuật toán sinh lịch tập A4 và bộ lọc chống chỉ định bệnh lý A3 (`banned_for`, `clinical_reasons`).
+1. **Thực phẩm (Calo IN) & Giá cả Bách Hóa Xanh (VND)**:
+   * **Lọc danh mục thực phẩm quen thuộc**: Chuẩn hóa chính xác 80 nguyên liệu và món ăn quen thuộc hàng ngày (Gạo, ức gà, thịt heo, thịt bò, trứng, cá hồi, rau muống, đậu phụ, phở, bún bò, cơm tấm...) loại bỏ hoàn toàn các loại củ/thịt thú rừng hiếm gặp.
+   * **Dinh dưỡng chuẩn**: Định lượng Calories, Protein, Lipid, Glucid, Xơ từ **Viện Dinh Dưỡng Quốc Gia 2017** và **USDA FoodData Central**.
+   * **Crawl giá thị trường**: Script Python `scripts/etl/crawl_bhx_prices.py` tự động crawl giá niêm yết từ siêu thị **Bách Hóa Xanh** (`bachhoaxanh.com`) và tính toán đơn giá theo 100g/khẩu phần (`estimated_price_vnd`) hỗ trợ thuật toán tối ưu chi phí A5.
+2. **Bài tập (Calo BURN)**: Trích xuất **đúng 50 bài tập nền tảng** từ `backend/data/raw/exercises.json` phủ đều 11 nhóm cơ chính (`Chest`, `Back`, `Shoulders`, `Rear Delts`, `Biceps`, `Triceps`, `Quadriceps`, `Hamstrings`, `Glutes`, `Calves`, `Abs`) phục vụ hoàn hảo cho thuật toán sinh lịch tập A4 và bộ lọc chống chỉ định bệnh lý A3 (`banned_for`, `clinical_reasons`).
 3. **Asset Handling**: Gắn link ảnh minh họa bài tập phân giải cao trực tiếp từ CDN GitHub (`https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/...`) không cần cấu hình key cloud.
 4. **Load vào DB**: Gọi `init_db()` sinh bảng từ SQLAlchemy ORM models và nạp dữ liệu an toàn (upsert theo code / tên) vào SQLite hoặc PostgreSQL.
 
