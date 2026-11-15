@@ -2,7 +2,7 @@
 run_etl_pipeline.py
 =============================================================================
 Pipeline ETL chuẩn 4 bước đồng bộ với kiến trúc SQLAlchemy ORM:
-  (1. Extract)         Trích xuất PDF dinh dưỡng 2017 & đúng 50 bài tập từ exercises.json
+  (1. Extract)         Trích xuất PDF dinh dưỡng 2017 & đúng 65 bài tập từ exercises.json
   (2. Asset Handling)  Xử lý URL Ảnh/GIF/Video (CDN mặc định, hoặc upload S3 / Cloudinary)
   (3. Transform & MET) Chuẩn hóa Schema Exercise đúng hình thiết kế + gán MET + nhãn A3
   (4. Load)            Sinh bảng từ ORM Models và nạp vào DB (SQLite / PostgreSQL)
@@ -17,7 +17,7 @@ import json
 
 from app.database import DATABASE_URL, SessionLocal, init_db
 from app.models import Exercise, Food
-from scripts.etl.build_50_exercises import build_50_exercises
+from scripts.etl.build_65_exercises import build_65_exercises
 from scripts.etl.build_curated_foods import build_curated_foods
 from scripts.etl.crawl_bhx_prices import crawl_bhx_food_prices
 from scripts.etl.extract_pdf_foods import extract_pdf_foods
@@ -32,7 +32,7 @@ def run_pipeline(
     seed_core: bool = True,
 ) -> None:
     print("=" * 72)
-    print(" CHẠY ETL PIPELINE (PDF 2017 FOODS + 50 BÀI TẬP TỪ EXERCISES.JSON)")
+    print(" CHẠY ETL PIPELINE (PDF 2017 FOODS + 65 BÀI TẬP TỪ EXERCISES.JSON)")
     print(f" Target Database: {DATABASE_URL}")
     print("=" * 72)
 
@@ -46,9 +46,9 @@ def run_pipeline(
         curated_foods = build_curated_foods()
         print(f"         + Đã chuẩn hóa {len(curated_foods)} thực phẩm quen thuộc kèm giá Bách Hóa Xanh.")
 
-        print("      -> Trích xuất 50 bài tập chọn lọc từ backend/data/raw/exercises.json...")
-        exercises_50 = build_50_exercises()
-        print(f"         + Đã trích xuất và chuẩn hóa đúng {len(exercises_50)} bài tập.")
+        print("      -> Trích xuất 65 bài tập chọn lọc từ backend/data/raw/exercises.json...")
+        exercises_65 = build_65_exercises()
+        print(f"         + Đã trích xuất và chuẩn hóa đúng {len(exercises_65)} bài tập.")
 
         print("\n[2/4] ASSET HANDLING:")
         print("      -> Gắn URL ảnh bài tập trực tiếp từ CDN GitHub (không cần key cloud).")

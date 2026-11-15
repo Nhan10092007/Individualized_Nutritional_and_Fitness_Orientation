@@ -32,7 +32,7 @@ from app.database import DATABASE_URL, SessionLocal, init_db
 from app.models import Exercise, Food, FoodLog, User, WorkoutLog
 from app.services.progress_service import get_daily_energy_balance
 from app.utils.security import hash_password
-from scripts.etl.build_50_exercises import PROCESSED_50_PATH, build_50_exercises
+from scripts.etl.build_65_exercises import PROCESSED_65_PATH, build_65_exercises
 from scripts.etl.build_curated_foods import CURATED_FOODS_PATH, build_curated_foods
 from scripts.etl.load import _bulk_upsert_exercises, _bulk_upsert_foods
 
@@ -224,17 +224,17 @@ def seed_foods(db: Session, *, clean: bool = True) -> int:
 
 
 def seed_exercises(db: Session) -> int:
-    """Nạp đúng 50 bài tập chuẩn hóa từ backend/data/raw/exercises.json."""
-    print("[*] Đang nạp đúng 50 bài tập chuẩn hóa từ exercises.json...")
+    """Nạp đúng 65 bài tập chuẩn hóa từ backend/data/raw/exercises.json."""
+    print("[*] Đang nạp đúng 65 bài tập chuẩn hóa từ exercises.json...")
 
-    if not PROCESSED_50_PATH.exists():
-        print("    -> Đang chuẩn hóa 50 bài tập từ exercises.json...")
-        exercises_50 = build_50_exercises()
+    if not PROCESSED_65_PATH.exists():
+        print("    -> Đang chuẩn hóa 65 bài tập từ exercises.json...")
+        exercises_65 = build_65_exercises()
     else:
-        with open(PROCESSED_50_PATH, mode="r", encoding="utf-8") as f:
-            exercises_50 = json.load(f)
+        with open(PROCESSED_65_PATH, mode="r", encoding="utf-8") as f:
+            exercises_65 = json.load(f)
 
-    created, updated = _bulk_upsert_exercises(db, exercises_50, replace=True)
+    created, updated = _bulk_upsert_exercises(db, exercises_65, replace=True)
     db.commit()
 
     total = db.query(Exercise).count()

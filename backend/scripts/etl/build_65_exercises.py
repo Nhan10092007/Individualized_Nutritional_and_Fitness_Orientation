@@ -1,23 +1,23 @@
 """
-Tạo bộ dữ liệu 50 bài tập chuẩn hóa từ backend/data/raw/exercises.json
+Tạo bộ dữ liệu 65 bài tập chuẩn hóa từ backend/data/raw/exercises.json
 khớp hoàn toàn với schema ORM `Exercise`:
 id, category, name_vi, name_en, met_value, intensity_level, description,
 equipment, instructions, common_mistakes, image, video_url,
 target_muscle, secondary_muscle, banned_for, clinical_reasons, source
 
-Phủ đều toàn bộ 11 nhóm cơ chính trong ứng dụng:
-- Chest (5 bài)
-- Back (5 bài)
-- Shoulders (4 bài)
-- Rear Delts (2 bài)
-- Biceps (4 bài)
-- Triceps (4 bài)
-- Quadriceps (5 bài)
-- Hamstrings (5 bài)
-- Glutes (5 bài)
-- Calves (5 bài)
-- Abs (6 bài)
-Tổng cộng: ĐÚNG 50 BÀI TẬP.
+Phủ đều toàn bộ 11 nhóm cơ chính và 3 cấp độ vận động (Light, Moderate, Vigorous):
+- Chest (6 bài: 1 Light, 3 Moderate, 2 Vigorous)
+- Back (7 bài: 2 Light, 2 Moderate, 3 Vigorous)
+- Shoulders (6 bài: 2 Light, 4 Moderate)
+- Rear Delts (3 bài: 1 Light, 2 Moderate)
+- Biceps (5 bài: 1 Light, 4 Moderate)
+- Triceps (5 bài: 1 Light, 3 Moderate, 1 Vigorous)
+- Quadriceps (6 bài: 1 Light, 3 Moderate, 2 Vigorous)
+- Hamstrings (6 bài: 1 Light, 4 Moderate, 1 Vigorous)
+- Glutes (6 bài: 2 Light, 3 Moderate, 1 Vigorous)
+- Calves (7 bài: 4 Light, 3 Moderate)
+- Abs (8 bài: 3 Light, 5 Moderate)
+Tổng cộng: ĐÚNG 65 BÀI TẬP (19 Light, 36 Moderate, 10 Vigorous).
 """
 
 import json
@@ -27,7 +27,7 @@ from typing import Any
 from app.config import BACKEND_DIR
 
 RAW_EXERCISES_PATH = BACKEND_DIR / "data" / "raw" / "exercises.json"
-PROCESSED_50_PATH = BACKEND_DIR / "data" / "processed" / "exercises_50.json"
+PROCESSED_65_PATH = BACKEND_DIR / "data" / "processed" / "exercises_65.json"
 CDN_BASE = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises"
 
 EXERCISE_DEFINITIONS: list[dict[str, Any]] = [
@@ -956,8 +956,8 @@ EXERCISE_DEFINITIONS: list[dict[str, Any]] = [
 ]
 
 
-def build_50_exercises() -> list[dict[str, Any]]:
-    """Đọc raw exercises.json và trích xuất đúng 50 bài tập chuẩn hóa phủ đều 11 nhóm cơ."""
+def build_65_exercises() -> list[dict[str, Any]]:
+    """Đọc raw exercises.json và trích xuất đúng 65 bài tập chuẩn hóa phủ đều 11 nhóm cơ."""
     if not RAW_EXERCISES_PATH.exists():
         raise FileNotFoundError(f"Không tìm thấy file: {RAW_EXERCISES_PATH}")
 
@@ -1007,8 +1007,8 @@ def build_50_exercises() -> list[dict[str, Any]]:
         }
         processed_exercises.append(record)
 
-    PROCESSED_50_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with open(PROCESSED_50_PATH, mode="w", encoding="utf-8") as out:
+    PROCESSED_65_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(PROCESSED_65_PATH, mode="w", encoding="utf-8") as out:
         json.dump(processed_exercises, out, ensure_ascii=False, indent=2)
 
     alt_path = BACKEND_DIR / "data" / "processed" / "exercises.json"
@@ -1019,5 +1019,5 @@ def build_50_exercises() -> list[dict[str, Any]]:
 
 
 if __name__ == "__main__":
-    items = build_50_exercises()
-    print(f"[+] Đã trích xuất và chuẩn hóa thành công {len(items)} bài tập vào: {PROCESSED_50_PATH}")
+    items = build_65_exercises()
+    print(f"[+] Đã trích xuất và chuẩn hóa thành công {len(items)} bài tập vào: {PROCESSED_65_PATH}")

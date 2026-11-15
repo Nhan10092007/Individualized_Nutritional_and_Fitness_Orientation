@@ -13,7 +13,7 @@ if str(BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(BACKEND_DIR))
 
 from scripts.etl.asset_handler import AssetHandler
-from scripts.etl.build_50_exercises import build_50_exercises, EXERCISE_DEFINITIONS
+from scripts.etl.build_65_exercises import build_65_exercises, EXERCISE_DEFINITIONS
 from scripts.etl.build_curated_foods import build_curated_foods, FAMILIAR_FOOD_DEFINITIONS
 from scripts.etl.crawl_bhx_prices import crawl_bhx_food_prices, BHX_BENCHMARK_PRICES
 from scripts.etl.extract import check_vietnam_fct_2017_pdf, extract_exercises_json
@@ -35,10 +35,10 @@ class TestETLPipeline(unittest.TestCase):
         assert pdf_path is not None
         self.assertTrue(pdf_path.name.endswith(".pdf"))
 
-    def test_step2_extract_50_exercises(self):
-        self.assertGreaterEqual(len(EXERCISE_DEFINITIONS), 50)
-        items = build_50_exercises()
-        self.assertGreaterEqual(len(items), 50)
+    def test_step2_extract_65_exercises(self):
+        self.assertEqual(len(EXERCISE_DEFINITIONS), 65)
+        items = build_65_exercises()
+        self.assertEqual(len(items), 65)
 
         expected_muscles = {
             "Chest", "Back", "Shoulders", "Rear Delts", "Biceps", "Triceps",
