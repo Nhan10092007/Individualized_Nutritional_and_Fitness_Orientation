@@ -9,6 +9,44 @@ import { useAuth } from "../../context/useAuth";
 import { getApiErrorMessage } from "../../services/api";
 import { exerciseService } from "../../services/exerciseService";
 
+const RAW_GH_PREFIX =
+  "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/";
+const JSDELIVR_PREFIX =
+  "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/";
+
+function getExerciseImageUrls(src) {
+  if (!src) return [];
+  if (src.startsWith(RAW_GH_PREFIX)) {
+    return [src.replace(RAW_GH_PREFIX, JSDELIVR_PREFIX), src];
+  }
+  return [src];
+}
+
+function ExerciseThumbnailImg({ urls, alt }) {
+  const [urlIndex, setUrlIndex] = useState(0);
+  const currentSrc = urls[urlIndex];
+
+  if (!currentSrc) return null;
+
+  return (
+    <div className="exercises-item-thumb-wrap">
+      <img
+        src={currentSrc}
+        alt={alt}
+        className="exercises-item-thumb"
+        loading="lazy"
+        onError={() => setUrlIndex((idx) => idx + 1)}
+      />
+    </div>
+  );
+}
+
+function ExerciseThumbnail({ src, alt }) {
+  const urls = getExerciseImageUrls(src);
+  if (urls.length === 0) return null;
+  return <ExerciseThumbnailImg key={src} urls={urls} alt={alt} />;
+}
+
 export default function ExercisesPage() {
   const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -238,6 +276,7 @@ export default function ExercisesPage() {
                       .filter(Boolean)
                       .join(" ")}
                   >
+                    <ExerciseThumbnail src={ex.image} alt={ex.name_en} />
                     <div className="exercises-item-top">
                       <span className="exercises-item-name">{ex.name_en}</span>
                     </div>
