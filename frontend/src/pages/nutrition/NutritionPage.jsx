@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ToastNotice from "../../components/common/ToastNotice";
 import { useAuth } from "../../context/useAuth";
@@ -22,6 +22,9 @@ const GOAL_LABELS = {
   general_fitness: "Thể lực tổng quát",
 };
 
+const BUBBLE_ANIMATION_MS = 1650;
+const TAB_TRANSITION_MS = 300;
+
 function formatVnd(amount) {
   return `${Math.round(Number(amount || 0)).toLocaleString("vi-VN")} đ`;
 }
@@ -32,11 +35,24 @@ export default function NutritionPage() {
   const [plan, setPlan] = useState(null);
   const [hasPlan, setHasPlan] = useState(false);
   const [selectedDay, setSelectedDay] = useState("ALL");
+  const [exitingDay, setExitingDay] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [isBubbleAnimating, setIsBubbleAnimating] = useState(false);
+  const [generationKey, setGenerationKey] = useState(0);
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+
+  const bubbleTimerRef = useRef(null);
+  const tabTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (bubbleTimerRef.current) clearTimeout(bubbleTimerRef.current);
+      if (tabTimerRef.current) clearTimeout(tabTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -72,7 +88,19 @@ export default function NutritionPage() {
     };
   }, []);
 
+  function handleSelectDayTab(nextDay) {
+    if (String(nextDay) === String(selectedDay)) return;
+    if (tabTimerRef.current) clearTimeout(tabTimerRef.current);
+    setExitingDay(selectedDay);
+    setSelectedDay(nextDay);
+    tabTimerRef.current = setTimeout(() => {
+      setExitingDay(null);
+      tabTimerRef.current = null;
+    }, TAB_TRANSITION_MS);
+  }
+
   async function handleGenerate() {
+    if (generating || isBubbleAnimating) return;
     setError("");
     setSuccessMsg("");
     setGenerating(true);
@@ -80,7 +108,15 @@ export default function NutritionPage() {
       const data = await nutritionService.generateMealPlan(7);
       setPlan(data || null);
       setHasPlan(Boolean(data?.weekly_plan?.length));
+      setExitingDay(null);
       setSelectedDay("ALL");
+      setGenerationKey((prev) => prev + 1);
+      setIsBubbleAnimating(true);
+      if (bubbleTimerRef.current) clearTimeout(bubbleTimerRef.current);
+      bubbleTimerRef.current = setTimeout(() => {
+        setIsBubbleAnimating(false);
+        bubbleTimerRef.current = null;
+      }, BUBBLE_ANIMATION_MS);
       setSuccessMsg("Đã cập nhật thành công");
     } catch (err) {
       setError(
@@ -102,12 +138,115 @@ export default function NutritionPage() {
   const dailyBudget = Number(constraints.daily_budget_vnd || 100000);
 
   const weeklyPlan = Array.isArray(plan?.weekly_plan) ? plan.weekly_plan : [];
-  const visibleDays =
-    selectedDay === "ALL"
+
+  function getDaysForFilter(dayFilter) {
+    return dayFilter === "ALL"
       ? weeklyPlan
-      : weeklyPlan.filter((d) => String(d.day_of_week) === String(selectedDay));
+      : weeklyPlan.filter((d) => String(d.day_of_week) === String(dayFilter));
+  }
+
+  const visibleDays = getDaysForFilter(selectedDay);
+  const exitingDays = exitingDay !== null ? getDaysForFilter(exitingDay) : [];
 
   const budgetRemaining = Number(plan?.budget_remaining_vnd || 0);
+  const isGenerateDisabled = generating || isBubbleAnimating || loading;
+
+  function renderDayMealCards(daysList, shouldBubbleAnimate = false) {
+    return daysList.map((dayPlan, dIdx) => (
+      <section
+        key={dayPlan.day_of_week}
+        className={
+          shouldBubbleAnimate ? "card bubble-drop-item" : "card"
+        }
+        style={
+          shouldBubbleAnimate
+            ? { animationDelay: `${Math.min(0.18 + dIdx * 0.06, 0.45)}s` }
+            : undefined
+        }
+      >
+        <div className="workout-session-header">
+          <div>
+            <h2 className="workout-session-title">
+              {DAY_NAMES[dayPlan.day_of_week] ||
+                `Ngày ${dayPlan.day_of_week}`}
+            </h2>
+            <p className="page-description" style={{ margin: 0 }}>
+              {(dayPlan.meals || []).length} bữa ăn chính (Sáng · Trưa · Tối)
+            </p>
+          </div>
+
+          <div className="workout-session-meta">
+            <span className="badge badge-success">
+              {Number(dayPlan.daily_total_calories || 0).toLocaleString(
+                "vi-VN"
+              )}{" "}
+              kcal
+            </span>
+            <span className="badge">
+              Tổng chi phí: {formatVnd(dayPlan.daily_total_cost)}
+            </span>
+          </div>
+        </div>
+
+        <div className="nutrition-meal-list">
+          {(dayPlan.meals || []).map((meal, mIdx) => (
+            <div
+              key={`${dayPlan.day_of_week}-${meal.meal_name}-${mIdx}`}
+              className="nutrition-meal-block"
+            >
+              <div className="nutrition-meal-header">
+                <h3 className="nutrition-meal-title">{meal.meal_name}</h3>
+                <div className="nutrition-meal-meta">
+                  <span className="badge badge-success">
+                    {Number(meal.total_calories || 0).toLocaleString(
+                      "vi-VN"
+                    )}{" "}
+                    kcal
+                  </span>
+                  <span className="badge">
+                    {formatVnd(meal.total_cost_vnd)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="workout-table-wrap">
+                <table className="workout-table">
+                  <thead>
+                    <tr>
+                      <th style={{ width: "52px" }}>STT</th>
+                      <th>Tên thực phẩm</th>
+                      <th>Khối lượng</th>
+                      <th>Calo</th>
+                      <th>Đạm (P)</th>
+                      <th>Tinh bột (C)</th>
+                      <th>Chất béo (F)</th>
+                      <th>Chi phí</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(meal.items || []).map((item, iIdx) => (
+                      <tr key={`${item.food_id}-${iIdx}`}>
+                        <td>{iIdx + 1}</td>
+                        <td className="workout-ex-name">{item.name}</td>
+                        <td>
+                          <strong>{Math.round(item.grams || 0)}</strong> g
+                        </td>
+                        <td>{item.calories} kcal</td>
+                        <td>{item.protein_g} g</td>
+                        <td>{item.carbs_g} g</td>
+                        <td>{item.fat_g} g</td>
+                        <td>{formatVnd(item.cost_vnd)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    ));
+  }
 
   return (
     <div className="dash-stack">
@@ -138,10 +277,12 @@ export default function NutritionPage() {
             type="button"
             className="btn btn-primary"
             onClick={handleGenerate}
-            disabled={generating || loading}
+            disabled={isGenerateDisabled}
           >
             {generating
               ? "Đang sinh thực đơn..."
+              : isBubbleAnimating
+              ? "Đang hiển thị thực đơn..."
               : hasPlan
               ? "Sinh lại thực đơn mới"
               : "Tạo thực đơn 7 ngày"}
@@ -167,15 +308,25 @@ export default function NutritionPage() {
             type="button"
             className="btn btn-primary"
             onClick={handleGenerate}
-            disabled={generating}
+            disabled={isGenerateDisabled}
           >
-            {generating ? "Đang sinh thực đơn..." : "Tạo thực đơn 7 ngày"}
+            {generating
+              ? "Đang sinh thực đơn..."
+              : isBubbleAnimating
+              ? "Đang hiển thị thực đơn..."
+              : "Tạo thực đơn 7 ngày"}
           </button>
         </div>
       ) : (
-        <>
+        <div key={`nutrition-gen-${generationKey}`} className="dash-stack">
           {/* Summary KPI Grid */}
-          <section className="dash-kpi-grid">
+          <section
+            className={
+              generationKey > 0
+                ? "dash-kpi-grid bubble-drop-item"
+                : "dash-kpi-grid"
+            }
+          >
             <div className="dash-kpi-card">
               <div className="dash-kpi-top">
                 <span className="dash-kpi-label">Calo TB / ngày</span>
@@ -235,13 +386,20 @@ export default function NutritionPage() {
           </section>
 
           {/* Day Filter Tabs */}
-          <div className="workout-tabs">
+          <div
+            className={
+              generationKey > 0
+                ? "workout-tabs bubble-drop-item"
+                : "workout-tabs"
+            }
+            style={generationKey > 0 ? { animationDelay: "0.1s" } : undefined}
+          >
             <button
               type="button"
               className={
                 selectedDay === "ALL" ? "workout-tab active" : "workout-tab"
               }
-              onClick={() => setSelectedDay("ALL")}
+              onClick={() => handleSelectDayTab("ALL")}
             >
               Cả tuần ({weeklyPlan.length} ngày)
             </button>
@@ -256,7 +414,7 @@ export default function NutritionPage() {
                       ? "workout-tab active"
                       : "workout-tab"
                   }
-                  onClick={() => setSelectedDay(dayKey)}
+                  onClick={() => handleSelectDayTab(dayKey)}
                 >
                   {DAY_NAMES[dayPlan.day_of_week] || `Ngày ${dayPlan.day_of_week}`}{" "}
                   · {Math.round(dayPlan.daily_total_calories || 0)} kcal
@@ -265,92 +423,32 @@ export default function NutritionPage() {
             })}
           </div>
 
-          {/* Daily Meal Cards */}
-          {visibleDays.map((dayPlan) => (
-            <section key={dayPlan.day_of_week} className="card">
-              <div className="workout-session-header">
-                <div>
-                  <h2 className="workout-session-title">
-                    {DAY_NAMES[dayPlan.day_of_week] ||
-                      `Ngày ${dayPlan.day_of_week}`}
-                  </h2>
-                  <p className="page-description" style={{ margin: 0 }}>
-                    {(dayPlan.meals || []).length} bữa ăn chính (Sáng · Trưa · Tối)
-                  </p>
-                </div>
-
-                <div className="workout-session-meta">
-                  <span className="badge badge-success">
-                    {Number(dayPlan.daily_total_calories || 0).toLocaleString(
-                      "vi-VN"
-                    )}{" "}
-                    kcal
-                  </span>
-                  <span className="badge">
-                    Tổng chi phí: {formatVnd(dayPlan.daily_total_cost)}
-                  </span>
-                </div>
+          {/* Daily Meal Cards with 0.3s tab transition & bubble generation transition */}
+          <div className="tab-transition-stage">
+            {exitingDay !== null && (
+              <div
+                key={`nutri-exit-${exitingDay}`}
+                className="tab-page-pane tab-page-exit dash-stack"
+                aria-hidden="true"
+              >
+                {renderDayMealCards(exitingDays, false)}
               </div>
-
-              <div className="nutrition-meal-list">
-                {(dayPlan.meals || []).map((meal, mIdx) => (
-                  <div
-                    key={`${dayPlan.day_of_week}-${meal.meal_name}-${mIdx}`}
-                    className="nutrition-meal-block"
-                  >
-                    <div className="nutrition-meal-header">
-                      <h3 className="nutrition-meal-title">{meal.meal_name}</h3>
-                      <div className="nutrition-meal-meta">
-                        <span className="badge badge-success">
-                          {Number(meal.total_calories || 0).toLocaleString(
-                            "vi-VN"
-                          )}{" "}
-                          kcal
-                        </span>
-                        <span className="badge">
-                          {formatVnd(meal.total_cost_vnd)}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="workout-table-wrap">
-                      <table className="workout-table">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "52px" }}>STT</th>
-                            <th>Tên thực phẩm</th>
-                            <th>Khối lượng</th>
-                            <th>Calo</th>
-                            <th>Đạm (P)</th>
-                            <th>Tinh bột (C)</th>
-                            <th>Chất béo (F)</th>
-                            <th>Chi phí</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {(meal.items || []).map((item, iIdx) => (
-                            <tr key={`${item.food_id}-${iIdx}`}>
-                              <td>{iIdx + 1}</td>
-                              <td className="workout-ex-name">{item.name}</td>
-                              <td>
-                                <strong>{Math.round(item.grams || 0)}</strong> g
-                              </td>
-                              <td>{item.calories} kcal</td>
-                              <td>{item.protein_g} g</td>
-                              <td>{item.carbs_g} g</td>
-                              <td>{item.fat_g} g</td>
-                              <td>{formatVnd(item.cost_vnd)}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          ))}
-        </>
+            )}
+            <div
+              key={`nutri-active-${selectedDay}`}
+              className={
+                exitingDay !== null
+                  ? "tab-page-pane tab-page-enter dash-stack"
+                  : "tab-page-pane dash-stack"
+              }
+            >
+              {renderDayMealCards(
+                visibleDays,
+                generationKey > 0 && exitingDay === null
+              )}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
