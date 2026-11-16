@@ -64,7 +64,6 @@ class TestETLPipeline(unittest.TestCase):
             self.assertIn("clinical_reasons", item)
             self.assertIn("image", item)
             self.assertIn("common_mistakes", item)
-            self.assertGreater(item["met_value"], 0)
             self.assertIn(item["intensity_level"], {"Light", "Moderate", "Vigorous"})
 
     def test_step3_extract_pdf_foods(self):

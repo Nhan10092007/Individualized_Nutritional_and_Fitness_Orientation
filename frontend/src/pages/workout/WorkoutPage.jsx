@@ -569,7 +569,6 @@ export default function WorkoutPage() {
         exercise={modalExercise}
         loading={modalLoading}
         error={modalError}
-        userWeightKg={Number(user?.biometrics?.weight_kg || 65)}
         onClose={handleCloseModal}
       />
     </div>

@@ -24,7 +24,6 @@ def _serialize_exercise(ex: Exercise, medical_conditions: List[str]) -> Dict[str
         "target_muscle": ex.target_muscle,
         "secondary_muscle": ex.secondary_muscle or [],
         "intensity_level": ex.intensity_level,
-        "met_value": ex.met_value,
         "description": ex.description,
         "equipment": ex.equipment,
         "instructions": ex.instructions or [],
