@@ -9,7 +9,7 @@ Script khởi tạo database (SQLite mặc định hoặc PostgreSQL) và nạp 
 2. Bài tập (Calo BURN):
    - ĐÚNG 50 BÀI TẬP chuẩn hóa trích xuất từ backend/data/raw/exercises.json.
    - Khớp 100% với schema ORM `Exercise`:
-     id, category, name_vi, name_en, met_value, intensity_level, description,
+     id, category, name_vi, name_en, intensity_level, description,
      equipment, instructions, common_mistakes, image, video_url,
      target_muscle, secondary_muscle, banned_for, clinical_reasons, source.
 3. Người dùng mẫu & Logs:

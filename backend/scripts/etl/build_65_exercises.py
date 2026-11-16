@@ -1006,7 +1006,7 @@ def build_65_exercises() -> list[dict[str, Any]]:
 
         desc = (
             f"Bài tập {defn['name_vi']} nhắm vào nhóm cơ {defn['target_muscle']}, "
-            f"sử dụng thiết bị {equipment} với mức vận động MET {defn['met_value']}."
+            f"sử dụng thiết bị {equipment} (cường độ {defn['intensity_level']})."
         )
 
         record = {
@@ -1014,7 +1014,6 @@ def build_65_exercises() -> list[dict[str, Any]]:
             "category": category,
             "name_vi": defn["name_vi"],
             "name_en": raw.get("name", "").strip(),
-            "met_value": float(defn["met_value"]),
             "intensity_level": defn["intensity_level"],
             "description": desc,
             "equipment": equipment,

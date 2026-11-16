@@ -79,6 +79,7 @@ def reset_and_import(reset_users: bool = False) -> None:
         for item in exercises_data:
             fields = dict(item)
             fields.pop("id", None)
+            fields.pop("met_value", None)
             db.add(Exercise(**fields))
 
         db.commit()
