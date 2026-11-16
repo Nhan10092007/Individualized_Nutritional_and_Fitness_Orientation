@@ -7,38 +7,23 @@ class InputValidator:
     def validate_and_construct(cls, raw: OnboardingRequest) -> Dict[str, Any]:
         warnings: List[str] = []
 
-        # 1. Kiểm tra ngưỡng an toàn sinh học và tự gán giá trị mặc định
+        # 1. Kiểm tra ngưỡng an toàn sinh học (đồng bộ với OnboardingRequest & Frontend: age 10-70, height 125-200, weight 35-150)
         gender = raw.gender
         age = raw.age
         height_cm = raw.height_cm
         weight_kg = raw.weight_kg
 
-        if gender == GenderEnum.MALE:
-            if age < 14 or age > 60:
-                age = 25
-                warnings.append(f"For a male aged {raw.age}, which falls outside the standard range of [14, 60], the value is automatically adjusted to 25 to ensure a safe BMR calculation.")
-        else:
-            if age < 14 or age > 55:
-                age = 25
-                warnings.append(f"For a female aged {raw.age}, which falls outside the standard range of [14, 55], the value is automatically adjusted to 25 to ensure a safe BMR calculation.")
+        if age < 10 or age > 70:
+            age = 25
+            warnings.append(f"Age ({raw.age}) is outside the supported range [10, 70]; defaulting to 25 for safe BMR calculation.")
 
-        if gender == GenderEnum.MALE:
-            if height_cm < 125.0 or height_cm > 200.0:
-                height_cm = 165.0
-                warnings.append(f"Male height ({raw.height_cm}cm) is outside the standard range [125, 200]cm; defaulting to 165.0cm.")
-        else:
-            if height_cm < 120.0 or height_cm > 190.0:
-                height_cm = 160.0
-                warnings.append(f"Female height ({raw.height_cm}cm) is outside the standard range [120, 190]cm; defaulting to 160.0cm.")
+        if height_cm < 125.0 or height_cm > 200.0:
+            height_cm = 165.0 if gender == GenderEnum.MALE else 160.0
+            warnings.append(f"Height ({raw.height_cm} cm) is outside the supported range [125, 200] cm; defaulting to {height_cm} cm.")
 
-        if gender == GenderEnum.MALE:
-            if weight_kg < 40.0 or weight_kg > 150.0:
-                weight_kg = 60.0
-                warnings.append(f"The male weight ({raw.weight_kg} kg) is outside the standard range of [40, 150] kg; defaulting to 60.0 kg.")
-        else:
-            if weight_kg < 35.0 or weight_kg > 140.0:
-                weight_kg = 55.0
-                warnings.append(f"The female weight ({raw.weight_kg} kg) is outside the standard range of [35, 140] kg; defaulting to 55.0 kg.")
+        if weight_kg < 35.0 or weight_kg > 150.0:
+            weight_kg = 60.0 if gender == GenderEnum.MALE else 55.0
+            warnings.append(f"Weight ({raw.weight_kg} kg) is outside the supported range [35, 150] kg; defaulting to {weight_kg} kg.")
 
         daily_budget = raw.daily_budget_vnd
         if daily_budget < 50000.0:
@@ -77,7 +62,7 @@ class InputValidator:
 
         is_floor_triggered = False
         if calc_target < bmr_kcal or calc_target < hard_floor:
-            target_calorie_kcal = max(bmr_kcal, hard_floor)
+            target_calorie_kcal = round(max(bmr_kcal, hard_floor), 0)
             is_floor_triggered = True
             warnings.append("The target calorie count reached the medically safe lower limit; the system automatically adjusted it upward to the minimum threshold to safeguard your health.")
         else:
