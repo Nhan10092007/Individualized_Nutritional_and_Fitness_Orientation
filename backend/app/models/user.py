@@ -15,9 +15,9 @@ class User(Base):
 
     # --- 1. Tài khoản (Auth) ---
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    username = Column(String(50), unique=True, nullable=False, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
     hashed_password = Column(String(255), nullable=False)
-    full_name = Column(String(100))
+    full_name = Column(String(100), nullable = False)
 
     # --- 2. Dữ liệu thu thập từ Onboarding (A1 Raw Input) ---
     gender = Column(String(10))                               # 'male' | 'female'
@@ -25,7 +25,7 @@ class User(Base):
     height_cm = Column(Float)
     weight_kg = Column(Float)
     fitness_goal = Column(String(20))                         # 'fat_loss' | 'muscle_gain' | 'maintain'
-    fitness_level = Column(Integer)                           # 1 (mới tập) -> 5 (nâng cao)
+    fitness_level = Column(String(20))                        # 'beginner' | 'experienced' | 'advanced'
     available_days = Column(JSON, default=list)               # ['Mon', 'Wed', 'Fri']
     session_duration_mins = Column(Integer)                   # 15 -> 120 phút
     medical_conditions = Column(JSON, default=list)           # ['knee_osteoarthritis', 'hypertension']

@@ -12,6 +12,12 @@ Từ thư mục gốc `backend/`:
 # Kích hoạt môi trường ảo (nếu chưa kích hoạt)
 source .venv/bin/activate
 
+# Tắt môi trường ảo:
+deactivate
+
+# Bật server backend:
+uvicorn app.main:app --reload
+
 # Cài đặt các thư viện cần thiết (nếu có cập nhật mới)
 pip install -r requirements.txt
 ```

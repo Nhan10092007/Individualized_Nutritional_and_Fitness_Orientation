@@ -471,11 +471,11 @@ def seed_sample_user_and_logs(db: Session):
     print("[*] Nạp người dùng mẫu và logs thực hành...")
 
     # 1. Thêm user mẫu (Nguyễn Văn An, 24 tuổi, 70kg, mục tiêu fat_loss) - tương đương INSERT OR IGNORE
-    #    Đăng nhập thử bằng: username = vanan24 / password = 123456
-    user = db.query(User).filter_by(username="vanan24").one_or_none()
+    #    Đăng nhập thử bằng: email = vanan24@gmail.com / password = 123456
+    user = db.query(User).filter_by(email="vanan24@gmail.com").one_or_none()
     if user is None:
         user = User(
-            username="vanan24",
+            email="vanan24@gmail.com",
             hashed_password=hash_password("123456"),
             full_name="Nguyễn Văn An",
             gender="male",

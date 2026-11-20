@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import init_db
-
+from app.routers import auth, users, workout, nutrition, exercises
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -24,10 +24,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router)
+app.include_router(users.router)
+app.include_router(workout.router)
+app.include_router(nutrition.router)
+app.include_router(exercises.router)
 
-@app.get("/api/health")
-def health_check():
-    return {
-        "status": "ok",
-        "message": "Fitness API is running"
-    }

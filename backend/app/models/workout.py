@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    Column, Integer, String, Float, Date, DateTime, ForeignKey, CheckConstraint, Index,
+    Column, Integer, String, Float, Date, DateTime, ForeignKey, CheckConstraint, Index, JSON
 )
 
 from app.database import Base, utcnow
@@ -33,3 +33,17 @@ class WorkoutLog(Base):
     calories_burned = Column(Float, nullable=False)
     notes = Column(String)
     created_at = Column(DateTime(timezone=True), default=utcnow)
+
+class WorkoutPlan(Base):
+    """
+    The table used to save the schedule of user after generated at A4 phase.
+    Each of user has one workout plan.
+    """
+
+    __tablename__ = "workout_plans"
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, unique=True, index=True)
+    split_type = Column(String(50), nullable=False)
+    schedule_json = Column(JSON, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
+    updated_at = Column(DateTime(timezone=True), default =utcnow, onupdate=utcnow)
