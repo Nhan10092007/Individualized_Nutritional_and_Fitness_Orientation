@@ -41,7 +41,8 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "http://127.0.0.1:5173",
     ]
-
+    CORS_ORIGIN_REGEX: str = r"^https://.*\.(app\.github\.dev|githubpreview\.dev)$"
+    
     model_config = SettingsConfigDict(
         env_file=BACKEND_DIR / ".env",
         env_file_encoding="utf-8",

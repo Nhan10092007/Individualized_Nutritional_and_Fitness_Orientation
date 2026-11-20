@@ -7,7 +7,7 @@ import {
   User,
   Wallet,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Navbar from "../../components/common/Navbar";
 import {
@@ -34,15 +34,43 @@ const STEP_LABELS = [
   "4. Ngân sách",
 ];
 
+const STEP_TRANSITION_MS = 550;
+
 export default function OnboardingPage() {
   const { user, refreshProfile } = useAuth();
   const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
+  const [prevStep, setPrevStep] = useState(null);
+  const [slideDirection, setSlideDirection] = useState("next");
+  const transitionTimerRef = useRef(null);
+
   const [formData, setFormData] = useState(() => buildInitialFormData(user));
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [firstTimeResult, setFirstTimeResult] = useState(null);
+
+  useEffect(() => {
+    return () => {
+      if (transitionTimerRef.current) {
+        clearTimeout(transitionTimerRef.current);
+      }
+    };
+  }, []);
+
+  function transitionToStep(targetStep, direction) {
+    if (targetStep === step) return;
+    if (transitionTimerRef.current) {
+      clearTimeout(transitionTimerRef.current);
+    }
+    setPrevStep(step);
+    setSlideDirection(direction);
+    setStep(targetStep);
+    transitionTimerRef.current = setTimeout(() => {
+      setPrevStep(null);
+      transitionTimerRef.current = null;
+    }, STEP_TRANSITION_MS);
+  }
 
   function updateField(name, value) {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -91,12 +119,32 @@ export default function OnboardingPage() {
       return;
     }
     setError("");
-    setStep((prev) => Math.min(prev + 1, 4));
+    const nextStep = Math.min(step + 1, 4);
+    transitionToStep(nextStep, "next");
   }
 
   function handlePrev() {
     setError("");
-    setStep((prev) => Math.max(prev - 1, 1));
+    const previousStep = Math.max(step - 1, 1);
+    transitionToStep(previousStep, "prev");
+  }
+
+  function handleStepClick(targetStep) {
+    if (targetStep === step || submitting) return;
+    if (targetStep < step) {
+      setError("");
+      transitionToStep(targetStep, "prev");
+      return;
+    }
+    for (let s = step; s < targetStep; s += 1) {
+      const validationErr = validateSurveyStep(formData, s);
+      if (validationErr) {
+        setError(validationErr);
+        return;
+      }
+    }
+    setError("");
+    transitionToStep(targetStep, "next");
   }
 
   async function handleWizardSubmit(e) {
@@ -130,13 +178,115 @@ export default function OnboardingPage() {
     }
   }
 
+  function renderStepFields(targetStep) {
+    if (targetStep === 1) {
+      return (
+        <>
+          <SectionHeader
+            icon={User}
+            iconTone="dash-icon-blue"
+            title="Bước 1: Chỉ số sinh trắc cơ bản"
+          />
+          <BiometricsFields formData={formData} onUpdateField={updateField} />
+        </>
+      );
+    }
+    if (targetStep === 2) {
+      return (
+        <>
+          <SectionHeader
+            icon={Target}
+            iconTone="dash-icon-emerald"
+            title="Bước 2: Mục tiêu & Trình độ tập luyện"
+          />
+          <GoalFields formData={formData} onUpdateField={updateField} />
+        </>
+      );
+    }
+    if (targetStep === 3) {
+      return (
+        <>
+          <SectionHeader
+            icon={CalendarDays}
+            iconTone="dash-icon-violet"
+            title="Bước 3: Lịch tập khả dụng & Tình trạng sức khỏe"
+          />
+          <ScheduleHealthFields
+            formData={formData}
+            onUpdateField={updateField}
+            onToggleDay={toggleDay}
+            onToggleCondition={toggleMedicalCondition}
+          />
+        </>
+      );
+    }
+    return (
+      <>
+        <SectionHeader
+          icon={Wallet}
+          iconTone="dash-icon-amber"
+          title="Bước 4: Ngân sách dinh dưỡng hằng ngày"
+        />
+        <BudgetFields formData={formData} onUpdateField={updateField} />
+      </>
+    );
+  }
+
+  function renderStepActions(targetStep, isExiting = false) {
+    return (
+      <div className="btn-row">
+        {targetStep > 1 ? (
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={isExiting ? undefined : handlePrev}
+            disabled={submitting || isExiting}
+          >
+            <ArrowLeft size={16} />
+            <span>Quay lại</span>
+          </button>
+        ) : (
+          <div />
+        )}
+
+        {targetStep < 4 ? (
+          <button
+            key={`btn-next-${targetStep}`}
+            type="button"
+            className="btn btn-primary"
+            onClick={isExiting ? undefined : handleNext}
+            disabled={
+              isExiting ||
+              (targetStep === 3 &&
+                (formData.available_days.length < 2 ||
+                  formData.available_days.length > 6))
+            }
+          >
+            <span>Tiếp theo</span>
+            <ArrowRight size={16} />
+          </button>
+        ) : (
+          <button
+            key="btn-submit"
+            type="submit"
+            className="btn btn-primary"
+            disabled={submitting || isExiting}
+          >
+            <CheckCircle2 size={16} />
+            <span>{submitting ? "Đang tính toán..." : "Hoàn thành khảo sát"}</span>
+          </button>
+        )}
+      </div>
+    );
+  }
+
   // Người dùng mới vừa hoàn thành khảo sát lần đầu -> hiện màn hình kết quả
   if (firstTimeResult) {
     return (
       <div className="app-shell">
         <Navbar />
         <main className="main-content" style={{ margin: "0 auto", width: "100%" }}>
-          <div className="onboarding-container">
+          <div className="onboarding-container onboarding-pop-in">
             <div className="dash-hero" style={{ marginBottom: "20px" }}>
               <div>
                 <div className="dash-hero-badges">
@@ -285,12 +435,24 @@ export default function OnboardingPage() {
     return <Navigate to="/profile" replace />;
   }
 
+  const exitClass =
+    slideDirection === "next"
+      ? "card onboarding-step-card step-slide-out-left"
+      : "card onboarding-step-card step-slide-out-right";
+
+  const enterClass =
+    prevStep !== null
+      ? slideDirection === "next"
+        ? "card onboarding-step-card step-slide-in-right"
+        : "card onboarding-step-card step-slide-in-left"
+      : "card onboarding-step-card step-initial-pop";
+
   // Người dùng MỚI chưa khảo sát -> Form Wizard 4 bước lần đầu
   return (
     <div className="app-shell">
       <Navbar />
       <main className="main-content" style={{ margin: "0 auto", width: "100%" }}>
-        <div className="onboarding-container">
+        <div className="onboarding-container onboarding-pop-in">
           <div className="dash-hero" style={{ marginBottom: "20px" }}>
             <div>
               <h1 className="dash-hero-title">Khảo sát thể chất &amp; Ràng buộc</h1>
@@ -308,108 +470,41 @@ export default function OnboardingPage() {
               if (stepNumber === step) cls += " active";
               else if (stepNumber < step) cls += " done";
               return (
-                <div key={label} className={cls}>
+                <button
+                  key={label}
+                  type="button"
+                  className={cls}
+                  onClick={() => handleStepClick(stepNumber)}
+                >
                   {label}
-                </div>
+                </button>
               );
             })}
           </div>
 
           {error && <div className="alert alert-error">{error}</div>}
 
-          <form className="card" onSubmit={handleWizardSubmit}>
-            {step === 1 && (
-              <>
-                <SectionHeader
-                  icon={User}
-                  iconTone="dash-icon-blue"
-                  title="Bước 1: Chỉ số sinh trắc cơ bản"
-                />
-                <BiometricsFields formData={formData} onUpdateField={updateField} />
-              </>
+          <div className="onboarding-step-stage">
+            {prevStep !== null && (
+              <div
+                key={`step-exit-${prevStep}`}
+                className={exitClass}
+                aria-hidden="true"
+              >
+                {renderStepFields(prevStep)}
+                {renderStepActions(prevStep, true)}
+              </div>
             )}
 
-            {step === 2 && (
-              <>
-                <SectionHeader
-                  icon={Target}
-                  iconTone="dash-icon-emerald"
-                  title="Bước 2: Mục tiêu & Trình độ tập luyện"
-                />
-                <GoalFields formData={formData} onUpdateField={updateField} />
-              </>
-            )}
-
-            {step === 3 && (
-              <>
-                <SectionHeader
-                  icon={CalendarDays}
-                  iconTone="dash-icon-violet"
-                  title="Bước 3: Lịch tập khả dụng & Tình trạng sức khỏe"
-                />
-                <ScheduleHealthFields
-                  formData={formData}
-                  onUpdateField={updateField}
-                  onToggleDay={toggleDay}
-                  onToggleCondition={toggleMedicalCondition}
-                />
-              </>
-            )}
-
-            {step === 4 && (
-              <>
-                <SectionHeader
-                  icon={Wallet}
-                  iconTone="dash-icon-amber"
-                  title="Bước 4: Ngân sách dinh dưỡng hằng ngày"
-                />
-                <BudgetFields formData={formData} onUpdateField={updateField} />
-              </>
-            )}
-
-            <div className="btn-row">
-              {step > 1 ? (
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={handlePrev}
-                  disabled={submitting}
-                >
-                  <ArrowLeft size={16} />
-                  <span>Quay lại</span>
-                </button>
-              ) : (
-                <div />
-              )}
-
-              {step < 4 ? (
-                <button
-                  key="btn-next"
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleNext}
-                  disabled={
-                    step === 3 &&
-                    (formData.available_days.length < 2 ||
-                      formData.available_days.length > 6)
-                  }
-                >
-                  <span>Tiếp theo</span>
-                  <ArrowRight size={16} />
-                </button>
-              ) : (
-                <button
-                  key="btn-submit"
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={submitting}
-                >
-                  <CheckCircle2 size={16} />
-                  <span>{submitting ? "Đang tính toán..." : "Hoàn thành khảo sát"}</span>
-                </button>
-              )}
-            </div>
-          </form>
+            <form
+              key={`step-active-${step}`}
+              className={enterClass}
+              onSubmit={handleWizardSubmit}
+            >
+              {renderStepFields(step)}
+              {renderStepActions(step, false)}
+            </form>
+          </div>
         </div>
       </main>
     </div>

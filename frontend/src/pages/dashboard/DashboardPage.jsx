@@ -72,7 +72,7 @@ const FEATURE_CARDS = [
     description:
       "Thư viện bài tập hỗ trợ tìm kiếm nhanh theo tên, dụng cụ, nhóm cơ chính và mức độ cường độ vận động.",
     highlights: [
-      "Xem chỉ số MET, lượng calo tiêu hao ước tính, dụng cụ và nhóm cơ phụ",
+      "Xem thông tin bài tập, cường độ vận động, dụng cụ và nhóm cơ phụ",
       "Hướng dẫn thực hiện từng bước cùng lưu ý chống chỉ định y khoa",
     ],
     to: "/exercises",
