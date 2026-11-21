@@ -174,6 +174,7 @@ def _build_exercise_entry(
         "exercise_id": exercise.get("id"),
         "name": exercise.get("name"),
         "target_muscle": exercise.get("target_muscle"),
+        "intensity_level": exercise.get("intensity_level", "Moderate"),
         "sets": sets,
         "reps": reps,
         "rest_seconds": int(rest_between_sets_sec),

@@ -2820,3 +2820,198 @@ select {
   }
 }
 
+
+
+/* =========================================================================
+   Workout Exercise Swap & Intensity Mismatch Warnings
+   ========================================================================= */
+.workout-ex-cell-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.workout-intensity-alert-danger,
+.workout-intensity-alert-easy {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.workout-intensity-alert-danger {
+  color: var(--danger);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+}
+
+.workout-intensity-alert-easy {
+  color: var(--success);
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+}
+
+.workout-table tbody tr.workout-row-warning-danger {
+  background: #fff5f5;
+  box-shadow: inset 3px 0 0 var(--danger);
+}
+
+.workout-table tbody tr.workout-row-warning-easy {
+  background: #f0fdf4;
+  box-shadow: inset 3px 0 0 var(--success);
+}
+
+.workout-day-ex-item.is-warning-danger {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-radius: 6px;
+  padding: 3px 6px;
+}
+
+.workout-day-ex-item.is-warning-easy {
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  border-radius: 6px;
+  padding: 3px 6px;
+}
+
+.workout-day-ex-indicator {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
+.workout-day-ex-indicator.danger {
+  color: var(--danger);
+}
+
+.workout-day-ex-indicator.easy {
+  color: var(--success);
+}
+
+.workout-swap-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.workout-swap-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+.swap-modal-card {
+  max-width: 680px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.swap-modal-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+}
+
+.swap-modal-search .input {
+  border: none;
+  background: transparent;
+  padding-left: 0;
+  box-shadow: none;
+}
+
+.swap-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 52vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.swap-modal-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.swap-modal-item:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.swap-modal-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.swap-modal-item-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.swap-modal-item-name {
+  font-size: 14.5px;
+  color: var(--text);
+}
+
+.swap-modal-item-sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.swap-modal-warning {
+  margin-top: 2px;
+  align-self: flex-start;
+}
+
+.swap-modal-choose-btn {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.swap-modal-empty {
+  padding: 20px;
+  text-align: center;
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
+  color: var(--text-secondary);
+  font-size: 14px;
+}

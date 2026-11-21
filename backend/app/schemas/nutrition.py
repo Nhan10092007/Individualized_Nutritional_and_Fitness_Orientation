@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List
 
 # --- 1. API Endpoint (Nhận từ Frontend) ---
 class GeneratePlanRequest(BaseModel):
