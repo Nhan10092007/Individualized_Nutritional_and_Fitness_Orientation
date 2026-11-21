@@ -1,5 +1,5 @@
 from typing import Dict, Any, List
-from app.schemas.user import (OnboardingRequest, OnboardingResponse, MacroSplit, GenderEnum, FitnessGoalEnum, FitnessLevelEnum)
+from app.schemas.user import (OnboardingRequest, OnboardingResponse, MacroSplit, GenderEnum, FitnessGoalEnum)
 
 # Kiểm tra + ràng buộc dữ liệu
 class InputValidator:

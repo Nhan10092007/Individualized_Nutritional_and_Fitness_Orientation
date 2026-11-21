@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { AlertTriangle, ArrowLeftRight, CheckCircle2 } from "lucide-react";
 import ToastNotice from "../../components/common/ToastNotice";
 import ExerciseDetailModal from "../../components/exercises/ExerciseDetailModal";
-import { MUSCLE_LABELS } from "../../constants/exerciseLabels";
+import SwapExerciseModal from "../../components/workout/SwapExerciseModal";
+import { INTENSITY_LABELS, MUSCLE_LABELS } from "../../constants/exerciseLabels";
 import { useAuth } from "../../context/useAuth";
 import { getApiErrorMessage } from "../../services/api";
 import { exerciseService } from "../../services/exerciseService";
@@ -68,6 +70,34 @@ function formatExerciseName(name) {
   return raw;
 }
 
+function getExerciseWarning(ex, fitnessLevel) {
+  if (!ex) return null;
+  if (ex.intensity_warning && ex.intensity_warning.type) {
+    return ex.intensity_warning;
+  }
+  if (!ex.is_swapped) return null;
+
+  const level = String(fitnessLevel || "beginner").toLowerCase();
+  const intensity = String(ex.intensity_level || "Moderate").toLowerCase();
+  if (level === "beginner" && intensity === "vigorous") {
+    return {
+      type: "danger",
+      label: "Cảnh báo: Cường độ cao",
+      message:
+        "Bài tập cường độ cao (Vigorous) có thể quá sức với người mới. Hãy ưu tiên mức tạ nhẹ và giữ chuẩn kỹ thuật.",
+    };
+  }
+  if ((level === "experienced" || level === "advanced") && intensity === "light") {
+    return {
+      type: "easy",
+      label: "Cường độ nhẹ",
+      message:
+        "Bài tập cường độ nhẹ (Light) so với trình độ hiện tại. Phù hợp để phục hồi hoặc tăng số lần lặp.",
+    };
+  }
+  return null;
+}
+
 export default function WorkoutPage() {
   const { user } = useAuth();
 
@@ -88,6 +118,9 @@ export default function WorkoutPage() {
   const [modalExercise, setModalExercise] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
   const [modalError, setModalError] = useState("");
+  const [swapModalOpen, setSwapModalOpen] = useState(false);
+  const [swapTarget, setSwapTarget] = useState(null);
+  const [swapping, setSwapping] = useState(false);
   const exerciseCacheRef = useRef({});
   const activeExerciseReqRef = useRef(0);
   const bubbleTimerRef = useRef(null);
@@ -150,6 +183,49 @@ export default function WorkoutPage() {
     setModalOpen(false);
     setModalLoading(false);
     setModalError("");
+  }
+
+  function handleOpenSwap(dayKey, exerciseIndex, exercise) {
+    setError("");
+    setSwapTarget({
+      day: dayKey,
+      exerciseIndex,
+      exercise,
+    });
+    setSwapModalOpen(true);
+  }
+
+  function handleCloseSwap() {
+    if (swapping) return;
+    setSwapModalOpen(false);
+    setSwapTarget(null);
+  }
+
+  async function handleConfirmSwap(newExerciseId) {
+    if (!swapTarget || swapping) return;
+    setSwapping(true);
+    setError("");
+    setSuccessMsg("");
+    try {
+      const data = await workoutService.swapExercise({
+        day: swapTarget.day,
+        exercise_index: swapTarget.exerciseIndex,
+        new_exercise_id: newExerciseId,
+      });
+      if (data?.workout_plan) {
+        setPlan(data.workout_plan);
+      }
+      setCreatedAt(new Date().toISOString());
+      setSwapModalOpen(false);
+      setSwapTarget(null);
+      setSuccessMsg("Đã thay đổi bài tập thành công!");
+    } catch (err) {
+      setError(
+        getApiErrorMessage(err, "Không thể đổi bài tập. Vui lòng thử lại.")
+      );
+    } finally {
+      setSwapping(false);
+    }
   }
 
   useEffect(() => {
@@ -296,44 +372,107 @@ export default function WorkoutPage() {
                   <th>Nghỉ giữa hiệp</th>
                   <th>Nghỉ giữa các bài</th>
                   <th>Thời gian dự kiến</th>
+                  <th style={{ width: "112px" }}>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
-                {(session.exercises || []).map((ex, eIdx) => (
-                  <tr key={`${ex.exercise_id}-${eIdx}`}>
-                    <td>{eIdx + 1}</td>
-                    <td className="workout-ex-name">
-                      <button
-                        type="button"
-                        className="workout-ex-link"
-                        title="Xem hướng dẫn chi tiết bài tập"
-                        onClick={() => handleOpenExercise(ex.exercise_id)}
-                      >
-                        {formatExerciseName(ex.name)}
-                      </button>
-                    </td>
-                    <td>
-                      <span className="badge">
-                        {MUSCLE_LABELS[ex.target_muscle] || ex.target_muscle}
-                      </span>
-                    </td>
-                    <td>
-                      <strong>{ex.sets}</strong> hiệp ×{" "}
-                      <strong>{ex.reps}</strong> lần
-                    </td>
-                    <td>{ex.rest_seconds ?? 120} giây</td>
-                    <td>
-                      {eIdx < (session.exercises || []).length - 1
-                        ? `${ex.rest_between_exercises_seconds ?? 120} giây`
-                        : "Kết thúc buổi"}
-                    </td>
-                    <td>
-                      {ex.estimated_time_seconds != null
-                        ? `${(ex.estimated_time_seconds / 60).toFixed(1)} phút`
-                        : "-"}
-                    </td>
-                  </tr>
-                ))}
+                {(session.exercises || []).map((ex, eIdx) => {
+                  const warning = getExerciseWarning(ex, targets.fitness_level);
+                  const rowWarningClass =
+                    warning?.type === "danger"
+                      ? "workout-row-warning-danger"
+                      : warning?.type === "easy"
+                      ? "workout-row-warning-easy"
+                      : "";
+
+                  return (
+                    <tr
+                      key={`${ex.exercise_id}-${eIdx}`}
+                      className={rowWarningClass}
+                    >
+                      <td>{eIdx + 1}</td>
+                      <td className="workout-ex-name">
+                        <div className="workout-ex-cell-wrap">
+                          <button
+                            type="button"
+                            className="workout-ex-link"
+                            title="Xem hướng dẫn chi tiết bài tập"
+                            onClick={() => handleOpenExercise(ex.exercise_id)}
+                          >
+                            {formatExerciseName(ex.name)}
+                          </button>
+                          {warning && (
+                            <span
+                              className={
+                                warning.type === "danger"
+                                  ? "workout-intensity-alert-danger"
+                                  : "workout-intensity-alert-easy"
+                              }
+                              title={warning.message}
+                            >
+                              {warning.type === "danger" ? (
+                                <AlertTriangle size={13} aria-hidden="true" />
+                              ) : (
+                                <CheckCircle2 size={13} aria-hidden="true" />
+                              )}
+                              <span>{warning.label}</span>
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="tag-list">
+                          <span className="badge">
+                            {MUSCLE_LABELS[ex.target_muscle] ||
+                              ex.target_muscle}
+                          </span>
+                          {ex.intensity_level && (
+                            <span
+                              className={
+                                ex.intensity_level === "Vigorous"
+                                  ? "badge badge-danger"
+                                  : ex.intensity_level === "Light"
+                                  ? "badge badge-success"
+                                  : "badge"
+                              }
+                            >
+                              {INTENSITY_LABELS[ex.intensity_level] ||
+                                ex.intensity_level}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <strong>{ex.sets}</strong> hiệp ×{" "}
+                        <strong>{ex.reps}</strong> lần
+                      </td>
+                      <td>{ex.rest_seconds ?? 120} giây</td>
+                      <td>
+                        {eIdx < (session.exercises || []).length - 1
+                          ? `${ex.rest_between_exercises_seconds ?? 120} giây`
+                          : "Kết thúc buổi"}
+                      </td>
+                      <td>
+                        {ex.estimated_time_seconds != null
+                          ? `${(ex.estimated_time_seconds / 60).toFixed(1)} phút`
+                          : "-"}
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          className="workout-swap-btn"
+                          title="Đổi sang bài tập khác cùng nhóm cơ chính"
+                          onClick={() =>
+                            handleOpenSwap(session.day, eIdx, ex)
+                          }
+                        >
+                          <ArrowLeftRight size={14} aria-hidden="true" />
+                          <span>Đổi bài</span>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -575,12 +714,44 @@ export default function WorkoutPage() {
                         <ul className="workout-day-exercises">
                           {(session.exercises || []).map((ex, eIdx) => {
                             const displayName = formatExerciseName(ex.name);
+                            const warning = getExerciseWarning(
+                              ex,
+                              targets.fitness_level
+                            );
+                            const itemWarnClass =
+                              warning?.type === "danger"
+                                ? " is-warning-danger"
+                                : warning?.type === "easy"
+                                ? " is-warning-easy"
+                                : "";
                             return (
                               <li
                                 key={`${ex.exercise_id}-${eIdx}`}
-                                className="workout-day-ex-item"
-                                title={`${displayName} (${ex.sets}×${ex.reps})`}
+                                className={`workout-day-ex-item${itemWarnClass}`}
+                                title={
+                                  warning
+                                    ? `${displayName} (${ex.sets}×${ex.reps}) — ${warning.message}`
+                                    : `${displayName} (${ex.sets}×${ex.reps})`
+                                }
                               >
+                                {warning && (
+                                  <span
+                                    className={`workout-day-ex-indicator ${warning.type}`}
+                                    aria-label={warning.label}
+                                  >
+                                    {warning.type === "danger" ? (
+                                      <AlertTriangle
+                                        size={12}
+                                        aria-hidden="true"
+                                      />
+                                    ) : (
+                                      <CheckCircle2
+                                        size={12}
+                                        aria-hidden="true"
+                                      />
+                                    )}
+                                  </span>
+                                )}
                                 <button
                                   type="button"
                                   className="workout-day-ex-name workout-day-ex-btn"
@@ -655,6 +826,22 @@ export default function WorkoutPage() {
         error={modalError}
         userWeightKg={Number(user?.biometrics?.weight_kg || 65)}
         onClose={handleCloseModal}
+      />
+
+      <SwapExerciseModal
+        isOpen={swapModalOpen}
+        targetExercise={swapTarget?.exercise || null}
+        sessionExerciseIds={
+          swapTarget
+            ? (sessionByDay[swapTarget.day]?.exercises || []).map(
+                (item) => item.exercise_id
+              )
+            : []
+        }
+        fitnessLevel={targets.fitness_level || "beginner"}
+        swapping={swapping}
+        onSelectExercise={handleConfirmSwap}
+        onClose={handleCloseSwap}
       />
     </div>
   );

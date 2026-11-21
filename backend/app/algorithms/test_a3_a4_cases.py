@@ -6,16 +6,13 @@ File: backend/app/algorithms/test_a3_a4_cases.py
 import sys
 import os
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-if current_dir not in sys.path:
-    sys.path.insert(0, current_dir)
+backend_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if backend_dir not in sys.path:
+    sys.path.insert(0, backend_dir)
 
-from workout_generator import (
+from app.algorithms.workout_generator import (
     is_exercise_safe,
-    calculate_similarity_score,
     filter_and_substitute_workout,
-    determine_split_type,
-    get_muscles_for_session,
     generate_weekly_workout_schedule
 )
 
