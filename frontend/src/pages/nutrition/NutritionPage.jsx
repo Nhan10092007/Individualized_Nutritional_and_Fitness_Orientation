@@ -29,6 +29,20 @@ function formatVnd(amount) {
   return `${Math.round(Number(amount || 0)).toLocaleString("vi-VN")} đ`;
 }
 
+function getDailyMacros(dayPlan) {
+  return (dayPlan?.meals || []).reduce(
+    (acc, meal) => {
+      for (const item of meal?.items || []) {
+        acc.protein += Number(item?.protein_g || 0);
+        acc.carbs += Number(item?.carbs_g || 0);
+        acc.fat += Number(item?.fat_g || 0);
+      }
+      return acc;
+    },
+    { protein: 0, carbs: 0, fat: 0 }
+  );
+}
+
 export default function NutritionPage() {
   const { user } = useAuth();
 
@@ -152,41 +166,48 @@ export default function NutritionPage() {
   const isGenerateDisabled = generating || isBubbleAnimating || loading;
 
   function renderDayMealCards(daysList, shouldBubbleAnimate = false) {
-    return daysList.map((dayPlan, dIdx) => (
-      <section
-        key={dayPlan.day_of_week}
-        className={
-          shouldBubbleAnimate ? "card bubble-drop-item" : "card"
-        }
-        style={
-          shouldBubbleAnimate
-            ? { animationDelay: `${Math.min(0.18 + dIdx * 0.06, 0.45)}s` }
-            : undefined
-        }
-      >
-        <div className="workout-session-header">
-          <div>
-            <h2 className="workout-session-title">
-              {DAY_NAMES[dayPlan.day_of_week] ||
-                `Ngày ${dayPlan.day_of_week}`}
-            </h2>
-            <p className="page-description" style={{ margin: 0 }}>
-              {(dayPlan.meals || []).length} bữa ăn chính (Sáng · Trưa · Tối)
-            </p>
-          </div>
+    return daysList.map((dayPlan, dIdx) => {
+      const dailyMacros = getDailyMacros(dayPlan);
+      return (
+        <section
+          key={dayPlan.day_of_week}
+          className={
+            shouldBubbleAnimate ? "card bubble-drop-item" : "card"
+          }
+          style={
+            shouldBubbleAnimate
+              ? { animationDelay: `${Math.min(0.18 + dIdx * 0.06, 0.45)}s` }
+              : undefined
+          }
+        >
+          <div className="workout-session-header">
+            <div>
+              <h2 className="workout-session-title">
+                {DAY_NAMES[dayPlan.day_of_week] ||
+                  `Ngày ${dayPlan.day_of_week}`}
+              </h2>
+              <p className="page-description" style={{ margin: 0 }}>
+                {(dayPlan.meals || []).length} bữa ăn chính (Sáng · Trưa · Tối)
+              </p>
+            </div>
 
-          <div className="workout-session-meta">
-            <span className="badge badge-success">
-              {Number(dayPlan.daily_total_calories || 0).toLocaleString(
-                "vi-VN"
-              )}{" "}
-              kcal
-            </span>
-            <span className="badge">
-              Tổng chi phí: {formatVnd(dayPlan.daily_total_cost)}
-            </span>
+            <div className="workout-session-meta">
+              <span className="badge badge-success">
+                {Number(dayPlan.daily_total_calories || 0).toLocaleString(
+                  "vi-VN"
+                )}{" "}
+                kcal
+              </span>
+              <span className="badge">
+                P {Math.round(dailyMacros.protein)}g · C{" "}
+                {Math.round(dailyMacros.carbs)}g · F{" "}
+                {Math.round(dailyMacros.fat)}g
+              </span>
+              <span className="badge">
+                Tổng chi phí: {formatVnd(dayPlan.daily_total_cost)}
+              </span>
+            </div>
           </div>
-        </div>
 
         <div className="nutrition-meal-list">
           {(dayPlan.meals || []).map((meal, mIdx) => (
@@ -245,7 +266,8 @@ export default function NutritionPage() {
           ))}
         </div>
       </section>
-    ));
+      );
+    });
   }
 
   return (

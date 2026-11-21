@@ -12,12 +12,12 @@ export const GOAL_OPTIONS = [
   {
     value: "fat_loss",
     title: "Giảm mỡ",
-    desc: "Thâm hụt 20% calo so với TDEE, ưu tiên đạm cao",
+    desc: "Thâm hụt 500 kcal so với TDEE, ưu tiên đạm cao",
   },
   {
     value: "muscle_gain",
     title: "Tăng cơ",
-    desc: "Thặng dư 15% calo so với TDEE, ưu tiên tinh bột phục hồi",
+    desc: "Thặng dư 300 kcal so với TDEE, ưu tiên tinh bột phục hồi",
   },
   {
     value: "maintain",
