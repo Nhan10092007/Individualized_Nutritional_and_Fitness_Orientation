@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Optional
+from typing import List
 from pydantic import BaseModel, Field
 
 # Định nghĩa các lựa chọn khi người dùng đăng nhập. Ví dụ: giới tính thì ta chọn nam hoặc nữ
