@@ -44,9 +44,7 @@ class InputValidator:
             hard_floor = 1200.0  # Sàn calo an toàn cho nữ (NHLBI)
 
         days_count = len(raw.available_days)
-        if days_count <= 2:
-            pal = 1.375 # Vận động nhẹ
-        elif days_count <= 4:
+        if days_count <= 5:
             pal = 1.55 # Vận động vừa
         else:
             pal = 1.725 # Vận động nhiều
