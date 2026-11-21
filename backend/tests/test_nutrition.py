@@ -41,6 +41,8 @@ def setup_test_app(current_user_mock, db_session_mock):
 def test_api_generate_weekly_plan():
     mock_user = User(
         id=1,
+        gender="male",
+        bmr_kcal=1650,
         target_calorie_kcal=1800,
         protein_g=120,
         carb_g=200,
@@ -68,11 +70,17 @@ def test_api_generate_weekly_plan():
     assert "weekly_plan" in data
     assert len(data["weekly_plan"]) == 7
     assert len(data["weekly_plan"][0]["meals"]) == 3
-    assert data["total_cost_vnd"] <= 100000
-    assert data["budget_remaining_vnd"] >= 0
+    for day in data["weekly_plan"]:
+        assert day["daily_total_calories"] >= 1650
+        lunch_core = [i["food_id"] for i in day["meals"][1]["items"][:3]]
+        dinner_core = [i["food_id"] for i in day["meals"][2]["items"][:3]]
+        assert lunch_core == dinner_core
+        for meal in day["meals"]:
+            for item in meal["items"]:
+                assert item["grams"] == int(item["grams"]) and item["grams"] >= 1
 
 
-def test_api_generate_custom_days_and_budget_cap():
+def test_bmr_floor_and_extra_budget_warning():
     algo_foods = [
         {
             "id": f["id"],
@@ -85,19 +93,26 @@ def test_api_generate_custom_days_and_budget_cap():
         }
         for f in MOCK_FOOD_DB
     ]
-    req = MealPlanRequest(
-        target_calories=2000,
-        target_protein_g=130,
-        target_carbs_g=220,
-        target_fat_g=55,
-        max_budget_vnd=50000,
+    # Ngân sách rất thấp (30k) với sàn BMR 1900 kcal -> vẫn phải đủ >= 1900 kcal và báo số tiền cần thêm
+    tight_req = MealPlanRequest(
+        target_calories=2200,
+        target_protein_g=140,
+        target_carbs_g=240,
+        target_fat_g=60,
+        max_budget_vnd=30000,
+        min_calories_floor=1900,
     )
-    res = generate_optimal_meal_plan(req, algo_foods, days=3)
+    tight_res = generate_optimal_meal_plan(tight_req, algo_foods, days=3, seed=42)
 
-    assert len(res.weekly_plan) == 3
-    for day in res.weekly_plan:
-        assert day.daily_total_cost <= 50000
-    assert res.budget_remaining_vnd >= 0
+    assert len(tight_res.weekly_plan) == 3
+    for day in tight_res.weekly_plan:
+        assert day.daily_total_calories >= 1900
+        assert day.daily_total_cost > 30000
+        assert day.extra_budget_needed_vnd > 0
+        assert day.budget_warning is not None
+        assert "Bạn nên thêm" in day.budget_warning
+        assert "VNĐ để đảm bảo đủ lượng calories cần thiết cho 1 ngày." in day.budget_warning
+    assert tight_res.budget_warning is not None
 
     # Verify calorie & fat targeting when budget comfortably covers expensive mock beef
     comfort_req = MealPlanRequest(
@@ -106,10 +121,13 @@ def test_api_generate_custom_days_and_budget_cap():
         target_carbs_g=220,
         target_fat_g=55,
         max_budget_vnd=200000,
+        min_calories_floor=1600,
     )
-    comfort_res = generate_optimal_meal_plan(comfort_req, algo_foods, days=7)
+    comfort_res = generate_optimal_meal_plan(comfort_req, algo_foods, days=7, seed=42)
     assert 1850 <= comfort_res.total_calories <= 2150
     assert comfort_res.total_fat_g >= 45
+    assert comfort_res.extra_budget_needed_vnd == 0
+    assert comfort_res.budget_warning is None
 
 
 def test_api_get_plan_existing_data():

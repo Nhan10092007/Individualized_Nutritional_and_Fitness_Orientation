@@ -240,25 +240,25 @@ export function BudgetFields({ formData, onUpdateField }) {
     <div className="form-stack">
       <div className="form-group">
         <label className="form-label" htmlFor="onb-budget">
-          Ngân sách ăn uống mỗi ngày (VNĐ, tối thiểu 50.000 VNĐ)
+          Ngân sách ăn uống mỗi ngày (VNĐ, tối thiểu 80.000 VNĐ)
         </label>
         <input
           id="onb-budget"
           type="number"
           className="form-input"
-          min={50000}
+          min={80000}
           step={5000}
           value={formData.daily_budget_vnd}
           onChange={(e) => onUpdateField("daily_budget_vnd", e.target.value)}
           required
         />
         <span className="form-hint">
-          Hệ thống sẽ phân nhóm từ 50.000 - 100.000 VNĐ hoặc trên 100.000 VNĐ để tối ưu thực đơn.
+          Hệ thống phân nhóm từ 80.000 – 100.000 VNĐ hoặc trên 100.000 VNĐ. Nếu ngân sách chưa đủ ngưỡng calo an toàn (BMR / Hard Floor), hệ thống sẽ tự động gợi ý số tiền cần bổ sung.
         </span>
       </div>
 
       <div className="option-grid">
-        {[50000, 80000, 120000, 150000].map((preset) => (
+        {[80000, 100000, 120000, 150000].map((preset) => (
           <button
             key={preset}
             type="button"

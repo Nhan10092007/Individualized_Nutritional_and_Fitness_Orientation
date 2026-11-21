@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Optional
 
 # --- 1. API Endpoint (Nhận từ Frontend) ---
 class GeneratePlanRequest(BaseModel):
@@ -12,6 +12,11 @@ class MealPlanRequest(BaseModel):
     target_carbs_g: float = Field(..., ge=0, description="Gram Carbs mục tiêu")
     target_fat_g: float = Field(..., ge=0, description="Gram Fat mục tiêu")
     max_budget_vnd: float = Field(..., gt=0, description="Ngân sách tối đa 1 ngày (VNĐ)")
+    min_calories_floor: Optional[float] = Field(
+        default=None,
+        ge=0,
+        description="Ngưỡng sàn calo an toàn tối thiểu mỗi ngày = max(BMR, Hard Floor)",
+    )
 
 
 # --- 3.  Output trả về ---
@@ -35,6 +40,8 @@ class DailyMealPlan(BaseModel):
     day_of_week: int
     daily_total_calories: float
     daily_total_cost: float
+    extra_budget_needed_vnd: float = 0.0
+    budget_warning: Optional[str] = None
     meals: List[SingleMealOutput]
 
 class MealPlanResponse(BaseModel):
@@ -44,4 +51,7 @@ class MealPlanResponse(BaseModel):
     total_fat_g: float
     total_cost_vnd: float
     budget_remaining_vnd: float
+    min_calories_floor: Optional[float] = None
+    extra_budget_needed_vnd: float = 0.0
+    budget_warning: Optional[str] = None
     weekly_plan: List[DailyMealPlan]

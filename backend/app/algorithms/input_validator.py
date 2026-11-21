@@ -26,9 +26,9 @@ class InputValidator:
             warnings.append(f"Weight ({raw.weight_kg} kg) is outside the supported range [35, 150] kg; defaulting to {weight_kg} kg.")
 
         daily_budget = raw.daily_budget_vnd
-        if daily_budget < 50000.0:
-            daily_budget = 50000.0
-            warnings.append(f"The budget ({raw.daily_budget_vnd:,.0f} VND) is below the 50,000 VND/day minimum; it has been automatically increased to 50,000 VND.")
+        if daily_budget < 80000.0:
+            daily_budget = 80000.0
+            warnings.append(f"The budget ({raw.daily_budget_vnd:,.0f} VND) is below the 80,000 VND/day minimum; it has been automatically increased to 80,000 VND.")
 
         # 2. Tính chỉ số y sinh và sàn calo
         height_m = height_cm / 100
@@ -89,7 +89,7 @@ class InputValidator:
 
         
         if daily_budget <= 100000.0:
-            budget_tier = "tier_50k_to_100k"
+            budget_tier = "tier_80k_to_100k"
         else:
             budget_tier = "tier_over_100k"
 

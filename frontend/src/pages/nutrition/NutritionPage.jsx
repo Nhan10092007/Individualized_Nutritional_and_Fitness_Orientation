@@ -150,6 +150,12 @@ export default function NutritionPage() {
   const targetCarbs = Number(macros.carb_g || 200);
   const targetFat = Number(macros.fat_g || 50);
   const dailyBudget = Number(constraints.daily_budget_vnd || 100000);
+  const gender = user?.biometrics?.gender || "male";
+  const hardFloor = gender === "female" ? 1200 : 1500;
+  const bmrKcal = Number(targets.bmr_kcal || 0);
+  const minCaloriesFloor = Number(
+    plan?.min_calories_floor || Math.max(bmrKcal, hardFloor)
+  );
 
   const weeklyPlan = Array.isArray(plan?.weekly_plan) ? plan.weekly_plan : [];
 
@@ -187,7 +193,7 @@ export default function NutritionPage() {
                   `Ngày ${dayPlan.day_of_week}`}
               </h2>
               <p className="page-description" style={{ margin: 0 }}>
-                {(dayPlan.meals || []).length} bữa ăn chính (Sáng · Trưa · Tối)
+                {(dayPlan.meals || []).length} bữa ăn chính (Sáng riêng · Trưa &amp; Tối cùng món)
               </p>
             </div>
 
@@ -208,6 +214,12 @@ export default function NutritionPage() {
               </span>
             </div>
           </div>
+
+          {dayPlan.budget_warning && (
+            <div className="alert alert-warning" style={{ marginBottom: "14px" }}>
+              {dayPlan.budget_warning}
+            </div>
+          )}
 
         <div className="nutrition-meal-list">
           {(dayPlan.meals || []).map((meal, mIdx) => (
@@ -250,7 +262,7 @@ export default function NutritionPage() {
                         <td>{iIdx + 1}</td>
                         <td className="workout-ex-name">{item.name}</td>
                         <td>
-                          <strong>{Math.round(item.grams || 0)}</strong> g
+                          <strong>{Math.ceil(item.grams || 0)}</strong> g
                         </td>
                         <td>{item.calories} kcal</td>
                         <td>{item.protein_g} g</td>
@@ -281,6 +293,9 @@ export default function NutritionPage() {
             </span>
             <span className="badge">
               Calo mục tiêu: {targetCalories.toLocaleString("vi-VN")} kcal/ngày
+            </span>
+            <span className="badge">
+              Sàn calo an toàn: {Math.round(minCaloriesFloor).toLocaleString("vi-VN")} kcal/ngày
             </span>
             <span className="badge">Ngân sách: {formatVnd(dailyBudget)}/ngày</span>
           </div>
@@ -313,6 +328,9 @@ export default function NutritionPage() {
       </section>
 
       {error && <div className="alert alert-error">{error}</div>}
+      {plan?.budget_warning && (
+        <div className="alert alert-warning">{plan.budget_warning}</div>
+      )}
       <ToastNotice message={successMsg} onClose={() => setSuccessMsg("")} />
 
       {loading ? (
