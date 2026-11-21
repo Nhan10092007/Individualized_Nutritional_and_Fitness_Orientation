@@ -54,11 +54,11 @@ class InputValidator:
         tdee_kcal = round(bmr_kcal * pal, 1)
 
         if raw.fitness_goal == FitnessGoalEnum.FAT_LOSS:
-            calc_target = tdee_kcal * 0.80   # Thâm hụt 20%
+            calc_target = tdee_kcal - 500.0   # Thâm hụt 500 calories
         elif raw.fitness_goal == FitnessGoalEnum.MUSCLE_GAIN:
-            calc_target = tdee_kcal * 1.15   # Thặng dư 15%
+            calc_target = tdee_kcal + 300.0   # Thặng dư 300 calories
         else:
-            calc_target = tdee_kcal * 1.00   # Duy trì
+            calc_target = tdee_kcal  # Duy trì
 
         is_floor_triggered = False
         if calc_target < bmr_kcal or calc_target < hard_floor:
@@ -69,11 +69,11 @@ class InputValidator:
             target_calorie_kcal = round(calc_target, 0)
 
         if raw.fitness_goal == FitnessGoalEnum.FAT_LOSS:
-            p_pct, c_pct, f_pct = 0.40, 0.35, 0.25
+            p_pct, c_pct, f_pct = 0.35, 0.45, 0.20
         elif raw.fitness_goal == FitnessGoalEnum.MUSCLE_GAIN:
-            p_pct, c_pct, f_pct = 0.25, 0.55, 0.20
-        else:
             p_pct, c_pct, f_pct = 0.30, 0.45, 0.25
+        else:
+            p_pct, c_pct, f_pct = 0.20, 0.50, 0.30
 
         protein_g = round((target_calorie_kcal * p_pct) / 4.0)
         carb_g = round((target_calorie_kcal * c_pct) / 4.0)
