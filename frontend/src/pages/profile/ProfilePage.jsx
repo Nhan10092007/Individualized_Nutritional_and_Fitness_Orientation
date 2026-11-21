@@ -227,8 +227,7 @@ export default function ProfilePage() {
               className="btn btn-primary"
               disabled={
                 submitting ||
-                formData.available_days.length < 2 ||
-                formData.available_days.length > 6
+                ![3, 4, 6].includes(formData.available_days.length)
               }
             >
               {submitting ? "Đang lưu..." : "Lưu thay đổi"}

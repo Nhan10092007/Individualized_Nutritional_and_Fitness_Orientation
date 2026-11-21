@@ -112,8 +112,8 @@ export function validateSurveyStep(formData, step) {
   if (step === 3) {
     const daysCount = formData.available_days.length;
     const duration = Number(formData.session_duration_mins);
-    if (daysCount < 2 || daysCount > 6) {
-      return "Vui lòng chọn từ 2 đến 6 ngày tập mỗi tuần.";
+    if (![3, 4, 6].includes(daysCount)) {
+      return "Hệ thống chỉ hỗ trợ lịch tập chuẩn hóa 3 ngày (Full Body), 4 ngày (Upper/Lower) hoặc 6 ngày (Push/Pull/Legs).";
     }
     if (Number.isNaN(duration) || duration < 30 || duration > 120) {
       return "Thời lượng mỗi buổi tập phải từ 30 đến 120 phút.";

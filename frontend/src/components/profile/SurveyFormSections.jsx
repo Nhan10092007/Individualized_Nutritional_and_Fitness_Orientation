@@ -165,8 +165,8 @@ export function ScheduleHealthFields({
     <div className="form-stack">
       <div className="form-group">
         <label className="form-label">
-          Chọn các ngày có thể tập trong tuần (Đã chọn:{" "}
-          {formData.available_days.length}/6 ngày, tối thiểu 2 ngày)
+          Chọn các ngày có thể tập trong tuần (Hỗ trợ: 3, 4 hoặc 6 ngày — Đã chọn:{" "}
+          {formData.available_days.length} ngày)
         </label>
         <div className="days-grid">
           {DAYS_OPTIONS.map((day) => {
@@ -183,10 +183,18 @@ export function ScheduleHealthFields({
             );
           })}
         </div>
-        {formData.available_days.length < 2 && (
+        {![3, 4, 6].includes(formData.available_days.length) ? (
           <span className="field-error">
-            Cần chọn ít nhất 2 ngày luyện tập mỗi tuần để tiếp tục (hiện tại:{" "}
-            {formData.available_days.length} ngày).
+            Vui lòng chọn đúng 3 ngày (Full Body), 4 ngày (Upper/Lower) hoặc 6 ngày (Push/Pull/Legs). Hiện bạn đang chọn {formData.available_days.length} ngày.
+          </span>
+        ) : (
+          <span style={{ fontSize: "0.85rem", color: "#10b981", marginTop: "4px", display: "block" }}>
+            ✓ Đã chọn {formData.available_days.length} ngày — Mô hình:{" "}
+            {formData.available_days.length === 3
+              ? "Full Body (Toàn thân cách ngày)"
+              : formData.available_days.length === 4
+              ? "Upper / Lower (Thân trên / Thân dưới)"
+              : "Push / Pull / Legs (Đẩy - Kéo - Chân)"}
           </span>
         )}
       </div>
