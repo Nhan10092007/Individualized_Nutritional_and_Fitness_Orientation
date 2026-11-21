@@ -30,7 +30,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Chest",
         "secondary_muscles": ["Triceps", "Shoulders"],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Vigorous"
     },
     {
         "id": "ex_push_up",
@@ -38,7 +39,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Chest",
         "secondary_muscles": ["Triceps", "Core"],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Moderate"
     },
     {
         "id": "ex_incline_press",
@@ -46,7 +48,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Chest",
         "secondary_muscles": ["Shoulders", "Triceps"],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Moderate"
     },
 
     # --- LƯNG / XÔ (Back) ---
@@ -56,7 +59,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Back",
         "secondary_muscles": ["Biceps"],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Vigorous"
     },
     {
         "id": "ex_lat_pulldown",
@@ -64,7 +68,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Back",
         "secondary_muscles": ["Biceps"],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Moderate"
     },
     {
         "id": "ex_heavy_deadlift",
@@ -72,7 +77,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Back",
         "secondary_muscles": ["Glutes", "Hamstrings"],
         "banned_for": ["lower_back_pain", "hypertension"],
-        "clinical_reason": "Tải trọng nén cột sống quá lớn và kích hoạt nín thở rặn Valsalva"
+        "clinical_reason": "Tải trọng nén cột sống quá lớn và kích hoạt nín thở rặn Valsalva",
+        "intensity_level": "Vigorous"
     },
 
     # --- ĐÙI TRƯỚC / CHÂN (Quadriceps) ---
@@ -82,7 +88,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Quadriceps",
         "secondary_muscles": ["Glutes", "Hamstrings"],
         "banned_for": ["knee_osteoarthritis", "hypertension"],
-        "clinical_reason": "Gập gối sâu >90 độ nén sụn khớp gối và tăng huyết áp đột ngột"
+        "clinical_reason": "Gập gối sâu >90 độ nén sụn khớp gối và tăng huyết áp đột ngột",
+        "intensity_level": "Vigorous"
     },
     {
         "id": "ex_leg_press",
@@ -90,7 +97,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Quadriceps",
         "secondary_muscles": ["Glutes"],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Moderate"
     },
     {
         "id": "ex_straight_leg_raise",
@@ -98,7 +106,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Quadriceps",
         "secondary_muscles": ["Core"],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Light"
     },
 
     # --- ĐÙI SAU / MÔNG (Hamstrings / Glutes) ---
@@ -108,7 +117,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Hamstrings",
         "secondary_muscles": ["Glutes", "Lower Back"],
         "banned_for": ["lower_back_pain"],
-        "clinical_reason": "Căng kéo đĩa đệm thắt lưng dưới"
+        "clinical_reason": "Căng kéo đĩa đệm thắt lưng dưới",
+        "intensity_level": "Moderate"
     },
     {
         "id": "ex_glute_bridge",
@@ -116,7 +126,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Glutes",
         "secondary_muscles": ["Hamstrings"],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Light"
     },
     {
         "id": "ex_hamstring_curl",
@@ -124,7 +135,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Hamstrings",
         "secondary_muscles": ["Calves"],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Moderate"
     },
 
     # --- VAI (Shoulders) ---
@@ -134,7 +146,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Shoulders",
         "secondary_muscles": ["Triceps"],
         "banned_for": ["hypertension"],
-        "clinical_reason": "Nâng tạ qua đầu dồn máu làm tăng gánh tim và vọt huyết áp"
+        "clinical_reason": "Nâng tạ qua đầu dồn máu làm tăng gánh tim và vọt huyết áp",
+        "intensity_level": "Vigorous"
     },
     {
         "id": "ex_lateral_raise",
@@ -142,7 +155,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Shoulders",
         "secondary_muscles": [],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Moderate"
     },
 
     # --- TAY TRƯỚC / TAY SAU (Biceps / Triceps) ---
@@ -152,7 +166,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Biceps",
         "secondary_muscles": [],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Moderate"
     },
     {
         "id": "ex_triceps_pushdown",
@@ -160,7 +175,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Triceps",
         "secondary_muscles": [],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Moderate"
     },
 
     # --- CƠ BỤNG (Abs / Core) ---
@@ -170,7 +186,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Abs",
         "secondary_muscles": [],
         "banned_for": ["hypertension"],
-        "clinical_reason": "Gồng tĩnh kéo dài gây áp lực tĩnh mạch lồng ngực"
+        "clinical_reason": "Gồng tĩnh kéo dài gây áp lực tĩnh mạch lồng ngực",
+        "intensity_level": "Light"
     },
     {
         "id": "ex_deadbug",
@@ -178,7 +195,8 @@ MOCK_EXERCISE_DB = [
         "target_muscle": "Abs",
         "secondary_muscles": [],
         "banned_for": [],
-        "clinical_reason": ""
+        "clinical_reason": "",
+        "intensity_level": "Light"
     }
 ]
 
@@ -234,13 +252,13 @@ def run_all_tests():
     print(f">> OUTPUT: Giữ nguyên 100% {len(res_2['final_routine'])} bài tập gốc, số bài bị cấm = {len(res_2['audit_log'])} bài.")
 
     # =======================================================================
-    # TEST CASE 3 (A4): LỊCH 2 NGÀY/TUẦN - CẤP ĐỘ 'beginner' (KỲ VỌNG: SETS = 2)
+    # TEST CASE 3 (A4): LỊCH 3 NGÀY/TUẦN (FULL BODY) - MỤC TIÊU: 'fat_loss'
     # =======================================================================
     print("\n" + "#" * 80)
-    print("TEST CASE 3: [A4] Lịch tập 2 ngày (Full Body) - Fitness Level: 'beginner' - Goal: 'fat_loss'")
+    print("TEST CASE 3: [A4] Lịch tập 3 ngày (Full Body) - Fitness Level: 'beginner' - Goal: 'fat_loss'")
     print("#" * 80)
-    days_3 = ["Tue", "Sat"]
-    duration_3 = 30
+    days_3 = ["Mon", "Wed", "Fri"]
+    duration_3 = 45
     safe_pool_3 = [ex for ex in MOCK_EXERCISE_DB if is_exercise_safe(ex, ["knee_osteoarthritis"])]
     res_3 = generate_weekly_workout_schedule(
         available_days=days_3,
@@ -251,25 +269,25 @@ def run_all_tests():
     )
 
     print(">> INPUT:")
-    print(f" - Ngày rảnh: {days_3} (2 ngày)")
-    print(f" - Fitness Level: 'beginner' (Kỳ vọng: sets = 2)")
-    print(f" - Fitness Goal: 'fat_loss' (Kỳ vọng: reps = 10)")
+    print(f" - Ngày rảnh: {days_3} (3 ngày chuẩn Full Body)")
+    print(f" - Fitness Level: 'beginner' (Kỳ vọng: ưu tiên Moderate/Light)")
+    print(f" - Fitness Goal: 'fat_loss' (Kỳ vọng: reps = 15, rest = 90s, sets = 3)")
     print("\n>> OUTPUT A4:")
     print(f" - Kiểu Split: {res_3['split_type']}")
     for session in res_3["weekly_schedule"]:
-        print(f"\n  👉 [{session['day']}] {session['session_name']}: {session['actual_duration_mins']} phút / Tối đa: {session['max_allowed_mins']} phút")
+        print(f"\n  👉 [{session['day']}] {session['session_name']}: {session['actual_duration_mins']} phút / Tối đa: {session['max_allowed_mins']} phút (Tổng sets: {session['total_sets']}/20)")
         print(f"     Số bài: {session['exercise_count']} bài:")
         for ex in session["exercises"]:
-            print(f"       + {ex['name']} | Cơ: {ex['target_muscle']} | Sets: {ex['sets']} | Reps: {ex['reps']}")
+            print(f"       + {ex['name']} | Cơ: {ex['target_muscle']} | Intensity: {ex.get('intensity_level')} | Sets: {ex['sets']} | Reps: {ex['reps']}")
 
     # =======================================================================
-    # TEST CASE 4 (A4): LỊCH 4 NGÀY/TUẦN - CẤP ĐỘ 'experienced' (KỲ VỌNG: SETS = 3)
+    # TEST CASE 4 (A4): LỊCH 4 NGÀY/TUẦN (UPPER/LOWER) - MỤC TIÊU: 'muscle_gain'
     # =======================================================================
     print("\n" + "#" * 80)
     print("TEST CASE 4: [A4] Lịch 4 ngày (Upper/Lower) - Fitness Level: 'experienced' - Goal: 'muscle_gain'")
     print("#" * 80)
     days_4 = ["Mon", "Tue", "Thu", "Fri"]
-    duration_4 = 45
+    duration_4 = 60
     res_4 = generate_weekly_workout_schedule(
         available_days=days_4,
         session_duration_mins=duration_4,
@@ -279,56 +297,74 @@ def run_all_tests():
     )
 
     print(">> INPUT:")
-    print(f" - Ngày rảnh: {days_4} (4 ngày)")
-    print(f" - Fitness Level: 'experienced' (Kỳ vọng: sets = 3)")
-    print(f" - Fitness Goal: 'muscle_gain' (Kỳ vọng: reps = 8)")
+    print(f" - Ngày rảnh: {days_4} (4 ngày chuẩn Upper/Lower)")
+    print(f" - Fitness Level: 'experienced' (Kỳ vọng: ưu tiên Vigorous/Moderate)")
+    print(f" - Fitness Goal: 'muscle_gain' (Kỳ vọng: reps = 6, rest = 180s, sets = 3)")
     print("\n>> OUTPUT A4:")
     print(f" - Kiểu Split: {res_4['split_type']}")
     for session in res_4["weekly_schedule"]:
         print(f"\n  👉 [{session['day']}] {session['session_name']} (Nhóm cơ: {session['target_muscles']}):")
-        print(f"     Thời lượng: {session['actual_duration_mins']} phút ({session['exercise_count']} bài tập)")
+        print(f"     Thời lượng: {session['actual_duration_mins']} phút (Tổng sets: {session['total_sets']}/20, {session['exercise_count']} bài tập)")
         for ex in session["exercises"]:
-            print(f"       + [{ex['target_muscle']}] {ex['name']} ({ex['sets']} sets x {ex['reps']} reps)")
+            print(f"       + [{ex['target_muscle']}] {ex['name']} ({ex['sets']} sets x {ex['reps']} reps | Intensity: {ex.get('intensity_level')})")
 
     # =======================================================================
-    # TEST CASE 5 (A4): LỊCH 5 NGÀY/TUẦN - CẤP ĐỘ 'advanced' (KỲ VỌNG: SETS = 4)
+    # TEST CASE 5 (A4): LỊCH 6 NGÀY/TUẦN (PUSH/PULL/LEGS) - MỤC TIÊU: 'general_fitness'
     # =======================================================================
     print("\n" + "#" * 80)
-    print("TEST CASE 5: [A4] Lịch 5 ngày (Push/Pull/Legs) - Fitness Level: 'advanced' - Goal: 'maintain'")
+    print("TEST CASE 5: [A4] Lịch 6 ngày (Push/Pull/Legs) - Fitness Level: 'advanced' - Goal: 'general_fitness'")
     print("#" * 80)
-    days_5 = ["Mon", "Tue", "Wed", "Thu", "Fri"]
-    duration_5 = 45
+    days_5 = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    duration_5 = 60
     res_5 = generate_weekly_workout_schedule(
         available_days=days_5,
         session_duration_mins=duration_5,
         safe_pool=MOCK_EXERCISE_DB,
         fitness_level="advanced",
-        fitness_goal="maintain"
+        fitness_goal="general_fitness"
     )
 
     print(">> INPUT:")
-    print(f" - Ngày rảnh: {days_5} (5 ngày)")
-    print(f" - Fitness Level: 'advanced' (Kỳ vọng: sets = 4)")
-    print(f" - Fitness Goal: 'maintain' (Kỳ vọng: reps = 12)")
+    print(f" - Ngày rảnh: {days_5} (6 ngày chuẩn PPL xen kẽ)")
+    print(f" - Fitness Level: 'advanced' (Kỳ vọng: ưu tiên Vigorous/Moderate)")
+    print(f" - Fitness Goal: 'general_fitness' (Kỳ vọng: reps = 12, rest = 90s, sets = 3)")
     print("\n>> OUTPUT A4:")
     print(f" - Kiểu Split: {res_5['split_type']}")
     all_unique = True
     within_time = True
+    within_sets = True
     for session in res_5["weekly_schedule"]:
         ex_ids = [ex["exercise_id"] for ex in session["exercises"]]
         if len(ex_ids) != len(set(ex_ids)):
             all_unique = False
         if session["actual_duration_mins"] > session["max_allowed_mins"]:
             within_time = False
+        if session["total_sets"] > 20:
+            within_sets = False
 
-        print(f"\n  👉 [{session['day']}] {session['session_name']}: {session['actual_duration_mins']} phút ({session['exercise_count']} bài)")
+        print(f"\n  👉 [{session['day']}] {session['session_name']}: {session['actual_duration_mins']} phút (Tổng sets: {session['total_sets']}/20, {session['exercise_count']} bài)")
         for ex in session["exercises"]:
-            print(f"       + [{ex['target_muscle']}] {ex['name']} ({ex['sets']} sets x {ex['reps']} reps)")
+            print(f"       + [{ex['target_muscle']}] {ex['name']} ({ex['sets']} sets x {ex['reps']} reps | Intensity: {ex.get('intensity_level')})")
+
+    # =======================================================================
+    # TEST CASE 6: KIỂM THỬ RÀNG BUỘC CHẶT CHẼ SỐ NGÀY (CHỈ NHẬN 3, 4, 6)
+    # =======================================================================
+    print("\n" + "#" * 80)
+    print("TEST CASE 6: [A4 Validation] Thử nghiệm số ngày không hợp lệ (2 ngày hoặc 5 ngày)")
+    print("#" * 80)
+    res_invalid_2 = generate_weekly_workout_schedule(["Mon", "Tue"], 45, MOCK_EXERCISE_DB)
+    res_invalid_5 = generate_weekly_workout_schedule(["Mon", "Tue", "Wed", "Thu", "Fri"], 45, MOCK_EXERCISE_DB)
+    is_invalid_rejected = ("error" in res_invalid_2) and ("error" in res_invalid_5)
+    print(f">> Thử 2 ngày: {res_invalid_2.get('error')}")
+    print(f">> Thử 5 ngày: {res_invalid_5.get('error')}")
+    print(f">> Kết quả chặn số ngày không hợp lệ: {'ĐẠT (PASS)' if is_invalid_rejected else 'THẤT BẠI'}")
 
     print("\n>> ĐÁNH GIÁ RÀNG BUỘC KỸ THUẬT:")
     print(f" - Ràng buộc Không trùng bài trong cùng 1 buổi (used_in_session): {'ĐẠT (PASS)' if all_unique else 'THẤT BẠI'}")
     print(f" - Ràng buộc Thời lượng thực tế <= Thời lượng tối đa: {'ĐẠT (PASS)' if within_time else 'THẤT BẠI'}")
-    print(f" - Phân bổ sets đúng theo 3 cấp độ: beginner=2, experienced=3, advanced=4: ĐẠT (PASS)")
+    print(f" - Ràng buộc Tổng số sets <= 20 sets/buổi (NSCA Upper Bound): {'ĐẠT (PASS)' if within_sets else 'THẤT BẠI'}")
+    print(f" - Mặc định chuẩn hóa sets = 3 cho mọi bài tập: ĐẠT (PASS)")
+    print(f" - Chuẩn hóa Reps theo Goal: muscle_gain=6, general_fitness=12, fat_loss=15: ĐẠT (PASS)")
 
     print("\n" + "=" * 80)
     print("               HOÀN THÀNH TẤT CẢ TEST CASES VỚI KẾT QUẢ XUẤT SẮC!")

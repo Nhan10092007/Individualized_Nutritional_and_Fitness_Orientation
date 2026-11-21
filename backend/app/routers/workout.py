@@ -29,6 +29,13 @@ def generate_workout_plan(
     level = current_user.fitness_level or "beginner"
     conditions = current_user.medical_conditions or []
 
+    # Validate chặt chẽ số ngày tập theo chu kỳ phục hồi sinh lý (chỉ chấp nhận 3, 4 hoặc 6 ngày)
+    if len(available_days) not in [3, 4, 6]:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Số ngày tập không hợp lệ ({len(available_days)} ngày). Hệ thống chỉ hỗ trợ 3 ngày (Full Body), 4 ngày (Upper/Lower) hoặc 6 ngày (Push/Pull/Legs)."
+        )
+
     #2. Truy van ex tu db
     exercise_in_db = db.query(Exercise).all()
     if not exercise_in_db:
@@ -46,7 +53,8 @@ def generate_workout_plan(
                 "target_muscle": ex.target_muscle,
                 "secondary_muscles": ex.secondary_muscle or [],
                 "banned_for": ex.banned_for or [],
-                "clinical_reason": ex.clinical_reasons or ""
+                "clinical_reason": ex.clinical_reasons or "",
+                "intensity_level": ex.intensity_level or "Moderate"
             })
     #3 A3_algorithms
     safe_pool = [ex for ex in exercise_pool if is_exercise_safe(ex, conditions)]

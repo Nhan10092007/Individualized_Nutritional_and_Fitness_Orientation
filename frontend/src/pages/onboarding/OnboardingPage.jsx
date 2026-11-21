@@ -258,8 +258,7 @@ export default function OnboardingPage() {
             disabled={
               isExiting ||
               (targetStep === 3 &&
-                (formData.available_days.length < 2 ||
-                  formData.available_days.length > 6))
+                ![3, 4, 6].includes(formData.available_days.length))
             }
           >
             <span>Tiếp theo</span>
