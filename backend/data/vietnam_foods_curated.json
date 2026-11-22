@@ -17,6 +17,23 @@
     "notes": "Viện Dinh dưỡng Quốc gia 2017 (Gạo tẻ thông dụng)"
   },
   {
+  "code": "USDA_168878",
+  "name_vi": "Cơm trắng nấu chín",
+  "name_en": "Rice, white, long-grain, regular, cooked",
+  "category": "Ngũ cốc và sản phẩm chế biến",
+  "source": "USDA",
+  "serving_unit": "100g",
+  "serving_weight_g": 100.0,
+  "calories_100g": 130.0,
+  "protein_100g": 2.7,
+  "fat_100g": 0.3,
+  "carbs_100g": 28.2,
+  "fiber_100g": 0.4,
+  "estimated_price_vnd": 1000.0,
+  "diet_type": "vegan",
+  "notes": "USDA FoodData Central FDC ID 168878 (Cơm trắng nấu chín, chuẩn 100g)"
+  },
+  {
     "code": "VN_01001",
     "name_vi": "Gạo nếp cái",
     "name_en": "Glutinous Rice, raw",
