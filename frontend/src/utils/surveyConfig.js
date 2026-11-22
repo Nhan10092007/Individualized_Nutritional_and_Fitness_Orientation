@@ -77,7 +77,9 @@ export const CONDITION_LABELS = Object.fromEntries(
 );
 
 export function formatBudgetTier(tier) {
-  if (tier === "tier_50k_to_100k") return "50.000 – 100.000 VNĐ / ngày";
+  if (tier === "tier_80k_to_100k" || tier === "tier_50k_to_100k") {
+    return "80.000 – 100.000 VNĐ / ngày";
+  }
   if (tier === "tier_over_100k") return "Trên 100.000 VNĐ / ngày";
   return tier || "Chưa thiết lập";
 }
@@ -133,8 +135,8 @@ export function validateSurveyStep(formData, step) {
 
   if (step === 4) {
     const budget = Number(formData.daily_budget_vnd);
-    if (Number.isNaN(budget) || budget < 50000) {
-      return "Ngân sách ăn uống tối thiểu là 50.000 VNĐ/ngày.";
+    if (Number.isNaN(budget) || budget < 80000) {
+      return "Ngân sách ăn uống tối thiểu là 80.000 VNĐ/ngày.";
     }
   }
 

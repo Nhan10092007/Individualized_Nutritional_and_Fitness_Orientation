@@ -41,6 +41,8 @@ def setup_test_app(current_user_mock, db_session_mock):
 def test_api_generate_weekly_plan():
     mock_user = User(
         id=1,
+        gender="male",
+        bmr_kcal=1650,
         target_calorie_kcal=1800,
         protein_g=120,
         carb_g=200,
@@ -68,11 +70,23 @@ def test_api_generate_weekly_plan():
     assert "weekly_plan" in data
     assert len(data["weekly_plan"]) == 7
     assert len(data["weekly_plan"][0]["meals"]) == 3
-    assert data["total_cost_vnd"] <= 100000
-    assert data["budget_remaining_vnd"] >= 0
+    for day in data["weekly_plan"]:
+        assert day["daily_total_calories"] >= 1650
+        assert 10.0 <= day["protein_pct"] <= 35.0
+        assert 45.0 <= day["carbs_pct"] <= 65.0
+        assert 20.0 <= day["fat_pct"] < 30.0
+        assert day["saturated_fat_pct"] < 10.0
+        assert day["is_nin_compliant"] is True
+        lunch_ids = {i["food_id"] for i in day["meals"][1]["items"]}
+        dinner_ids = {i["food_id"] for i in day["meals"][2]["items"]}
+        assert lunch_ids == dinner_ids
+        for meal in day["meals"]:
+            for item in meal["items"]:
+                assert item["grams"] == int(item["grams"]) and item["grams"] >= 1
+                assert item["unit_hint"] is not None
 
 
-def test_api_generate_custom_days_and_budget_cap():
+def test_bmr_floor_nin_compliance_and_extra_budget_warning():
     algo_foods = [
         {
             "id": f["id"],
@@ -85,31 +99,57 @@ def test_api_generate_custom_days_and_budget_cap():
         }
         for f in MOCK_FOOD_DB
     ]
-    req = MealPlanRequest(
-        target_calories=2000,
-        target_protein_g=130,
-        target_carbs_g=220,
-        target_fat_g=55,
-        max_budget_vnd=50000,
+    # Ngân sách rất thấp (30k) với sàn BMR 1900 kcal -> vẫn phải đủ >= 1900 kcal, đạt chuẩn Viện Dinh Dưỡng & báo số tiền cần thêm
+    tight_req = MealPlanRequest(
+        target_calories=2200,
+        target_protein_g=140,
+        target_carbs_g=240,
+        target_fat_g=60,
+        max_budget_vnd=30000,
+        min_calories_floor=1900,
+        fitness_goal="maintain",
+        medical_conditions=[],
     )
-    res = generate_optimal_meal_plan(req, algo_foods, days=3)
+    tight_res = generate_optimal_meal_plan(tight_req, algo_foods, days=3, seed=42)
 
-    assert len(res.weekly_plan) == 3
-    for day in res.weekly_plan:
-        assert day.daily_total_cost <= 50000
-    assert res.budget_remaining_vnd >= 0
+    assert len(tight_res.weekly_plan) == 3
+    assert tight_res.days_over_budget == 3
+    for day in tight_res.weekly_plan:
+        assert day.daily_total_calories >= 1900
+        assert day.daily_total_cost > 30000
+        assert day.extra_budget_needed_vnd > 0
+        assert day.budget_warning is not None
+        assert "Bạn nên thêm" in day.budget_warning
+        assert "VNĐ để đảm bảo đủ lượng calories cần thiết cho 1 ngày." in day.budget_warning
+        assert day.is_nin_compliant is True
+    assert tight_res.budget_warning is not None
 
-    # Verify calorie & fat targeting when budget comfortably covers expensive mock beef
+    # Verify calorie, NIN macro bounds & hypertension/fat_loss profile handling
     comfort_req = MealPlanRequest(
         target_calories=2000,
-        target_protein_g=130,
-        target_carbs_g=220,
-        target_fat_g=55,
+        target_protein_g=175,
+        target_carbs_g=225,
+        target_fat_g=44,
         max_budget_vnd=200000,
+        min_calories_floor=1600,
+        fitness_goal="fat_loss",
+        medical_conditions=["hypertension"],
     )
-    comfort_res = generate_optimal_meal_plan(comfort_req, algo_foods, days=7)
+    comfort_res = generate_optimal_meal_plan(comfort_req, algo_foods, days=7, seed=42)
     assert 1850 <= comfort_res.total_calories <= 2150
-    assert comfort_res.total_fat_g >= 45
+    assert comfort_res.is_nin_compliant is True
+    assert comfort_res.extra_budget_needed_vnd == 0
+    assert comfort_res.days_over_budget == 0
+    assert comfort_res.budget_warning is None
+    for day in comfort_res.weekly_plan:
+        assert 10.0 <= day.protein_pct <= 35.0
+        assert 45.0 <= day.carbs_pct <= 65.0
+        assert 20.0 <= day.fat_pct < 30.0
+        assert day.saturated_fat_pct < 10.0
+        for meal in day.meals:
+            for item in meal.items:
+                if "trứng" in item.name.lower():
+                    assert item.grams % 50 == 0 and item.grams <= 100
 
 
 def test_api_get_plan_existing_data():
