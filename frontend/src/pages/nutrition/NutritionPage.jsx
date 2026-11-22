@@ -169,11 +169,18 @@ export default function NutritionPage() {
   const exitingDays = exitingDay !== null ? getDaysForFilter(exitingDay) : [];
 
   const budgetRemaining = Number(plan?.budget_remaining_vnd || 0);
+  const extraBudgetNeeded = Number(plan?.extra_budget_needed_vnd || 0);
+  const daysOverBudget = Number(plan?.days_over_budget || 0);
+  const dietaryNotes = Array.isArray(plan?.dietary_notes) ? plan.dietary_notes : [];
   const isGenerateDisabled = generating || isBubbleAnimating || loading;
 
   function renderDayMealCards(daysList, shouldBubbleAnimate = false) {
     return daysList.map((dayPlan, dIdx) => {
       const dailyMacros = getDailyMacros(dayPlan);
+      const hasMacroPct =
+        dayPlan.protein_pct != null &&
+        dayPlan.carbs_pct != null &&
+        dayPlan.fat_pct != null;
       return (
         <section
           key={dayPlan.day_of_week}
@@ -205,10 +212,18 @@ export default function NutritionPage() {
                 kcal
               </span>
               <span className="badge">
-                P {Math.round(dailyMacros.protein)}g · C{" "}
-                {Math.round(dailyMacros.carbs)}g · F{" "}
+                P {Math.round(dailyMacros.protein)}g
+                {hasMacroPct ? ` (${dayPlan.protein_pct}%)` : ""} · C{" "}
+                {Math.round(dailyMacros.carbs)}g
+                {hasMacroPct ? ` (${dayPlan.carbs_pct}%)` : ""} · F{" "}
                 {Math.round(dailyMacros.fat)}g
+                {hasMacroPct ? ` (${dayPlan.fat_pct}%)` : ""}
               </span>
+              {dayPlan.is_nin_compliant && (
+                <span className="badge badge-success">
+                  Chuẩn Viện Dinh Dưỡng
+                </span>
+              )}
               <span className="badge">
                 Tổng chi phí: {formatVnd(dayPlan.daily_total_cost)}
               </span>
@@ -263,6 +278,17 @@ export default function NutritionPage() {
                         <td className="workout-ex-name">{item.name}</td>
                         <td>
                           <strong>{Math.ceil(item.grams || 0)}</strong> g
+                          {item.unit_hint && (
+                            <div
+                              style={{
+                                fontSize: "0.78rem",
+                                opacity: 0.72,
+                                marginTop: "2px",
+                              }}
+                            >
+                              {item.unit_hint}
+                            </div>
+                          )}
                         </td>
                         <td>{item.calories} kcal</td>
                         <td>{item.protein_g} g</td>
@@ -331,6 +357,20 @@ export default function NutritionPage() {
       {plan?.budget_warning && (
         <div className="alert alert-warning">{plan.budget_warning}</div>
       )}
+      {dietaryNotes.length > 0 && hasPlan && (
+        <div className="card" style={{ padding: "14px 18px" }}>
+          <div style={{ fontWeight: 600, marginBottom: "6px" }}>
+            Tiêu chuẩn &amp; ghi chú cá nhân hóa
+          </div>
+          <ul style={{ margin: 0, paddingLeft: "18px", fontSize: "0.9rem", opacity: 0.88 }}>
+            {dietaryNotes.map((note, idx) => (
+              <li key={idx} style={{ marginBottom: "3px" }}>
+                {note}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <ToastNotice message={successMsg} onClose={() => setSuccessMsg("")} />
 
       {loading ? (
@@ -392,8 +432,13 @@ export default function NutritionPage() {
               </div>
               <div className="dash-kpi-sub">
                 <span>
-                  Mục tiêu: {targetProtein}g Đạm · {targetCarbs}g Tinh bột ·{" "}
-                  {targetFat}g Béo
+                  {plan.protein_pct != null && plan.carbs_pct != null && plan.fat_pct != null
+                    ? `Tỷ lệ: P ${plan.protein_pct}% · C ${plan.carbs_pct}% · F ${plan.fat_pct}%${
+                        plan.saturated_fat_pct != null
+                          ? ` (Béo bão hòa ~${plan.saturated_fat_pct}%)`
+                          : ""
+                      }`
+                    : `Mục tiêu: ${targetProtein}g Đạm · ${targetCarbs}g Tinh bột · ${targetFat}g Béo`}
                 </span>
               </div>
             </div>
@@ -412,15 +457,25 @@ export default function NutritionPage() {
 
             <div className="dash-kpi-card">
               <div className="dash-kpi-top">
-                <span className="dash-kpi-label">Ngân sách còn dư</span>
+                <span className="dash-kpi-label">
+                  {extraBudgetNeeded > 0
+                    ? "Ngân sách cần bổ sung"
+                    : "Ngân sách còn dư (TB)"}
+                </span>
               </div>
               <div className="dash-kpi-value">
-                {budgetRemaining >= 0
+                {extraBudgetNeeded > 0
+                  ? `+${formatVnd(extraBudgetNeeded)}/ngày`
+                  : budgetRemaining >= 0
                   ? formatVnd(budgetRemaining)
                   : `Vượt ${formatVnd(Math.abs(budgetRemaining))}`}
               </div>
               <div className="dash-kpi-sub">
-                <span>Thực đơn {weeklyPlan.length} ngày · 3 bữa/ngày</span>
+                 <span>
+                  {extraBudgetNeeded > 0
+                    ? `${daysOverBudget}/${weeklyPlan.length} ngày vượt mức ${formatVnd(dailyBudget)} để đủ sàn calo`
+                    : `Thực đơn ${weeklyPlan.length} ngày · 3 bữa/ngày`}
+                </span>
               </div>
             </div>
           </section>

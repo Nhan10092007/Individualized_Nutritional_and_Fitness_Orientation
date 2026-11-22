@@ -17,6 +17,14 @@ class MealPlanRequest(BaseModel):
         ge=0,
         description="Ngưỡng sàn calo an toàn tối thiểu mỗi ngày = max(BMR, Hard Floor)",
     )
+    fitness_goal: Optional[str] = Field(
+        default="maintain",
+        description="Mục tiêu thể hình: fat_loss | muscle_gain | maintain",
+    )
+    medical_conditions: List[str] = Field(
+        default_factory=list,
+        description="Danh sách bệnh lý nền: hypertension, knee_osteoarthritis...",
+    )
 
 
 # --- 3.  Output trả về ---
@@ -24,6 +32,7 @@ class SelectedFoodItem(BaseModel):
     food_id: int
     name: str
     grams: float
+    unit_hint: Optional[str] = None
     calories: float
     protein_g: float
     carbs_g: float
@@ -42,6 +51,11 @@ class DailyMealPlan(BaseModel):
     daily_total_cost: float
     extra_budget_needed_vnd: float = 0.0
     budget_warning: Optional[str] = None
+    protein_pct: Optional[float] = None
+    carbs_pct: Optional[float] = None
+    fat_pct: Optional[float] = None
+    saturated_fat_pct: Optional[float] = None
+    is_nin_compliant: Optional[bool] = None
     meals: List[SingleMealOutput]
 
 class MealPlanResponse(BaseModel):
@@ -53,5 +67,12 @@ class MealPlanResponse(BaseModel):
     budget_remaining_vnd: float
     min_calories_floor: Optional[float] = None
     extra_budget_needed_vnd: float = 0.0
+    days_over_budget: int = 0
     budget_warning: Optional[str] = None
+    protein_pct: Optional[float] = None
+    carbs_pct: Optional[float] = None
+    fat_pct: Optional[float] = None
+    saturated_fat_pct: Optional[float] = None
+    is_nin_compliant: Optional[bool] = None
+    dietary_notes: List[str] = Field(default_factory=list)
     weekly_plan: List[DailyMealPlan]
