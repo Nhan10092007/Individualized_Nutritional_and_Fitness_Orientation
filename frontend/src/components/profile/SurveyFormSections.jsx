@@ -1,8 +1,8 @@
 import {
-  DAYS_OPTIONS,
   GOAL_OPTIONS,
   LEVEL_OPTIONS,
   MEDICAL_OPTIONS,
+  TRAINING_FREQUENCY_OPTIONS,
 } from "../../utils/surveyConfig";
 
 export function SectionHeader({ icon: Icon, iconTone, title, rightContent = null }) {
@@ -158,34 +158,33 @@ export function GoalFields({ formData, onUpdateField }) {
 export function ScheduleHealthFields({
   formData,
   onUpdateField,
-  onToggleDay,
   onToggleCondition,
 }) {
   return (
     <div className="form-stack">
       <div className="form-group">
         <label className="form-label">
-          Chọn các ngày có thể tập trong tuần (Đã chọn:{" "}
-          {formData.available_days.length}/6 ngày, tối thiểu 2 ngày)
+          Số ngày rảnh có thể tập mỗi tuần
         </label>
-        <div className="days-grid">
-          {DAYS_OPTIONS.map((day) => {
-            const selected = formData.available_days.includes(day.value);
+        <div className="option-grid">
+          {TRAINING_FREQUENCY_OPTIONS.map((opt) => {
+            const selected = formData.available_days.length === opt.daysCount;
             return (
               <button
-                key={day.value}
+                key={opt.daysCount}
                 type="button"
-                className={selected ? "day-pill selected" : "day-pill"}
-                onClick={() => onToggleDay(day.value)}
+                className={selected ? "option-button selected" : "option-button"}
+                onClick={() => onUpdateField("available_days", opt.days)}
               >
-                {day.label}
+                <span className="option-title">{opt.title}</span>
+                <span className="option-desc">{opt.desc}</span>
               </button>
             );
           })}
         </div>
-        {formData.available_days.length < 2 && (
+        {![3, 4, 6].includes(formData.available_days.length) && (
           <span className="field-error">
-            Cần chọn ít nhất 2 ngày luyện tập mỗi tuần để tiếp tục (hiện tại:{" "}
+            Vui lòng chọn 3 ngày rảnh, 4 ngày rảnh hoặc 6 ngày rảnh mỗi tuần (hiện tại:{" "}
             {formData.available_days.length} ngày).
           </span>
         )}

@@ -13,6 +13,7 @@ import {
   buildSurveyPayload,
   CONDITION_LABELS,
   formatBudgetTier,
+  TRAINING_FREQUENCY_OPTIONS,
   validateSurveyStep,
 } from "../../utils/surveyConfig";
 
@@ -33,15 +34,12 @@ const GENDER_LABELS = {
   female: "Nữ",
 };
 
-const DAY_LABELS = {
-  Mon: "Thứ 2",
-  Tue: "Thứ 3",
-  Wed: "Thứ 4",
-  Thu: "Thứ 5",
-  Fri: "Thứ 6",
-  Sat: "Thứ 7",
-  Sun: "Chủ nhật",
-};
+function formatTrainingFrequency(daysList) {
+  const count = Array.isArray(daysList) ? daysList.length : 0;
+  if (!count) return "Chưa chọn";
+  const matched = TRAINING_FREQUENCY_OPTIONS.find((opt) => opt.daysCount === count);
+  return matched ? `${matched.title} (${matched.desc.split(" · ")[0]})` : `${count} ngày / tuần`;
+}
 
 function getBmiCategory(bmi) {
   if (bmi == null) return "Chưa có";
@@ -68,29 +66,6 @@ export default function ProfilePage() {
   function updateField(name, value) {
     setFormData((prev) => ({ ...prev, [name]: value }));
     setError("");
-  }
-
-  function toggleDay(dayValue) {
-    setError("");
-    setFormData((prev) => {
-      const exists = prev.available_days.includes(dayValue);
-      if (exists) {
-        return {
-          ...prev,
-          available_days: prev.available_days.filter((d) => d !== dayValue),
-        };
-      }
-      if (prev.available_days.length >= 6) {
-        setError(
-          "Bạn chỉ có thể chọn tối đa 6 ngày tập mỗi tuần để đảm bảo thời gian phục hồi."
-        );
-        return prev;
-      }
-      return {
-        ...prev,
-        available_days: [...prev.available_days, dayValue],
-      };
-    });
   }
 
   function toggleMedicalCondition(condValue) {
@@ -203,7 +178,6 @@ export default function ProfilePage() {
             <ScheduleHealthFields
               formData={formData}
               onUpdateField={updateField}
-              onToggleDay={toggleDay}
               onToggleCondition={toggleMedicalCondition}
             />
           </div>
@@ -227,8 +201,7 @@ export default function ProfilePage() {
               className="btn btn-primary"
               disabled={
                 submitting ||
-                formData.available_days.length < 2 ||
-                formData.available_days.length > 6
+                ![3, 4, 6].includes(formData.available_days.length)
               }
             >
               {submitting ? "Đang lưu..." : "Lưu thay đổi"}
@@ -373,17 +346,9 @@ export default function ProfilePage() {
                 </div>
               </div>
               <div>
-                <div className="info-item-label">Ngày tập trong tuần</div>
-                <div className="tag-list" style={{ marginTop: "6px" }}>
-                  {targets.available_days?.length > 0 ? (
-                    targets.available_days.map((day) => (
-                      <span key={day} className="badge">
-                        {DAY_LABELS[day] || day}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="info-item-value">Chưa chọn</span>
-                  )}
+                <div className="info-item-label">Số ngày rảnh mỗi tuần</div>
+                <div className="info-item-value">
+                  {formatTrainingFrequency(targets.available_days)}
                 </div>
               </div>
             </div>
