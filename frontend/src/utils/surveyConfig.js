@@ -1,11 +1,22 @@
-export const DAYS_OPTIONS = [
-  { value: "Mon", short: "T2", label: "Thứ 2" },
-  { value: "Tue", short: "T3", label: "Thứ 3" },
-  { value: "Wed", short: "T4", label: "Thứ 4" },
-  { value: "Thu", short: "T5", label: "Thứ 5" },
-  { value: "Fri", short: "T6", label: "Thứ 6" },
-  { value: "Sat", short: "T7", label: "Thứ 7" },
-  { value: "Sun", short: "CN", label: "Chủ nhật" },
+export const TRAINING_FREQUENCY_OPTIONS = [
+  {
+    daysCount: 3,
+    days: ["Mon", "Wed", "Fri"],
+    title: "3 ngày rảnh / tuần",
+    desc: "Mô hình Full Body · Chia thành 3 buổi (Buổi 1 – Buổi 3)",
+  },
+  {
+    daysCount: 4,
+    days: ["Mon", "Tue", "Thu", "Fri"],
+    title: "4 ngày rảnh / tuần",
+    desc: "Mô hình Upper / Lower · Chia thành 4 buổi (Buổi 1 – Buổi 4)",
+  },
+  {
+    daysCount: 6,
+    days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    title: "6 ngày rảnh / tuần",
+    desc: "Mô hình Push / Pull / Legs · Chia thành 6 buổi (Buổi 1 – Buổi 6)",
+  },
 ];
 
 export const GOAL_OPTIONS = [
@@ -113,7 +124,7 @@ export function validateSurveyStep(formData, step) {
     const daysCount = formData.available_days.length;
     const duration = Number(formData.session_duration_mins);
     if (![3, 4, 6].includes(daysCount)) {
-      return "Hệ thống chỉ hỗ trợ lịch tập chuẩn hóa 3 ngày (Full Body), 4 ngày (Upper/Lower) hoặc 6 ngày (Push/Pull/Legs).";
+      return "Vui lòng chọn 3 ngày, 4 ngày hoặc 6 ngày rảnh mỗi tuần.";
     }
     if (Number.isNaN(duration) || duration < 30 || duration > 120) {
       return "Thời lượng mỗi buổi tập phải từ 30 đến 120 phút.";

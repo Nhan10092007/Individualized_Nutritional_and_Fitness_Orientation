@@ -77,29 +77,6 @@ export default function OnboardingPage() {
     setError("");
   }
 
-  function toggleDay(dayValue) {
-    setError("");
-    setFormData((prev) => {
-      const exists = prev.available_days.includes(dayValue);
-      if (exists) {
-        return {
-          ...prev,
-          available_days: prev.available_days.filter((d) => d !== dayValue),
-        };
-      }
-      if (prev.available_days.length >= 6) {
-        setError(
-          "Bạn chỉ có thể chọn tối đa 6 ngày tập mỗi tuần để đảm bảo thời gian phục hồi."
-        );
-        return prev;
-      }
-      return {
-        ...prev,
-        available_days: [...prev.available_days, dayValue],
-      };
-    });
-  }
-
   function toggleMedicalCondition(condValue) {
     setFormData((prev) => {
       const exists = prev.medical_conditions.includes(condValue);
@@ -214,7 +191,6 @@ export default function OnboardingPage() {
           <ScheduleHealthFields
             formData={formData}
             onUpdateField={updateField}
-            onToggleDay={toggleDay}
             onToggleCondition={toggleMedicalCondition}
           />
         </>

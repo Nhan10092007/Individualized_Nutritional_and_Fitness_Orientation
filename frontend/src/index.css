@@ -1925,11 +1925,12 @@ select {
 
 .workout-week-grid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--session-count, 6), minmax(0, 1fr));
   gap: 10px;
 }
 
 .workout-day-card {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -2089,9 +2090,9 @@ select {
   font-weight: 500;
 }
 
-@media (max-width: 1120px) {
+@media (max-width: 1024px) {
   .workout-week-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
