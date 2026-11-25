@@ -1,23 +1,34 @@
-export const DAYS_OPTIONS = [
-  { value: "Mon", short: "T2", label: "Thứ 2" },
-  { value: "Tue", short: "T3", label: "Thứ 3" },
-  { value: "Wed", short: "T4", label: "Thứ 4" },
-  { value: "Thu", short: "T5", label: "Thứ 5" },
-  { value: "Fri", short: "T6", label: "Thứ 6" },
-  { value: "Sat", short: "T7", label: "Thứ 7" },
-  { value: "Sun", short: "CN", label: "Chủ nhật" },
+export const TRAINING_FREQUENCY_OPTIONS = [
+  {
+    daysCount: 3,
+    days: ["Mon", "Wed", "Fri"],
+    title: "3 ngày rảnh / tuần",
+    desc: "Mô hình Full Body · Chia thành 3 buổi (Buổi 1 – Buổi 3)",
+  },
+  {
+    daysCount: 4,
+    days: ["Mon", "Tue", "Thu", "Fri"],
+    title: "4 ngày rảnh / tuần",
+    desc: "Mô hình Upper / Lower · Chia thành 4 buổi (Buổi 1 – Buổi 4)",
+  },
+  {
+    daysCount: 6,
+    days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    title: "6 ngày rảnh / tuần",
+    desc: "Mô hình Push / Pull / Legs · Chia thành 6 buổi (Buổi 1 – Buổi 6)",
+  },
 ];
 
 export const GOAL_OPTIONS = [
   {
     value: "fat_loss",
     title: "Giảm mỡ",
-    desc: "Thâm hụt 20% calo so với TDEE, ưu tiên đạm cao",
+    desc: "Thâm hụt 500 kcal so với TDEE, ưu tiên đạm cao",
   },
   {
     value: "muscle_gain",
     title: "Tăng cơ",
-    desc: "Thặng dư 15% calo so với TDEE, ưu tiên tinh bột phục hồi",
+    desc: "Thặng dư 300 kcal so với TDEE, ưu tiên tinh bột phục hồi",
   },
   {
     value: "maintain",
@@ -66,7 +77,9 @@ export const CONDITION_LABELS = Object.fromEntries(
 );
 
 export function formatBudgetTier(tier) {
-  if (tier === "tier_50k_to_100k") return "50.000 – 100.000 VNĐ / ngày";
+  if (tier === "tier_80k_to_100k" || tier === "tier_50k_to_100k") {
+    return "80.000 – 100.000 VNĐ / ngày";
+  }
   if (tier === "tier_over_100k") return "Trên 100.000 VNĐ / ngày";
   return tier || "Chưa thiết lập";
 }
@@ -112,8 +125,8 @@ export function validateSurveyStep(formData, step) {
   if (step === 3) {
     const daysCount = formData.available_days.length;
     const duration = Number(formData.session_duration_mins);
-    if (daysCount < 2 || daysCount > 6) {
-      return "Vui lòng chọn từ 2 đến 6 ngày tập mỗi tuần.";
+    if (![3, 4, 6].includes(daysCount)) {
+      return "Vui lòng chọn 3 ngày, 4 ngày hoặc 6 ngày rảnh mỗi tuần.";
     }
     if (Number.isNaN(duration) || duration < 30 || duration > 120) {
       return "Thời lượng mỗi buổi tập phải từ 30 đến 120 phút.";
@@ -122,8 +135,8 @@ export function validateSurveyStep(formData, step) {
 
   if (step === 4) {
     const budget = Number(formData.daily_budget_vnd);
-    if (Number.isNaN(budget) || budget < 50000) {
-      return "Ngân sách ăn uống tối thiểu là 50.000 VNĐ/ngày.";
+    if (Number.isNaN(budget) || budget < 80000) {
+      return "Ngân sách ăn uống tối thiểu là 80.000 VNĐ/ngày.";
     }
   }
 

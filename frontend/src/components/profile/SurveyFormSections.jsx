@@ -1,8 +1,8 @@
 import {
-  DAYS_OPTIONS,
   GOAL_OPTIONS,
   LEVEL_OPTIONS,
   MEDICAL_OPTIONS,
+  TRAINING_FREQUENCY_OPTIONS,
 } from "../../utils/surveyConfig";
 
 export function SectionHeader({ icon: Icon, iconTone, title, rightContent = null }) {
@@ -158,34 +158,33 @@ export function GoalFields({ formData, onUpdateField }) {
 export function ScheduleHealthFields({
   formData,
   onUpdateField,
-  onToggleDay,
   onToggleCondition,
 }) {
   return (
     <div className="form-stack">
       <div className="form-group">
         <label className="form-label">
-          Chọn các ngày có thể tập trong tuần (Đã chọn:{" "}
-          {formData.available_days.length}/6 ngày, tối thiểu 2 ngày)
+          Số ngày rảnh có thể tập mỗi tuần
         </label>
-        <div className="days-grid">
-          {DAYS_OPTIONS.map((day) => {
-            const selected = formData.available_days.includes(day.value);
+        <div className="option-grid">
+          {TRAINING_FREQUENCY_OPTIONS.map((opt) => {
+            const selected = formData.available_days.length === opt.daysCount;
             return (
               <button
-                key={day.value}
+                key={opt.daysCount}
                 type="button"
-                className={selected ? "day-pill selected" : "day-pill"}
-                onClick={() => onToggleDay(day.value)}
+                className={selected ? "option-button selected" : "option-button"}
+                onClick={() => onUpdateField("available_days", opt.days)}
               >
-                {day.label}
+                <span className="option-title">{opt.title}</span>
+                <span className="option-desc">{opt.desc}</span>
               </button>
             );
           })}
         </div>
-        {formData.available_days.length < 2 && (
+        {![3, 4, 6].includes(formData.available_days.length) && (
           <span className="field-error">
-            Cần chọn ít nhất 2 ngày luyện tập mỗi tuần để tiếp tục (hiện tại:{" "}
+            Vui lòng chọn 3 ngày rảnh, 4 ngày rảnh hoặc 6 ngày rảnh mỗi tuần (hiện tại:{" "}
             {formData.available_days.length} ngày).
           </span>
         )}
@@ -240,25 +239,25 @@ export function BudgetFields({ formData, onUpdateField }) {
     <div className="form-stack">
       <div className="form-group">
         <label className="form-label" htmlFor="onb-budget">
-          Ngân sách ăn uống mỗi ngày (VNĐ, tối thiểu 50.000 VNĐ)
+          Ngân sách ăn uống mỗi ngày (VNĐ, tối thiểu 80.000 VNĐ)
         </label>
         <input
           id="onb-budget"
           type="number"
           className="form-input"
-          min={50000}
+          min={80000}
           step={5000}
           value={formData.daily_budget_vnd}
           onChange={(e) => onUpdateField("daily_budget_vnd", e.target.value)}
           required
         />
         <span className="form-hint">
-          Hệ thống sẽ phân nhóm từ 50.000 - 100.000 VNĐ hoặc trên 100.000 VNĐ để tối ưu thực đơn.
+          Hệ thống phân nhóm từ 80.000 – 100.000 VNĐ hoặc trên 100.000 VNĐ. Nếu ngân sách chưa đủ ngưỡng calo an toàn (BMR / Hard Floor), hệ thống sẽ tự động gợi ý số tiền cần bổ sung.
         </span>
       </div>
 
       <div className="option-grid">
-        {[50000, 80000, 120000, 150000].map((preset) => (
+        {[80000, 100000, 120000, 150000].map((preset) => (
           <button
             key={preset}
             type="button"

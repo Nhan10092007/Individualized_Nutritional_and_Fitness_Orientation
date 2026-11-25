@@ -1,6 +1,6 @@
 from enum import Enum
-from typing import List, Optional
-from pydantic import BaseModel, Field
+from typing import List
+from pydantic import BaseModel, Field, field_validator
 
 # Định nghĩa các lựa chọn khi người dùng đăng nhập. Ví dụ: giới tính thì ta chọn nam hoặc nữ
 
@@ -29,10 +29,17 @@ class OnboardingRequest(BaseModel):
     weight_kg: float = Field(..., ge = 35.0, le = 150.0, description = "Weight (kg)")
     fitness_goal: FitnessGoalEnum = Field(..., description = "Fitness goal (fat loss, muscle gain, maintain)")
     fitness_level: FitnessLevelEnum = Field(..., description = "Fitness level (beginner, experienced, advanced)")
-    available_days: List[str] = Field(..., min_length = 2, max_length = 6, description = "Days in week that you are available to workout (2 to 6 days)")
+    available_days: List[str] = Field(..., min_length = 3, max_length = 6, description = "Days in week that you are available to workout (3, 4, or 6 days)")
     session_duration_mins: int = Field(45, ge = 30, le = 120, description = "Session duration time (30 - 120 minutes)")
     medical_conditions: List[str] = Field(default_factory = list, description = "Underlying medical condition: 'knee_osteoarthritis' and 'hypertension'")
-    daily_budget_vnd: float = Field(50000.0, ge = 50000.0, description = "Daily budget for food (at least 50,000 VND)")
+    daily_budget_vnd: float = Field(80000.0, ge = 80000.0, description = "Daily budget for food (at least 80,000 VND)")
+
+    @field_validator("available_days")
+    @classmethod
+    def validate_available_days_count(cls, v: List[str]) -> List[str]:
+        if len(v) not in (3, 4, 6):
+            raise ValueError("Hệ thống chỉ hỗ trợ 3 ngày (Full Body), 4 ngày (Upper/Lower) hoặc 6 ngày (Push/Pull/Legs).")
+        return v
 
 # Cấu trúc chia nhỏ Macro
 class MacroSplit(BaseModel):

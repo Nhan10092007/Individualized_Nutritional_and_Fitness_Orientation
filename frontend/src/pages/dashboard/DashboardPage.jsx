@@ -33,8 +33,6 @@ const HERO_SLIDES = [
   },
 ];
 
-const JS_DAY_TO_KEY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
 const WORKFLOW_STEPS = [
   {
     step: "01",
@@ -72,7 +70,7 @@ const FEATURE_CARDS = [
     description:
       "Thư viện bài tập hỗ trợ tìm kiếm nhanh theo tên, dụng cụ, nhóm cơ chính và mức độ cường độ vận động.",
     highlights: [
-      "Xem chỉ số MET, lượng calo tiêu hao ước tính, dụng cụ và nhóm cơ phụ",
+      "Xem thông tin bài tập, cường độ vận động, dụng cụ và nhóm cơ phụ",
       "Hướng dẫn thực hiện từng bước cùng lưu ý chống chỉ định y khoa",
     ],
     to: "/exercises",
@@ -139,8 +137,6 @@ export default function DashboardPage() {
   const durationMins = Number(targets.session_duration_mins || 0);
 
   const now = new Date();
-  const todayKey = JS_DAY_TO_KEY[now.getDay()];
-  const isTrainingToday = availableDays.includes(todayKey);
   const currentSlide = HERO_SLIDES[activeSlide];
 
   return (
@@ -169,15 +165,17 @@ export default function DashboardPage() {
               <CalendarDays size={15} />
               <span>{formatTodayVi(now)}</span>
             </span>
-            {isTrainingToday ? (
+            {availableDays.length > 0 ? (
               <span className="badge">
                 <Flame size={15} />
-                <span>Hôm nay: Ngày tập luyện ({durationMins || 45} phút)</span>
+                <span>
+                  Lịch tập: {availableDays.length} buổi/tuần ({durationMins || 45} phút/buổi)
+                </span>
               </span>
             ) : (
               <span className="badge">
                 <Coffee size={15} />
-                <span>Hôm nay: Ngày nghỉ phục hồi</span>
+                <span>Chưa thiết lập lịch tập</span>
               </span>
             )}
           </div>

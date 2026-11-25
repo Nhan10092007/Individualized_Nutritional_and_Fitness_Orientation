@@ -10,7 +10,6 @@ export default function ExerciseDetailModal({
   exercise,
   loading = false,
   error = "",
-  userWeightKg = 65,
   onClose,
 }) {
   useEffect(() => {
@@ -25,10 +24,6 @@ export default function ExerciseDetailModal({
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
-
-  const estCal30Min = exercise?.met_value
-    ? Math.round(((exercise.met_value * 3.5 * userWeightKg) / 200) * 30)
-    : null;
 
   return (
     <div
@@ -95,18 +90,6 @@ export default function ExerciseDetailModal({
                   {INTENSITY_LABELS[exercise.intensity_level] ||
                     exercise.intensity_level}
                 </div>
-              </div>
-
-              <div className="metric-box">
-                <div className="metric-label">Chỉ số MET</div>
-                <div className="metric-value" style={{ fontSize: 16 }}>
-                  {exercise.met_value}
-                </div>
-                {estCal30Min != null && (
-                  <div className="metric-sub">
-                    ~{estCal30Min} kcal / 30 phút ({userWeightKg} kg)
-                  </div>
-                )}
               </div>
             </div>
 
