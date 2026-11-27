@@ -41,7 +41,7 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "http://127.0.0.1:5173",
     ]
-    CORS_ORIGIN_REGEX: str = r"^https://.*\.(app\.github\.dev|githubpreview\.dev)$"
+    CORS_ORIGIN_REGEX: str = r"^https://.*\.(app\.github\.dev|githubpreview\.dev|onrender\.com|vercel\.app)$"
     
     model_config = SettingsConfigDict(
         env_file=BACKEND_DIR / ".env",

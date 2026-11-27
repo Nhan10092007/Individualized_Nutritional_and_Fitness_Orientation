@@ -21,6 +21,7 @@ DATABASE_URL = _resolve_database_url(settings.DATABASE_URL)
 # 1. Create the Database Engine
 engine = create_engine(
     DATABASE_URL,
+    connect_args={"prepare_threshold": None},
     pool_pre_ping=True,
     echo=False,  # Set to True if you want to print all raw SQL queries to the terminal
 )
