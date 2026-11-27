@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Individualized Nutritional and Fitness Orientation"
 
     # SQLite mặc định. Đường dẫn tương đối được tính từ thư mục backend/
-    DATABASE_URL: str = "sqlite:///./fitness_app.db"
+    DATABASE_URL: str = "postgresql+psycopg://TEN_USER:MAT_KHAU@localhost:5432/TEN_DATABASE"
 
     JWT_SECRET_KEY: str = "dev-secret-key-change-in-production"
     JWT_ALGORITHM: str = "HS256"
@@ -41,7 +41,7 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "http://127.0.0.1:5173",
     ]
-    CORS_ORIGIN_REGEX: str = r"^https://.*\.(app\.github\.dev|githubpreview\.dev)$"
+    CORS_ORIGIN_REGEX: str = r"^https://.*\.(app\.github\.dev|githubpreview\.dev|onrender\.com|vercel\.app)$"
     
     model_config = SettingsConfigDict(
         env_file=BACKEND_DIR / ".env",

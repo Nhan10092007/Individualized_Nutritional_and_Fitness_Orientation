@@ -7,39 +7,30 @@ from app.config import BACKEND_DIR, settings
 
 
 def _resolve_database_url(url: str) -> str:
-    """
-    Với SQLite, đổi đường dẫn tương đối (sqlite:///./x.db) thành đường dẫn tuyệt đối
-    tính từ thư mục backend/, để chạy uvicorn hay scripts ở thư mục nào cũng dùng chung 1 file DB.
-    """
-    prefix = "sqlite:///"
-    if url.startswith(prefix) and not url.startswith(prefix + "/") and ":memory:" not in url:
-        return f"{prefix}{(BACKEND_DIR / url[len(prefix):]).resolve()}"
+    """Đảm bảo URL PostgreSQL luôn dùng driver psycopg (v3)."""
+    if url.startswith("postgres://"):
+        return url.replace("postgres://", "postgresql+psycopg://", 1)
+    if url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgresql+psycopg://", 1)
     return url
+    
 
 
 DATABASE_URL = _resolve_database_url(settings.DATABASE_URL)
-IS_SQLITE = DATABASE_URL.startswith("sqlite")
 
 # 1. Create the Database Engine
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False} if IS_SQLITE else {},
+    connect_args={"prepare_threshold": None},
+    pool_pre_ping=True,
     echo=False,  # Set to True if you want to print all raw SQL queries to the terminal
 )
 
-# 2. Enforce Foreign Keys in SQLite (mặc định SQLite TẮT khóa ngoại -> ondelete CASCADE/RESTRICT sẽ không chạy)
-if IS_SQLITE:
-    @event.listens_for(engine, "connect")
-    def set_sqlite_pragma(dbapi_connection, connection_record):
-        cursor = dbapi_connection.cursor()
-        cursor.execute("PRAGMA foreign_keys=ON")
-        cursor.close()
-
-# 3. Session factory
+# 2. Session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-# 4. Declarative Base class (SQLAlchemy 2.0 style)
+# 3. Declarative Base class (SQLAlchemy 2.0 style)
 class Base(DeclarativeBase):
     """Base class that all database models will inherit from."""
     pass
