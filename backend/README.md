@@ -1,12 +1,20 @@
 # Backend - Fitness & Nutrition API
 
-Hệ thống API backend xây dựng bằng **FastAPI** và **SQLAlchemy ORM** (hỗ trợ **SQLite** local mặc định và **PostgreSQL**), hỗ trợ tính toán dinh dưỡng, phân tích năng lượng và cá nhân hóa lịch tập.
+Hệ thống API backend xây dựng bằng **FastAPI**, **SQLAlchemy ORM** và **PostgreSQL**, hỗ trợ tính toán dinh dưỡng, phân tích năng lượng và cá nhân hóa lịch tập.
 
 ---
 
-## 1. Cài đặt môi trường
+## 1. Cài đặt môi trường Python
 
 Từ thư mục `backend/`:
+
+**Linux / macOS / WSL:**
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
 
 **Windows (PowerShell):**
 
@@ -24,63 +32,97 @@ source .venv/Scripts/activate
 python -m pip install -r requirements.txt
 ```
 
-**Linux / macOS / WSL:**
+---
+
+## 2. Khởi tạo PostgreSQL Server & Cấu hình `.env`
+
+### Bước 2.1: Bật PostgreSQL và tạo User + Database (Ubuntu / WSL)
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-# Tắt môi trường ảo:
-deactivate
+# 1. Khởi động PostgreSQL Server (port mặc định: 5432)
+sudo service postgresql start
 
-# Bật server backend:
-uvicorn app.main:app --reload
+# 2. Tạo user PostgreSQL mới (thay <ten_user> và <mat_khau> bằng thông tin của bạn, hoặc dùng user postgres có sẵn)
+sudo -u postgres psql -c "CREATE USER <ten_user> WITH PASSWORD '<mat_khau>' CREATEDB SUPERUSER;"
 
-# Tắt môi trường ảo:
-deactivate
+# (Nếu muốn đổi lại mật khẩu cho user đã có):
+# sudo -u postgres psql -c "ALTER USER <ten_user> WITH PASSWORD '<mat_khau>';"
 
-# Bật server backend:
-uvicorn app.main:app --reload
+# 3. Tạo database fitness_app
+sudo -u postgres psql -c "CREATE DATABASE fitness_app OWNER <ten_user>;"
+```
 
-# Cài đặt các thư viện cần thiết (nếu có cập nhật mới)
-pip install -r requirements.txt
+### Bước 2.2: Cấu hình `DATABASE_URL` trong `backend/.env`
+
+Tạo hoặc mở file `backend/.env` và khai báo chuỗi kết nối (dùng prefix `postgresql+psycopg://` cho thư viện `psycopg` v3 trong `requirements.txt`):
+
+```env
+DATABASE_URL=postgresql+psycopg://<ten_user>:<mat_khau>@localhost:5432/fitness_app
 ```
 
 ---
 
-## 2. Khởi tạo & Nạp dữ liệu vào Database (SQLAlchemy ORM)
+## 3. Khởi tạo Bảng & Nạp dữ liệu vào PostgreSQL (SQLAlchemy ORM)
 
-Hệ thống dùng **SQLAlchemy ORM** (`app/models/`) để tự động sinh cấu trúc bảng (không dùng bất kỳ file `.sql` nào) và nạp dữ liệu chuẩn hóa:
-- **Thực phẩm (Calo IN)**: Trích xuất 590+ thực phẩm thuần Việt từ Bảng thành phần dinh dưỡng thực phẩm VN 2017 (`bang-thanh-phan-dinh-duong-thuc-pham-vn-2017-27-4-17.pdf`) cùng các thực phẩm thô USDA và món ăn hàng ngày.
-- **Bài tập (Calo BURN)**: Trích xuất **đúng 50 bài tập nền tảng** từ `backend/data/raw/exercises.json` phủ đều 10 nhóm cơ lớn, chuẩn hóa theo schema ORM `Exercise` (`category`, `name_vi`, `name_en`, `met_value`, `intensity_level`, `description`, `equipment`, `instructions`, `common_mistakes`, `image`, `video_url`, `target_muscle`, `secondary_muscle`, `banned_for`, `clinical_reasons`, `source`).
+Hệ thống dùng **SQLAlchemy ORM** (`app/models/`) để tự động sinh cấu trúc bảng (`Base.metadata.create_all`) và nạp dữ liệu chuẩn hóa:
+- **Thực phẩm (Calo IN):** Danh mục thực phẩm quen thuộc từ `backend/data/vietnam_foods_curated.json`.
+- **Bài tập (Calo BURN):** 65 bài tập chuẩn hóa từ `backend/data/exercises_65.json`.
 
-### Lệnh chính: Nạp dữ liệu vào Database
+Từ thư mục `backend/` (sau khi đã kích hoạt `.venv` và bật PostgreSQL):
 
-Từ thư mục `backend/` (sau khi kích hoạt `.venv`):
+```bash
+# Tự động tạo bảng (nếu chưa có) và nạp mới danh mục thực phẩm + bài tập
+python -m scripts.import_curated_json
+
+# Nếu muốn xóa luôn toàn bộ dữ liệu bảng users khi reset:
+python -m scripts.import_curated_json --reset-users
+```
+
+Hoặc chạy script seed kèm tài khoản mẫu (`vanan24@gmail.com` / `123456`):
 
 ```bash
 python -m scripts.seed_database
 ```
 
-Lệnh này sẽ tự động:
-1. Gọi `init_db()` để sinh toàn bộ các bảng (`users`, `foods`, `exercises`, `food_logs`, `workout_logs`) trong `fitness_app.db` (hoặc PostgreSQL nếu cấu hình `DATABASE_URL` trong `.env`).
-2. Nạp **590+ thực phẩm** từ Bảng thành phần dinh dưỡng thực phẩm Việt Nam 2017.
-3. Nạp **đúng 50 bài tập chọn lọc** từ `exercises.json` kèm ảnh CDN, hướng dẫn, lỗi thường gặp, và nhãn chống chỉ định bệnh lý A3.
-4. Tạo sẵn **1 tài khoản mẫu** (`vanan24@gmail.com` / `123456`) kèm nhật ký ăn uống & tập luyện mẫu cho ngày hôm nay.
+---
 
-Hoặc chạy lại toàn bộ Pipeline trích xuất từ raw data:
+## 4. Xem dữ liệu PostgreSQL bằng Extension hoặc Terminal
+
+### Cách 1: Dùng Extension **PostgreSQL** trên VS Code / IDE
+1. Mở tab **Extensions** (`Ctrl + Shift + X`), tìm và cài extension **PostgreSQL** (hoặc **Database Client**).
+2. Bấm vào biểu tượng **PostgreSQL** ở thanh bên trái $\rightarrow$ bấm **`+` (Add Connection)** và nhập:
+   - **Server name / Hostname:** `localhost`
+   - **User name:** `<ten_user>` (user PostgreSQL của bạn, hoặc `postgres`)
+   - **Password:** `<mat_khau>` (mật khẩu tương ứng)
+   - **Port:** `5432`
+   - **Connection type / SSL:** Chọn **`Standard Connection`** hoặc **`Disable`**
+   - **Database name:** `fitness_app`
+   - **Display name:** `fitness_app`
+3. Mở nhánh: `fitness_app` $\rightarrow$ **`Schemas`** $\rightarrow$ **`public`** $\rightarrow$ **`Tables`**.
+4. Click chuột phải vào bảng cần xem (`foods`, `exercises`, `users`, `food_logs`, `workout_logs`, `meal_plans`, `workout_plans`) $\rightarrow$ chọn **`Select Top 1000`** (hoặc **`View Data`**).
+
+### Cách 2: Xem trực tiếp trên Terminal bằng `psql`
+
 ```bash
-python -m scripts.run_etl_pipeline
-```
+# Xem danh sách các bảng trong fitness_app
+psql "postgresql://<ten_user>:<mat_khau>@localhost:5432/fitness_app" -c "\dt"
 
-Xem hướng dẫn chi tiết (cấu hình SQLite/PostgreSQL, Cloudinary/S3, kiểm tra dữ liệu và reset DB) tại [DATABASE_SEEDING_GUIDE.md](./DATABASE_SEEDING_GUIDE.md).
+# Xem thử 10 món ăn đầu tiên
+psql "postgresql://<ten_user>:<mat_khau>@localhost:5432/fitness_app" -c "SELECT id, code, name_vi, calories_100g, estimated_price_vnd FROM foods LIMIT 10;"
+
+# Xem thử 10 bài tập đầu tiên
+psql "postgresql://<ten_user>:<mat_khau>@localhost:5432/fitness_app" -c "SELECT id, category, name_vi, intensity_level, target_muscle FROM exercises LIMIT 10;"
+```
 
 ---
 
-## 3. Chạy API Server
+## 5. Chạy API Server
 
 ```bash
+uvicorn app.main:app --reload
+# Hoặc:
 fastapi dev app/main.py
 ```
 
-Swagger UI: `http://127.0.0.1:8000/docs`
+- API Server: `http://127.0.0.1:8000`
+- Swagger UI: `http://127.0.0.1:8000/docs`
