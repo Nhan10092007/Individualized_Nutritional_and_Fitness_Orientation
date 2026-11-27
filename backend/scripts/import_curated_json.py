@@ -65,13 +65,8 @@ def reset_and_import(reset_users: bool = False) -> None:
 
         db.flush()
 
-        # Đặt lại bộ đếm autoincrement trên SQLite (nếu bảng sqlite_sequence tồn tại)
-        if DATABASE_URL.startswith("sqlite"):
-            placeholders = ", ".join(f"'{name}'" for name in reset_tables)
-            try:
-                db.execute(text(f"DELETE FROM sqlite_sequence WHERE name IN ({placeholders})"))
-            except Exception:
-                pass
+        for table_name in reset_tables:
+            db.execute(text(f"ALTER SEQUENCE IF EXISTS {table_name}_id_seq RESTART WITH 1"))
 
         for item in foods_data:
             db.add(Food(**item))

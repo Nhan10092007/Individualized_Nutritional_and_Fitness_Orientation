@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Individualized Nutritional and Fitness Orientation"
 
     # SQLite mặc định. Đường dẫn tương đối được tính từ thư mục backend/
-    DATABASE_URL: str = "sqlite:///./fitness_app.db"
+    DATABASE_URL: str = "postgresql+psycopg://TEN_USER:MAT_KHAU@localhost:5432/TEN_DATABASE"
 
     JWT_SECRET_KEY: str = "dev-secret-key-change-in-production"
     JWT_ALGORITHM: str = "HS256"
